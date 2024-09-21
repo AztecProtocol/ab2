@@ -7,14 +7,6 @@ assignees: ''
 
 ---
 
----
-name: Alpha Build 2 Development Issue
-about: Report an issue or seek help during the Alpha Build 2 challenge
-title: "[ISSUE] Brief description of the problem"
-labels: help-wanted
-assignees: ''
----
-
 ## Issue Description
 **Briefly describe the issue you're facing:**
 
