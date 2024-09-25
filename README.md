@@ -26,3 +26,20 @@ After completing your work and at the end of the program, you'll commit your cha
 
 ## Issues
 As you run into technical challenges and blockers while working on your project, please file issues in this repository. We're trying this out as an additional channel to collect issues and provide support. We'll also be providing technical support via the dedicated Discord channel and answering general developer questions channel on the Aztec Discord server.
+
+## Evaluation Criteria to Consider and Potential Prizes
+A bit on what we're looking for. The names and exact description of the potential awards may change to better match the unique ways in which you approach these challenges.
+
+- Innovation in privacy preservation
+- Practical viability (considering proving times, fees, etc.)
+- Potential impact on the Aztec ecosystem
+- How well the solution leverages Aztec's unique features
+- Demonstrating potential real world applications and impact
+### Potential Awards
+- The Lego Master Award: For the most modular and reusable component
+- The Swiss Army Knife Prize: For the most versatile tool or library
+- The Foundation Builder Grant: For creating essential infrastructure
+- Proof of Notarization Award
+- Privacy Pioneer Award: For the most innovative use of Aztec's privacy features
+- Ecosystem Catalyst Prize: For the project with the highest potential impact
+- Grand Architect Trophy: For the most comprehensive and well-executed project
