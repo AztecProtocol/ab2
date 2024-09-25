@@ -36,10 +36,10 @@ A bit on what we're looking for. The names and exact description of the potentia
 - How well the solution leverages Aztec's unique features
 - Demonstrating potential real world applications and impact
 ### Potential Awards
-- The Lego Master Award: For the most modular and reusable component
-- The Swiss Army Knife Prize: For the most versatile tool or library
-- The Foundation Builder Grant: For creating essential infrastructure
-- Proof of Notarization Award
-- Privacy Pioneer Award: For the most innovative use of Aztec's privacy features
-- Ecosystem Catalyst Prize: For the project with the highest potential impact
-- Grand Architect Trophy: For the most comprehensive and well-executed project
+- The **Lego Master Award**: For the most modular and reusable component
+- The **Swiss Army Knife Prize**: For the most versatile tool or library
+- The** Foundation Builder Grant**: For creating essential infrastructure
+- **Proof of Notarization Award**
+- **Privacy Pioneer Award**: For the most innovative use of Aztec's privacy features
+- **Ecosystem Catalyst Prize**: For the project with the highest potential impact
+- **Grand Architect Trophy**: For the most comprehensive and well-executed project
