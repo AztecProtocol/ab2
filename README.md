@@ -30,7 +30,7 @@ As you run into technical challenges and blockers while working on your project,
 ## Evaluation Criteria to Consider and Potential Prizes
 A bit on what we're looking for: 
 - Innovation in privacy preservation
-- Practical viability (considering proving times, fees, etc.)
+- Practical considerations (smoothing frictions of proving times, fees, etc.)
 - Potential impact on the Aztec ecosystem
 - How well the solution leverages Aztec's unique features
 - Demonstrating potential real world applications and impact
@@ -43,5 +43,5 @@ A bit on what we're looking for:
 - **Ecosystem Catalyst Prize**: For the project with the highest potential impact
 - **Grand Architect Trophy**: For the most comprehensive and well-executed project
 
-**Note**: The names and exact description of the potential awards may change to better match the unique ways in which you approach these challenges.
+**Note**: The names and exact description of the potential awards may change to better match the unique ways in which you approach these challenges. The final choice of winning teams is ultimately at Aztec's discretion.
 
