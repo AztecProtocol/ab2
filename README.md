@@ -25,7 +25,7 @@ your-project-name/
 After completing your work and at the end of the program, you'll commit your changes and submit a **Pull Request** to this repository. Please share **all relevant code** in your submission, including frontend code if applicable.
 
 ## Issues
-As you run into technical challenges and blockers while working on your project, please file issues in this repository. We're trying this out as an additional channel to collect issues and provide support. We'll also be providing technical support via the dedicated Discord channel and answering general developer questions channel on the Aztec Discord server.
+As you run into technical challenges and blockers while working on your project, please file issues in this repository. We're trying this out as an additional channel to collect issues and provide support. We'll also be providing technical support via the dedicated Discord channel and answering general developer questions on the Aztec Discord server.
 
 ## Evaluation Criteria to Consider and Potential Prizes
 A bit on what we're looking for: 
