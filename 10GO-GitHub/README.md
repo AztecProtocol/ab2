@@ -1,5 +1,7 @@
 # 10GO-GitHub
 
+> ✊ **10GO:** *"If you can prove it, you've got it!"*
+
 10GO-GitHub is an innovative solution designed to prove builder status through contributions to a GitHub repository without revealing the user's identity, enabling anonymous claims of airdrops. Our project leverages Aztec's programmable cryptography to ensure a seamless, secure, and privacy-focused process for builders to claim rewards without compromising their GitHub username. We use zkEmail to create verifiable, privacy-preserving proofs of user contributions.
 
 This project has the potential to empower builders in the Web3 space by providing a transparent yet private way to verify their work and claim rewards, fostering a more inclusive environment for developers who value their anonymity.
