@@ -11,8 +11,6 @@ This project has the potential to empower builders in the Web3 space by providin
 
 **Note**: You can change which challenges you've selected during the competition if you'd like. You are not bound by your choices or descriptions entered during the one week check-in.
 
-## Team information
-
 ## Team Information
 
 - **Nicolás Biondini**: [github/NicolasBiondini](https://github.com/nicolasbiondini) - Web3 Frontend and Blockchain Developer, focused on dApps.
