@@ -30,11 +30,39 @@ As an independent team, we're excited to contribute our skills and passion to th
 
 ## Technical Approach
 
-- High level outline of main components
-- Any specific Aztec tools or features you used
+## Technical Approach
+
+We use zkEmail to allow users to prove their GitHub contributions without revealing their usernames. By generating zero-knowledge proofs of their activity, users can anonymously claim airdrops through a smart contract, ensuring a secure and private verification process.
+
+- **High-Level Outline of Main Components**
+  1. **Frontend Interface**: A web application where users generate zero-knowledge proofs of their GitHub contributions.
+  2. **Backend Server**: Interacts with GitHub APIs and utilizes zkEmail to create privacy-preserving proofs.
+  3. **Smart Contracts**:
+     - **ERC20 Token Contract**: Manages the distribution of airdropped tokens.
+     - **Verification Contract**: Validates the zero-knowledge proofs before allowing token claims.
+
+- **Specific Aztec Tool Used**
+  - **zkEmail**: Employed to create verifiable proofs of user contributions without disclosing personal information.
+
 
 ## Expected Outcomes
-What do you hope to achieve by the end of the challenge(s)?
+
+By the end of the challenge, we aim to achieve:
+
+- **Anonymity in Proof of Contribution**: Enable users to prove their GitHub contributions without revealing their usernames, preserving privacy.
+
+- **Functional Platform Development**: Build a fully operational platform with a frontend interface, backend server, and smart contracts to facilitate anonymous airdrop claims.
+
+- **Integration of zkEmail**: Successfully implement zkEmail to generate verifiable, privacy-preserving proofs of user contributions.
+
+- **Secure Airdrop Distribution**: Deploy ERC20 token contracts and verification contracts to manage and securely distribute airdropped tokens based on validated proofs.
+
+- **Comprehensive Documentation**: Provide detailed documentation of the solution, including setup instructions, usage guidelines, and technical explanations, to facilitate understanding and adoption.
+
+- **Enhancing Privacy in Web3**: Contribute to a more inclusive Web3 ecosystem by empowering developers who value their anonymity.
+
+- **Demonstrate Practical Use of Zero-Knowledge Proofs**: Showcase the effectiveness of zero-knowledge proofs in real-world applications, promoting broader adoption of privacy-preserving technologies.
+
 
 ## Lessons Learned (For Submission)
 
