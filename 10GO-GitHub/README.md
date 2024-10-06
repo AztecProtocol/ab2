@@ -30,8 +30,6 @@ As an independent team, we're excited to contribute our skills and passion to th
 
 ## Technical Approach
 
-## Technical Approach
-
 We use zkEmail to allow users to prove their GitHub contributions without revealing their usernames. By generating zero-knowledge proofs of their activity, users can anonymously claim airdrops through a smart contract, ensuring a secure and private verification process.
 
 - **High-Level Outline of Main Components**
