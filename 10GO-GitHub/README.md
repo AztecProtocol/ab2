@@ -36,7 +36,7 @@ We use zkEmail to allow users to prove their GitHub contributions without reveal
   1. **Frontend Interface**: A web application where users generate zero-knowledge proofs of their GitHub contributions.
   2. **Backend Server**: Interacts with GitHub APIs and utilizes zkEmail to create privacy-preserving proofs.
   3. **Smart Contracts**:
-     - **ERC20 Token Contract**: Manages the distribution of airdropped tokens.
+     - **Token Contract**: Manages the distribution of airdropped tokens.
      - **Verification Contract**: Validates the zero-knowledge proofs before allowing token claims.
 
 - **Specific Aztec Tool Used**
@@ -53,7 +53,7 @@ By the end of the challenge, we aim to achieve:
 
 - **Integration of zkEmail**: Successfully implement zkEmail to generate verifiable, privacy-preserving proofs of user contributions.
 
-- **Secure Airdrop Distribution**: Deploy ERC20 token contracts and verification contracts to manage and securely distribute airdropped tokens based on validated proofs.
+- **Secure Airdrop Distribution**: Deploy token contracts and verification contracts to manage and securely distribute airdropped tokens based on validated proofs.
 
 - **Comprehensive Documentation**: Provide detailed documentation of the solution, including setup instructions, usage guidelines, and technical explanations, to facilitate understanding and adoption.
 
