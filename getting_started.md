@@ -80,7 +80,7 @@ Consider exploring ways to optimize the deployment process or implement batched 
 
 ## Resources
 
-- [Official zkemail in Noir](repohttps://github.com/zkemail/zkemail.nr)
+- [Official zkemail in Noir repo](https://github.com/zkemail/zkemail.nr)
 - [Getting started with Aztec Sandbox](https://docs.aztec.network/guides/developer_guides/getting_started)
 - [Aztec Tutorials](https://docs.aztec.network/tutorials)
 - [Writing an Account Contract](https://docs.aztec.network/tutorials/codealong/contract_tutorials/write_accounts_contract)
