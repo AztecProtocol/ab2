@@ -1,6 +1,6 @@
 # Profile.io: privacy preserving identity, nationality and age verification 
 
-Using a profile.io user's indentity verification KYC results to prove user's adult verification without revealing data by using Aztec Connect and Noir circuit ZKP.
+Using a profile.io user's indentity verification KYC results to prove user's adult verification and/or nationality without revealing personal data by using Aztec Connect and Noir circuit ZKP. Scoping service for third parties to verify such information privately, either through profile.io/verify or their own user flows (eg. exploring potentially using Frames.js).
 
 
 ## Challenge Selection
