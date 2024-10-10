@@ -8,6 +8,7 @@ Consider including:
 - What is the potential real-world impact of your project?
 
 ## Challenge Selection
+Read [this article](https://aztec.network/blog/unlocking-the-future-of-privacy-exploring-identity-and-social-use-cases-in-alpha-build-2-with-100k-in-prizes) that announces Alpha Build 2 to learn more about the challenges and get ideas on what to build!
 
 - [ ] ZKEmail Guardian
 - [ ] Social Cipher
