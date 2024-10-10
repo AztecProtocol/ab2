@@ -1,6 +1,6 @@
-# Profile.io: age verification 
+# Profile.io: identity, nationality, age verification 
 
-Using user's indentity to prove user's adult verification without revealing data by using Aztec Connect and Noir circuit ZKP.
+Using user's indentity KYC to prove user's adult verification without revealing data by using Aztec Connect and Noir circuit ZKP.
 
 
 ## Challenge Selection
