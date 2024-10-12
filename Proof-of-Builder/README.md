@@ -22,7 +22,7 @@ This projects enables developers to prove their builder status, verifying their 
 
   1. **zkEmail Integration:**
      - **Email Verification:**
-       - Receive GitHub emails, such as commit confirmations or pull request merges.
+       - Review GitHub emails, such as commit confirmations or pull request merges.
        - Verify that it is indeed a valid email from GitHub.
      - **Zero-Knowledge Proof Generation:**
        - Creating of proof that actually attests a user contributed to any particular repository.
