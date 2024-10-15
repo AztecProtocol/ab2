@@ -18,6 +18,12 @@ necessary interactions with public blockchain data.
 The EZKL + ZK Email project aims to revolutionize how users interact with their emails by providing a privacy-preserving solution that allows for secure communication and data management. This can 
 significantly enhance user trust in email systems, reduce the risk of data breaches, and promote the adoption of privacy-first technologies in everyday applications.
 
+## Challenge Selection
+Read [this article](https://aztec.network/blog/unlocking-the-future-of-privacy-exploring-identity-and-social-use-cases-in-alpha-build-2-with-100k-in-prizes) that announces Alpha Build 2 to learn more about the challenges and get ideas on what to build!
+
+- [x] ZKEmail Guardian
+- [ ] Social Cipher
+
 ## Team Information
 
 - [Emarc](https://github.com/emarc99)
