@@ -24,7 +24,7 @@ In a sense it could be a proto (like very-very proto) Aztec Name System. Though 
 @skaunov
 
 ## Technical Approach
-(Social cipher part is a separate thing which isn't covered yet and is a circuit for proving of historical NFT ownership.)
+Social cipher part is a separate thing which isn't covered yet and is a circuit for proving of historical NFT ownership.
 
 - Probably it will be a contract holding the assets and releasing it on the email control proof.
 - Linking an email to the system needs additional design, though it will smooth experience from fees side, number of txs, and general perception. It could be a registry, probably inside the contract.
