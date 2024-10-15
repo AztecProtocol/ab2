@@ -1,49 +1,57 @@
-# Pay to an Email
-## (Transfer to an Email address)
+# Alpha Build 2
 
-Transfer of a token (or other assets) to an arbitrary email address. Recipient can claim or link their email address, which enables many use cases. 
+Tracking issues and projects for Alpha Build 2 grants program.
 
-Most notably it's 
-* paying/sending to anyone who isn't on the Aztec yet, as well as
-  * to a receiver whos address user can't ask rn, or
-  * it might be a group/company;
-* facilitation of donations reception.
-* Further real-world impact is numerous as it can be leveraged to businesses, receipts, cashback, and so on, which smoothly blends-in to flexibility of native account abstraction.
+> [!IMPORTANT]
+> Please fork this repository to create your project. We'll be tracking project progress through the Github forks of this project, so please fork this repo as a part of your one week check-in.
 
-Some protection is needed from using a forwarded email by a third party.
+> [!NOTE]
+> Check the [Getting Started guide](./getting_started.md) for more information on how to get started with Alpha Build 2.
 
-Target system would have both private and public ways for interaction and also their interrelation since all these use cases are feasible for an user.
+## One Week Check-in
 
-In a sense it could be a proto (like very-very proto) Aztec Name System. Though I'm really not sure if we need one more NS; on the other hand sooner or later it will inevitably appear.
+Use the template provided in the `README_template.md` file to fill out the details of your project for your one week check-in. You can update the template and your code as needed before your final submission.
 
-## Challenge Selection
-- [x] ZKEmail Guardian
-- [x] Social Cipher
+**Note**: You're welcome to work on your code in private until submission and only share your completed readme during your check-in, but we encourage building in public.
 
-## Team information
-@skaunov
+### Forking Instructions
 
-## Technical Approach
-Social cipher part is a separate thing which isn't covered yet and is a circuit for proving of historical NFT ownership.
+1. Fork this repo.
+2. Create a **new directory** at the root with your team or project name.
 
-- Probably it will be a contract holding the assets and releasing it on the email control proof.
-- Linking an email to the system needs additional design, though it will smooth experience from fees side, number of txs, and general perception. It could be a registry, probably inside the contract.
-- Management of the registry. Administration of the system (root CA?).
-- Additional (temporary?) account contract would be nice, but doesn't seem to fit into the time limit of the challenge.
+```
+your-project-name/
+```
 
-## Expected Outcomes
-A prototype which could be interesting to play with on the Devnet (though deployment and maintenance it there during the challenge is a very optimistic shot for me), highlighting of successes and problems of approaches and designs for the problem, exploration of integration this into a wallet. No UI is expected from me, btw.
+3. Add your completed readme inside this directory.
+4. Add all relevant code as you work, pushing changes and building in public.
 
-## Lessons Learned (For Submission)
+## Project Submission
 
-- What are the most important takeaways from your project?
-- Are there any patterns or best practices that you've learned that would be useful for other projects?
-- Highlight reusable code patterns, key code snippets, and best practices - what are some of the ‘lego bricks’ you’ve built, and how could someone else best use them?
+After completing your work and at the end of the program, you'll commit your changes and submit a **Pull Request** to this repository. Please share **all relevant code** in your submission, including frontend code if applicable.
 
-## Project Links (For Submission)
+## Issues
 
-Please provide links to any relevant documentation, code, or other resources that you've used in your project.
+As you run into technical challenges and blockers while working on your project, please file issues in this repository. We're trying this out as an additional channel to collect issues and provide support. We'll also be providing technical support via the dedicated Discord channel and answering general developer questions on the Aztec Discord server.
 
-## Video Demo (For Submission)
+## Evaluation Criteria to Consider and Potential Prizes
 
-Please provide a link to a video demo of your project. The demo should be no longer than 5 minutes and should include a brief intro to your team and your project.
+A bit on what we're looking for:
+
+- Innovation in privacy preservation
+- Practical considerations (smoothing frictions of proving times, fees, etc.)
+- Potential impact on the Aztec ecosystem
+- How well the solution leverages Aztec's unique features
+- Demonstrating potential real world applications and impact
+
+### Potential Awards
+
+- The **Lego Master Award**: For the most modular and reusable component
+- The **Swiss Army Knife Prize**: For the most versatile tool or library
+- The **Foundation Builder Grant**: For creating essential infrastructure
+- **Proof of Notarization Award**
+- **Privacy Pioneer Award**: For the most innovative use of Aztec's privacy features
+- **Ecosystem Catalyst Prize**: For the project with the highest potential impact
+- **Grand Architect Trophy**: For the most comprehensive and well-executed project
+
+**Note**: The names and exact description of the potential awards may change to better match the unique ways in which you approach these challenges. The final choice of winning teams is ultimately at Aztec's discretion.
