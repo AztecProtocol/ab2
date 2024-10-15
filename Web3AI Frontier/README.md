@@ -28,6 +28,7 @@ Read [this article](https://aztec.network/blog/unlocking-the-future-of-privacy-e
 
 - [Emarc](https://github.com/emarc99)
 - [Dike](https://github.com/psychemist)
+- [Michael](https://github.com/michojekunle/)
 
 
 ## Technical Approach
