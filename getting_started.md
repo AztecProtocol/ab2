@@ -69,7 +69,7 @@ Consider exploring ways to optimize the deployment process or implement batched 
   - Enable tiered memberships
   - Variable pricing on subscriptions
 - Discord bot for private NFT ownership verification
-- Twitter bot for private NFT based profile verification
+- X (formerly Twitter) bot for private NFT based profile verification
 
 **Stretch goals:**
 
