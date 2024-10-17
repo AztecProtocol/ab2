@@ -1,6 +1,6 @@
 # Profile.io: privacy preserving identity, nationality and age verification 
 
-Using a profile.io user's indentity verification KYC results to prove user's adult verification and/or nationality without revealing personal data by using Aztec Connect and Noir circuit ZKP. Scoping service for third parties to verify such information privately, either through profile.io/verify or their own user flows (eg. exploring potentially using Frames.js).
+Using a profile.io user's indentity verification KYC results to prove user's adult verification and/or nationality without revealing personal data by using ~~Aztec Connect~~ Noir circuit ZKP. Scoping service for third parties to verify such information privately, either through profile.io/verify or their own user flows (eg. exploring potentially using Frames.js).
 
 
 ## Challenge Selection
@@ -16,8 +16,26 @@ Using a profile.io user's indentity verification KYC results to prove user's adu
 
 ## Technical Approach
 
-We'd like to use Aztec ZKP for proving adult verification on our app.
-We have already smart contract that mints NFTs on Polygon mainnet and the plan is to use create ZKP when user prove his/her identity including age then the user can use other places wherever age verification is required without revealing details.
+We'd like to use Aztec ZKP for proving adult verification (or any other user info) on our app.
+~~We have already smart contract that mints NFTs on Polygon mainnet~~ 
+
+The plan is to use ZKP and Aztec Note when user inputs his/her identity including age then the user can use it when the age verification is required without revealing details.
+
+Here is the user flow:
+1. In FE (frontend), a user inputs his birthdate on FE (ex: 20/04/1995) 
+1. The FE calls Aztec contract to mint a NFT with the Note which has his birthdate (at this step, PXE creates ZKP when a private function is called on the Aztec contract if I am understood properly)
+1. Now the user owns the age-NFT
+1. Another user (verifier) wants to verify if the user is an adult or not.
+1. The user doesn't want to reveal his exact age but can prove whether he is adult or not by using ZKP (or Note?)
+1. The FE has a "verify" button and when verifier clicks that button -> Calling Aztec contract to process target user's age verification -> FE shows whether the user is an adult or not on the UI.
+
+
+## Some technical questions
+a. At above step 2, the created Note is an actual ZKP? I am confused the relation between Note and ZKP?
+
+b. At above step 6, can Aztec contract retrieve age-NFT data without the NFT owner's permission? Do I need the "Witness"?
+
+c. At above step 6, if Aztec contract can retrieve age-NFT data (birthdate), can the Aztec contract process calculation of the Note data? For example, `isUserAdult(note)`, `isUserOver50(note)`, `isUserOver70(note)`.
 
 ## Expected Outcomes
 Providing a quick age verification feature. 
