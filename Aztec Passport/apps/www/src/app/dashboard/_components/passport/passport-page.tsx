@@ -4,7 +4,7 @@ import { getTransforms } from '~/lib/helpers';
 import { cn } from '~/lib/utils';
 
 import { type Variants, motion } from 'framer-motion';
-import AztecLogo from 'public/aztec.svg';
+import AztecLogo from 'public/assets/aztec.svg';
 import type { PageProps } from '~/types';
 
 export const PassportPage = ({

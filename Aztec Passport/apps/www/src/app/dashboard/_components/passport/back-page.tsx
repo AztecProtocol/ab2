@@ -51,7 +51,7 @@ export const BackPage = ({
         index % 2 === 1 ? 'odd-transform' : 'even-transform'
       )}
       style={{
-        backgroundImage: 'url(/cover-texture.jpg)',
+        backgroundImage: 'url(/assets/cover-texture.jpg)',
         backgroundOrigin: 'border-box',
         backgroundSize: 'cover',
         backgroundPosition: 'center',

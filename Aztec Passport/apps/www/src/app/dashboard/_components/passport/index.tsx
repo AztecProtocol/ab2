@@ -36,9 +36,9 @@ export const Passport = () => {
 
   return (
     <div
-      className='h-[28.4rem] w-[20rem] transition-all duration-1000'
+      className='h-[14.2rem] w-[10rem] transition-all duration-1000 md:h-[28.4rem] md:w-[20rem]'
       style={{
-        transform: `rotateX(10deg) rotateY(-5deg) translateX(${getXTransom()})`,
+        transform: `rotateX(10deg) rotateY(-8deg) translateX(${getXTransom()})`,
         transformStyle: 'preserve-3d',
       }}
     >
