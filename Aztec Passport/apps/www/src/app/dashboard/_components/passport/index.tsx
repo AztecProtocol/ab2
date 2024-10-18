@@ -12,33 +12,33 @@ export const Passport = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
 
   const goToNextPage = () => {
-    const nextPage =
-      currentPage + 2 >= pages.length ? pages.length : currentPage + 2;
-    setCurrentPage(nextPage);
+    setCurrentPage((prev) => prev + 2);
   };
 
   const goToPreviousPage = () => {
-    setCurrentPage((prevPage) => Math.max(prevPage - 2, 1));
+    setCurrentPage((prevPage) => prevPage - 2);
   };
 
-  const pages: PageType[] = [
-    'cover',
-    ...Array.from({ length: 4 }, (_) => `page` as PageType),
-    'back',
-  ];
-
-  const getXTranslate = () => {
-    if (currentPage > 1) {
+  const getXTransom = () => {
+    if (currentPage > pages.length) {
+      return '100%';
+    } else if (currentPage > 1) {
       return '50%';
     }
     return '0%';
   };
 
+  const pages: PageType[] = [
+    'cover',
+    ...Array.from({ length: 4 }, (_) => `page` as PageType), // no fix for odd pages
+    'back',
+  ];
+
   return (
     <div
       className='h-[28.4rem] w-[20rem] transition-all duration-1000'
       style={{
-        transform: `rotateX(10deg) rotateY(-5deg) translateX(${getXTranslate()})`,
+        transform: `rotateX(10deg) rotateY(-5deg) translateX(${getXTransom()})`,
         transformStyle: 'preserve-3d',
       }}
     >
