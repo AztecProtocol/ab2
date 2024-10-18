@@ -1,10 +1,11 @@
 import React from 'react';
 
-import { Hero } from '~/components';
+import { Hero, Navbar } from '~/components';
 
 const Home = () => {
   return (
-    <div>
+    <div className='!dark text-white'>
+      <Navbar />
       <Hero />
     </div>
   );

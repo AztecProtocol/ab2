@@ -6,10 +6,10 @@ export const ThemeProvider = ({ children }: PropsWithChildren) => {
   return (
     <NextThemeProvider
       attribute='class'
-      defaultTheme='dark'
+      defaultTheme='light'
       enableColorScheme={false}
       enableSystem={false}
-      forcedTheme='dark'
+      forcedTheme='light'
     >
       {children}
     </NextThemeProvider>

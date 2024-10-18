@@ -1,3 +1,5 @@
+'use client';
+
 import React, { type PropsWithChildren } from 'react';
 
 import { ZkEmailSDKProvider } from '@zk-email/zk-email-sdk';

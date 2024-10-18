@@ -6,7 +6,7 @@ export const Hero = () => {
   return (
     <div className='overflow-hidden'>
       <Spline
-        className='min-h-screen scale-125 overflow-hidden'
+        className='max-h-screen min-h-screen scale-125 overflow-hidden'
         scene='https://prod.spline.design/01zhE8ANpjC3Thqv/scene.splinecode'
       />
     </div>

@@ -5,8 +5,7 @@ import { wagmiConfig } from '~/lib/viem';
 import { GeistSans } from 'geist/font/sans';
 import type { Metadata } from 'next';
 import { cookieToInitialState } from 'wagmi';
-import { Navbar } from '~/components';
-import { Web3Provider, ZKEmailProvider } from '~/providers';
+import { Web3Provider } from '~/providers';
 import '~/styles/globals.css';
 
 import { Toaster } from '~/components/ui/sonner';
@@ -30,11 +29,10 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
       <body className={`font-sans ${GeistSans.variable}`}>
         <ThemeProvider>
           <Web3Provider initialState={initialState}>
-            <ZKEmailProvider>
-              <Navbar />
-              {children}
-              <Toaster />
-            </ZKEmailProvider>
+            {/* <ZKEmailProvider> */}
+            {children}
+            <Toaster />
+            {/* </ZKEmailProvider> */}
           </Web3Provider>
         </ThemeProvider>
       </body>
