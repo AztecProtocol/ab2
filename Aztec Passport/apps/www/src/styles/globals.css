@@ -42,7 +42,7 @@
   }
 
   .dark {
-    --background: hsl(0 0% 3.9%);
+    --background: hsl(228, 5%, 19%);
     --foreground: hsl(0 0% 98%);
 
     --card: hsl(0 0% 3.9%);
@@ -85,4 +85,12 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.odd-transform {
+  transform-origin: 0% 50%;
+}
+
+.even-transform {
+  transform-origin: 100% 50%;
 }

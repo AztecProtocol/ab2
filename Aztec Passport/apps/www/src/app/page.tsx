@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { Navbar } from '~/components';
+import { Hero } from '~/components';
 
 const Home = () => {
   return (
     <div>
-      <Navbar />
+      <Hero />
     </div>
   );
 };
