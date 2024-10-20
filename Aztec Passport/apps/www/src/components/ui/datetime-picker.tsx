@@ -805,7 +805,7 @@ const DateTimePicker = React.forwardRef<
             )}
           </Button>
         </PopoverTrigger>
-        <PopoverContent className='w-auto p-0'>
+        <PopoverContent className='w-auto !rounded-2xl p-0'>
           <Calendar
             locale={locale}
             mode='single'
