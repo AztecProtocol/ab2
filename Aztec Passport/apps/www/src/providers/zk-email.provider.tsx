@@ -1,9 +1,17 @@
 'use client';
 
+import dynamic from 'next/dynamic';
+
 import React, { type PropsWithChildren } from 'react';
 
-import { ZkEmailSDKProvider } from '@zk-email/zk-email-sdk';
 import { env } from '~/env';
+
+const ZkEmailSDKProvider = dynamic(
+  () => import('@zk-email/zk-email-sdk').then((mod) => mod.ZkEmailSDKProvider),
+  {
+    ssr: false,
+  }
+);
 
 export const ZKEmailProvider = ({ children }: PropsWithChildren) => {
   return (
