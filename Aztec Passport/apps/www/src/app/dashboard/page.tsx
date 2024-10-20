@@ -1,10 +1,13 @@
 import React from 'react';
 
+import { Navbar } from '~/components';
+
 import { HumanityScore, Passport, Verification } from './_components';
 
 const Dashboard = () => {
   return (
-    <div className='py-12'>
+    <div className='hide-scrollbar max-h-screen overflow-y-scroll py-12'>
+      <Navbar />
       <div className='flex flex-col'>
         <div className='mx-auto'>
           <HumanityScore />

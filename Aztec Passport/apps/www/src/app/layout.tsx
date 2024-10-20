@@ -26,7 +26,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <html lang='en'>
-      <body className={`font-sans ${GeistSans.variable} hide-scrollbar`}>
+      <body className={`font-sans ${GeistSans.variable}`}>
         <ThemeProvider>
           <Web3Provider initialState={initialState}>
             {/* <ZKEmailProvider> */}
