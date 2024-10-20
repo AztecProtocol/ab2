@@ -7,9 +7,8 @@ import {
 } from 'wagmi';
 import { anvil, mainnet, sepolia } from 'wagmi/chains';
 import { walletConnect } from 'wagmi/connectors';
-import { env } from '~/env';
 
-export const projectId = env.NEXT_PUBLIC_WALLETCONNECT_ID;
+export const projectId = import.meta.env.VITE_WALLETCONNECT_ID;
 
 const metadata = {
   name: 'Web3 Turbo Starter',

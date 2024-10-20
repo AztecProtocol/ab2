@@ -1,5 +1,3 @@
-import Image from 'next/image';
-
 import React from 'react';
 
 import EthereumLogo from 'public/assets/eth.svg';
@@ -34,7 +32,7 @@ export const UserModal = () => {
             <div className='flex flex-row items-center justify-between'>
               <div className='flex flex-row items-center gap-2 text-lg font-medium'>
                 <div className='flex h-10 w-10 items-center justify-center rounded-full bg-neutral-200'>
-                  <Image
+                  <img
                     alt='Ethereum Logo'
                     height={18}
                     src={EthereumLogo as unknown as string}
@@ -48,7 +46,7 @@ export const UserModal = () => {
             <div className='flex flex-row items-center justify-between'>
               <div className='flex flex-row items-center gap-2 text-lg font-medium'>
                 <div className='flex h-10 w-10 items-center justify-center rounded-full bg-neutral-200'>
-                  <Image
+                  <img
                     alt='Google Logo'
                     height={18}
                     src={GoogleLogo as unknown as string}

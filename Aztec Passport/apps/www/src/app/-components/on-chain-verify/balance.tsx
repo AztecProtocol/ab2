@@ -1,5 +1,3 @@
-import Image from 'next/image';
-
 import React, { useState } from 'react';
 
 import ETHLogo from 'public/assets/eth.svg';
@@ -23,11 +21,7 @@ export const BalanceVerify = () => {
 
   return (
     <div className='flex flex-col gap-2 rounded-2xl bg-[#d2ffd9] p-4 text-[#223f26]'>
-      <Image
-        alt='ETH Logo'
-        className='my-2 h-[2rem] w-[2rem]'
-        src={ETHLogo as unknown as string}
-      />
+      <img alt='ETH Logo' className='my-2 h-[2rem] w-[2rem]' src={ETHLogo} />
       <div className='text-xl font-medium'>Ethereum Balance</div>
       <p className='text-sm font-medium text-[#305835]'>
         Hold more than 0.005 ETH to verify.

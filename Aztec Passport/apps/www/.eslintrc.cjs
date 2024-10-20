@@ -6,7 +6,10 @@ const project = resolve(__dirname, 'tsconfig.json');
 module.exports = {
   root: true,
   parser: '@typescript-eslint/parser',
-  extends: [require.resolve('config/eslint/next.js')],
+  extends: [
+    require.resolve('config/eslint/vite.js'),
+    'plugin:@tanstack/eslint-plugin-router/recommended',
+  ],
   parserOptions: { project },
   settings: {
     'import/resolver': { typescript: { project } },
@@ -54,11 +57,7 @@ module.exports = {
       extends: ['plugin:@typescript-eslint/disable-type-checked'],
     },
     {
-      files: [
-        '*.config.{mjs,ts,cjs,js,ts}',
-        'src/app/**/{page,layout,not-found,*error,opengraph-image,apple-icon}.tsx',
-        'src/app/**/{sitemap,robots}.ts',
-      ],
+      files: ['*.config.{mjs,ts,cjs,js,ts}', 'src/routes/**/*.{tsx,ts}'],
       rules: {
         'import/no-default-export': 'off',
         'import/prefer-default-export': ['error', { target: 'any' }],

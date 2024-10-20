@@ -2,6 +2,7 @@ import { getTransforms } from '~/lib/helpers';
 import { cn } from '~/lib/utils';
 
 import { type Variants, motion } from 'framer-motion';
+import CoverImage from 'public/assets/cover-texture.jpg';
 import type { PageProps } from '~/types';
 
 export const BackPage = ({
@@ -51,7 +52,7 @@ export const BackPage = ({
         index % 2 === 1 ? 'odd-transform' : 'even-transform'
       )}
       style={{
-        backgroundImage: 'url(/assets/cover-texture.jpg)',
+        backgroundImage: `url("${CoverImage}")`,
         backgroundOrigin: 'border-box',
         backgroundSize: 'cover',
         backgroundPosition: 'center',

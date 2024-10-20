@@ -1,5 +1,3 @@
-import Image from 'next/image';
-
 import React, { useState } from 'react';
 
 import GoogleLogo from 'public/assets/google.svg';
@@ -23,10 +21,10 @@ export const GoogleVerify = () => {
 
   return (
     <div className='flex flex-col gap-2 rounded-2xl border border-neutral-300 p-4 text-neutral-200'>
-      <Image
+      <img
         alt='Google Logo'
         className='my-2 h-[2rem] w-[2rem]'
-        src={GoogleLogo as unknown as string}
+        src={GoogleLogo}
       />
       <div className='text-xl font-medium'>Google</div>
       <p className='text-sm font-medium text-neutral-400'>

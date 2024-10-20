@@ -1,14 +1,12 @@
-import Image from 'next/image';
-
 import { getTransforms } from '~/lib/helpers';
 import { cn } from '~/lib/utils';
 
 import { type Variants, motion } from 'framer-motion';
-import AztecLogo from 'public/assets/aztec.svg';
+import CoverImage from 'public/assets/cover-texture.jpg';
+import GlobeSVG from 'public/assets/globe.png';
 import type { PageProps } from '~/types';
 
-export const PassportPage = ({
-  children,
+export const CoverPage = ({
   className,
   index,
   currentPage,
@@ -50,19 +48,30 @@ export const PassportPage = ({
       initial='initial'
       variants={variants}
       className={cn(
-        'absolute right-0 top-0 h-full w-full rounded-xl bg-blue-50 shadow-sm transition-all duration-1000',
+        'absolute right-0 top-0 h-full w-full rounded-xl text-white shadow-sm transition-all duration-1000',
         className,
         index % 2 === 1 ? 'odd-transform' : 'even-transform'
       )}
+      style={{
+        backgroundImage: `url("${CoverImage}")`,
+        backgroundOrigin: 'border-box',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}
       onClick={onClick}
     >
-      <div className='relative flex h-full items-center justify-center gap-4'>
-        <Image
-          alt='Aztec Logo'
-          className='absolute right-1/2 top-1/2 h-[16rem] w-[16rem] -translate-y-1/2 translate-x-1/2'
-          src={AztecLogo as unknown as string}
+      <div className='my-6 flex flex-col items-center justify-center gap-4 md:my-12'>
+        <img
+          alt='Globe'
+          className='h-[6rem] w-[6rem] invert-[0.9] md:h-[13rem] md:w-[13rem]'
+          height={200}
+          src={GlobeSVG}
+          width={200}
         />
-        {children}
+        <div className='text-center text-xl font-medium text-[#cdcdcd] md:text-3xl'>
+          Aztec <br />
+          Passport
+        </div>
       </div>
     </motion.div>
   );

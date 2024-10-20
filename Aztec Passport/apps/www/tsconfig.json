@@ -1,8 +1,6 @@
 {
   "extends": "config/typescript/nextjs.json",
   "compilerOptions": {
-    /* Bundled projects */
-    "plugins": [{ "name": "next" }],
     "incremental": true,
 
     /* Path Aliases */
@@ -14,12 +12,10 @@
   "include": [
     "svgr.d.ts",
     ".eslintrc.cjs",
-    "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
     "**/*.cjs",
-    "**/*.js",
-    ".next/types/**/*.ts"
+    "**/*.js"
   ],
   "exclude": ["node_modules"]
 }

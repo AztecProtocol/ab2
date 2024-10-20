@@ -1,14 +1,12 @@
-import Image from 'next/image';
-
 import React, { useState } from 'react';
 
-import GitHubLogo from 'public/assets/github.svg';
+import XLogo from 'public/assets/x.png';
 
 import { StepButton } from '~/components/ui/step-button';
 
 import { Loader2Icon } from 'lucide-react';
 
-export const GitHubVerify = () => {
+export const XVerify = () => {
   const [status, setStatus] = useState<'idle' | 'loading' | 'complete'>('idle');
 
   const onVerify = () => {
@@ -23,14 +21,16 @@ export const GitHubVerify = () => {
 
   return (
     <div className='flex flex-col gap-2 rounded-2xl border border-neutral-300 p-4 text-neutral-200'>
-      <Image
-        alt='Github Logo'
+      <img
+        alt='X Logo'
         className='my-2 h-[2rem] w-[2rem]'
-        src={GitHubLogo as unknown as string}
+        height={32}
+        src={XLogo}
+        width={32}
       />
-      <div className='text-xl font-medium'>GitHub</div>
+      <div className='text-xl font-medium'>X.com</div>
       <p className='text-sm font-medium text-neutral-400'>
-        Verify your GitHub account.
+        Verify your X.com account.
       </p>
       <StepButton
         className='!dark mt-6 h-9 font-semibold !text-black'

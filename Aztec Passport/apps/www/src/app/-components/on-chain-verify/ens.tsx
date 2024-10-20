@@ -1,14 +1,12 @@
-import Image from 'next/image';
-
 import React, { useState } from 'react';
 
-import LinkedinLogo from 'public/assets/linkedin.svg';
+import ENSLogo from 'public/assets/ens.svg';
 
 import { StepButton } from '~/components/ui/step-button';
 
 import { Loader2Icon } from 'lucide-react';
 
-export const LinkedinVerify = () => {
+export const ENSVerify = () => {
   const [status, setStatus] = useState<'idle' | 'loading' | 'complete'>('idle');
 
   const onVerify = () => {
@@ -22,18 +20,14 @@ export const LinkedinVerify = () => {
   };
 
   return (
-    <div className='flex flex-col gap-2 rounded-2xl border border-neutral-300 p-4 text-neutral-200'>
-      <Image
-        alt='LinkedIn Logo'
-        className='my-2 h-[2rem] w-[2rem]'
-        src={LinkedinLogo as unknown as string}
-      />
-      <div className='text-xl font-medium'>Linkedin</div>
-      <p className='text-sm font-medium text-neutral-400'>
-        Verify your Linkedin account.
+    <div className='flex flex-col gap-2 rounded-2xl bg-[#d2ffd9] p-4 text-[#223f26]'>
+      <img alt='ENS Logo' className='my-2 h-[2rem] w-[2rem]' src={ENSLogo} />
+      <div className='text-xl font-medium'>Ethereum Name Service</div>
+      <p className='text-sm font-medium text-[#305835]'>
+        Verify your ENS Domain.
       </p>
       <StepButton
-        className='!dark mt-6 h-9 font-semibold !text-black'
+        className='!dark mt-6 h-9 font-semibold !text-[#223f26]'
         currentMode={status}
         finalContent={
           <div className='flex flex-row items-center justify-center gap-2'>

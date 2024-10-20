@@ -1,7 +1,5 @@
 'use client';
 
-import Image from 'next/image';
-
 import * as React from 'react';
 import Dropzone, {
   type DropzoneProps,
@@ -256,7 +254,7 @@ interface FilePreviewProps {
 const FilePreview = ({ file }: FilePreviewProps) => {
   if (file.type.startsWith('image/')) {
     return (
-      <Image
+      <img
         alt={file.name}
         className='aspect-square shrink-0 rounded-md object-cover'
         height={48}
