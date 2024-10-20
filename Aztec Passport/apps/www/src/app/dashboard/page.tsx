@@ -4,7 +4,7 @@ import { HumanityScore, Passport, Verification } from './_components';
 
 const Dashboard = () => {
   return (
-    <div className='max-w-screen py-12'>
+    <div className='py-12'>
       <div className='flex flex-col'>
         <div className='mx-auto'>
           <HumanityScore />
