@@ -1,0 +1,3 @@
+[workspace]
+members = ["social_verify"]
+default-member = "social_verify"
