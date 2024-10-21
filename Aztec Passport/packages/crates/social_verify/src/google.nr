@@ -4,8 +4,8 @@ use crate::utils::find_from_index;
 
 global EMAIL_HEADER_LENGTH: u32 = 576;
 global EMAIL_BODY_LENGTH: u32 = 16384;
-global FROM_EMAIL_LENGTH: u32 = 14;
-global FROM_EMAIL: [u8; FROM_EMAIL_LENGTH] = "X <info@x.com>".as_bytes(); // example of string search
+global FROM_EMAIL_LENGTH: u32 = 37;
+global FROM_EMAIL: [u8; FROM_EMAIL_LENGTH] = "Google <no-reply@accounts.google.com>".as_bytes(); // example of string search
 
 pub fn verify_x(
     header: [u8; EMAIL_HEADER_LENGTH],
@@ -29,6 +29,6 @@ pub fn verify_x(
     );
 
     let (found, _) = find_from_index(header, FROM_EMAIL, FROM_EMAIL_LENGTH);
-    assert(found, "Email is not sent by Official X Email");
-    // TODO: Verify Twitter Username from Email Body
+    assert(found, "Email is not sent by Official Google Account Email");
+    // TODO: Verify OAuth Domain and Email from Email Body
 }
