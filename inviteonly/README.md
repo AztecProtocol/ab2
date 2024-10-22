@@ -21,6 +21,10 @@ If time, create a minimal frontend.
 
 A way for anyone to prove that they are invited to an event, without exposing their email address. If time permits, a crude website to demonstrate - otherwise interaction through CLI.
 
+## Credits
+
+This project utilizes heavily code from https://github.com/saleel/gitclaim .
+
 ## Lessons Learned (For Submission)
 
 - What are the most important takeaways from your project?
