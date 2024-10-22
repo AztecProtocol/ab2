@@ -8,5 +8,6 @@
   "[solidity]": {
     "editor.defaultFormatter": "NomicFoundation.hardhat-solidity"
   },
-  "solidity.formatter": "forge"
+  "solidity.formatter": "forge",
+  "noir.nargoPath": "/Users/envoy1084/.aztec/bin/aztec-nargo"
 }
