@@ -1,9 +1,0 @@
-[package]
-name = "social_verify"
-type = "lib"
-authors = ["Vedant Chainani <vedantchainani1084@gmail.com>"]
-compiler_version = ">=0.35.0"
-
-[dependencies]
-string_search = { tag = "v0.2.0", git = "https://github.com/noir-lang/noir_string_search" }
-zkemail = { tag = "v0.3.1", git = "https://github.com/zkemail/zkemail.nr", directory = "lib" }
