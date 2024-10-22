@@ -1,0 +1,53 @@
+{
+  "name": "umbra-nft-frontend",
+  "author": {
+    "name": "Satyam Bansal"
+  },
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "clean": "rm -rf node_modules/.vite dist",
+    "postinstall": "patch-package"
+  },
+  "devDependencies": {
+    "@types/node": "^22.3.0",
+    "@types/react": "^18.3.4",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "autoprefixer": "^10.4.20",
+    "daisyui": "^4.12.10",
+    "patch-package": "^8.0.0",
+    "postcss": "^8.4.41",
+    "postinstall-postinstall": "^2.1.0",
+    "react-error-boundary": "4.0.13",
+    "tailwindcss": "^3.4.10",
+    "tailwindcss-animate": "1.0.7",
+    "typescript": "^5.5.3",
+    "vite": "^5.4.0"
+  },
+  "dependencies": {
+    "@aztec/accounts": "0.57.0",
+    "@aztec/aztec.js": "0.57.0",
+    "@aztec/circuits.js": "0.57.0",
+    "@aztec/kv-store": "^0.52.0",
+    "@aztec/noir-contracts.js": "0.57.0",
+    "@headlessui/react": "2.1.2",
+    "buffer": "^6.0.3",
+    "chalk": "^5.3.0",
+    "jotai": "^2.9.3",
+    "lucide-react": "^0.439.0",
+    "next-themes": "0.3.0",
+    "node-stdlib-browser": "^1.2.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-hot-toast": "^2.4.1",
+    "react-router-dom": "6.25.1",
+    "sonner": "1.5.0",
+    "vite-plugin-node-polyfills": "^0.22.0",
+    "vite-plugin-resolve": "^2.5.2"
+  }
+}

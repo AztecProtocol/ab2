@@ -58,8 +58,10 @@ A privacy-preserving NFT platform built on Aztec Network that enables users to m
 # Clone the repository
 git clone https://github.com/satyambnsal/ab2
 
+cd umbra-nft
+
 # Install dependencies
-npm install
+bun install
 
 # Configure environment variables
 cp .env.example .env
