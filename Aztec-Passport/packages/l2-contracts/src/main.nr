@@ -9,7 +9,7 @@ contract Counter {
 
     #[storage]
     struct Storage<Context> {
-        counters: Map<AztecAddress, EasyPrivateUint<Context>, Context>,
+        counters: Map<AztecAddress, EasyPrivateUint<Context>, Context>
     }
 
     #[initializer]
