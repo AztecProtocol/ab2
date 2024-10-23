@@ -16,9 +16,15 @@ compile_example() {
 
 }
 
-# Loop over every child folder in the examples directory
-for folder in ./crates/*/; do
-    if [ -d "$folder" ]; then
-        compile_example "$folder"
+for project in crates/*[^modules]*; do
+    if [ -d "$project" ]; then
+        compile_example "$project"
+    fi
+done
+
+
+for module in crates/modules/*; do
+    if [ -d "$module" ]; then
+        compile_example "$module"
     fi
 done
