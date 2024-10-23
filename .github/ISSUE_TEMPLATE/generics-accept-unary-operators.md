@@ -33,7 +33,7 @@ labels: "Noir issue"
 
 ## Expected Behavior
 
-**The code had to return an error like: `cannot apply unary operator - to type u32`**
+**The compiler had to return an error like: `cannot apply unary operator - to type u32`**
 
 ## Actual Behavior
 
