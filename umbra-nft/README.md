@@ -3,6 +3,40 @@
 ## Overview
 A privacy-preserving NFT platform built on Aztec Network that enables users to mint NFTs privately while providing optional ownership verification through Discord integration. This project leverages Aztec's privacy features to protect user identity and transaction details while still allowing selective disclosure of NFT ownership.
 
+
+### Installation
+```bash
+# Clone the repository
+git clone https://github.com/satyambnsal/ab2
+
+cd umbra-nft
+
+# Install dependencies
+bun install
+
+
+# Start development server
+bun run dev
+```
+
+### Contract Commands
+NFT contracts are written in `contracts/nft_contracts` folder
+**Note:** *Before running following commands, Please make sure your **aztec sandbox** is running locally with version `0.57.0`*
+
+
+```bash
+# Go to contract Directory
+cd contracts/nft_contracts
+
+# Compile contracts
+aztec-nargo compile
+
+# Generate Artifacts
+aztec codegen target --outdir ../../src/artifacts
+```
+
+
+
 ## Key Features
 
 ### Private NFT Minting
@@ -53,22 +87,8 @@ A privacy-preserving NFT platform built on Aztec Network that enables users to m
 - Discord Developer Account
 - Supported Web3 Wallet
 
-### Installation
-```bash
-# Clone the repository
-git clone https://github.com/satyambnsal/ab2
 
-cd umbra-nft
 
-# Install dependencies
-bun install
-
-# Configure environment variables
-cp .env.example .env
-
-# Start development server
-npm run dev
-```
 
 ### Configuration
 1. Set up Discord Bot credentials

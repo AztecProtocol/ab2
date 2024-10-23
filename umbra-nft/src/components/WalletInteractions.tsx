@@ -22,11 +22,12 @@ import chalk from 'chalk'
 import { toast } from 'react-hot-toast'
 import { TokenContract } from '@aztec/noir-contracts.js'
 import { createNewCustomAccount } from '../utils/custom-account.js'
+import { NFTContract } from '@aztec/noir-contracts.js/NFT'
 
 export const WalletInteractions = ({ pxe }: { pxe: PXE }) => {
   // const pxeClient = useAtomValue(pxeAtom)
   const pxeClient = pxe
-  const { deployToken, createAccount } = useAccount()
+  const { deployToken, createAccount, deployNFTContract } = useAccount()
   const [wallets, setWallets] = useState<AccountWalletWithSecretKey[]>([])
   const [customWallets, setCustomWallets] = useState<AccountWalletWithSecretKey[]>([])
   const [currentWallet, setCurrentWallet] = useState<AccountWalletWithSecretKey | null>(null)
@@ -34,6 +35,7 @@ export const WalletInteractions = ({ pxe }: { pxe: PXE }) => {
     [key: string]: boolean
   }>({})
   const [tokenContract, setTokenContract] = useState<TokenContract | null>(null)
+  const [nftContract, setNFTContract] = useState<NFTContract | null>(null)
   const [receipentAddress, setReceipentAddress] = useState('')
   const [transferAmount, setTransferAmount] = useState<number>(0)
   const [shieldAmount, setShiedAmount] = useState<number>(0)
@@ -59,6 +61,19 @@ export const WalletInteractions = ({ pxe }: { pxe: PXE }) => {
     setTokenContract(tokenContract)
 
     setIsInProgressObj({ ...isInProgressObj, deployToken: false })
+  }
+
+  const handleDeployNFTContract = async () => {
+    if (!currentWallet) {
+      console.error('Current Wallet not found!')
+      return
+    }
+    setIsInProgressObj({ ...isInProgressObj, nftContract: true })
+    console.log('Deploying token')
+    const nftContract = await deployNFTContract(currentWallet, 'Umbra OG', 'UMOG')
+    setNFTContract(nftContract)
+
+    setIsInProgressObj({ ...isInProgressObj, nftContract: false })
   }
 
   const handleMintPublic100 = async () => {
@@ -279,6 +294,9 @@ export const WalletInteractions = ({ pxe }: { pxe: PXE }) => {
             <button onClick={handleDeployToken} className="flex items-center btn btn-primary">
               Deploy Token {isInProgressObj.deployToken && <Spinner />}
             </button>
+            <button onClick={handleDeployNFTContract} className="flex items-center btn btn-primary">
+              Deploy NFT Contract {isInProgressObj.nftContract && <Spinner />}
+            </button>
             <button onClick={handleMintPublic100} className="flex items-center btn btn-primary">
               Mint Public {isInProgressObj.mintPublic && <Spinner />}
             </button>
@@ -351,6 +369,32 @@ export const WalletInteractions = ({ pxe }: { pxe: PXE }) => {
               Fetch Pending Shields {isInProgressObj.pendingShields && <Spinner />}
             </button>
           </div>
+
+
+          <hr />
+
+          <div className="border border-primary/20 rounded-md p-8 flex flex-col gap-2 mt-4">
+            <h3> Mint NFT</h3>
+            <label className="input flex items-center gap-2 py-7 w-full">
+              <input
+                id="shieldAmount"
+                type="number"
+                className="grow"
+                placeholder="Shield Balance"
+                data-testid="send/to"
+                value={shieldAmount}
+                onChange={(e) => {
+                  setShiedAmount(+e.target.value)
+                }}
+              />
+            </label>
+            <button className="btn btn-primary" onClick={handleShield}>
+              Shield {isInProgressObj.shield && <Spinner />}
+            </button>
+            <button className="btn btn-primary" onClick={handleFetchPendingShields}>
+              Fetch Pending Shields {isInProgressObj.pendingShields && <Spinner />}
+            </button>
+          </div>
         </div>
         <div className="output border border-primary/10 rounded-md flex flex-1 bg-primary/60 text-black flex-col gap-2 p-8">
           {currentWallet && (
@@ -366,6 +410,14 @@ export const WalletInteractions = ({ pxe }: { pxe: PXE }) => {
               Deployed Token Address:
               <span className="bg-secondary text-white rounded-lg p-2 inline-block font-medium">
                 {tokenContract.address.toString()}
+              </span>
+            </p>
+          )}
+          {nftContract && (
+            <p className="break-all">
+              Deployed NFT Contract Address:
+              <span className="bg-secondary text-white rounded-lg p-2 inline-block font-medium">
+                {nftContract.address.toString()}
               </span>
             </p>
           )}

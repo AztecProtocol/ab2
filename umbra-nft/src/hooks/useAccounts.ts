@@ -12,6 +12,7 @@ import { useAtomValue } from 'jotai'
 import { pxeAtom } from '../atoms.js'
 import { RPC_URL } from '../constants.js'
 import { TokenContract, TokenContractArtifact } from '@aztec/noir-contracts.js'
+import { NFTContract, NFTContractArtifact } from '@aztec/noir-contracts.js/NFT'
 
 export const useAccount = () => {
   // const pxe = useAtomValue(pxeAtom)
@@ -41,5 +42,20 @@ export const useAccount = () => {
     return token
   }
 
-  return { createAccount, deployToken }
+  const deployNFTContract = async (
+    admin: AccountWalletWithSecretKey,
+    name: string,
+    symbol: string
+  ) => {
+    const adminAddress = admin.getAddress()
+
+    const deployedContract = await NFTContract.deploy(admin, adminAddress, name, symbol)
+      .send()
+      .deployed()
+
+    const nft = await NFTContract.at(deployedContract.address, admin)
+    return nft
+  }
+
+  return { createAccount, deployToken, deployNFTContract }
 }
