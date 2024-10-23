@@ -1,73 +1,69 @@
 ---
 name: Development Issue Template
 about: Use this template to file issues you encounter while working on your challenges.
-title: ""
-labels: ""
-assignees: ""
+title: "Generics accept unary operators"
+labels: "Noir issue"
 ---
 
 ## Issue Description
 
-**Briefly describe the issue you're facing:**
+**The code compiles but it shouldn't**
 
 ## Project Context
 
-**Project Name:**
+**Project Name: ZeKshop**
 
-**Challenge:** [ZKEmail Guardian / Social Cipher]
+**Challenge:** ZKEmail Guardian
 
-**GitHub Repository:**
+**GitHub Repository: [ZeKshop](https://github.com/NikolayKostadinov21/ZeKshop)**
 
 ## Environment
 
-**Aztec Version:**
+**Aztec Version: 0.55.1** (it doesn't matter since it's Noir issue)
 
-**Noir Version (if applicable):**
+**Noir Version (if applicable): 0.35.0**
 
-**Operating System:**
+**Operating System: Ubuntu**
 
 ## Steps to Reproduce
 
-1.
-2.
-3.
+1. Paste the snippet from below
+2. Execute `nargo compile --silence-warnings` in the root of your nargo project
+3. The code will compile but it shouldn't.
 
 ## Expected Behavior
 
-**What did you expect to happen?**
+**The code had to return an error like: `cannot apply unary operator - to type u32`**
 
 ## Actual Behavior
 
-**What actually happened?**
+**The code compiled**
 
 ## Code Snippet
 
 ```
-// If applicable, add a minimal code snippet that demonstrates the issue
+use zkemail::dkim::RSAPubkey;
+
+global MAX_EMAIL_HEADER_LENGTH: u32 = 1408;
+
+fn main(header: BoundedVec<u8, MAX_EMAIL_HEADER_LENGTH>, pubkey: RSAPubkey<----23>) {}
 ```
 
 ## Error Messages
-
-```
-// If applicable, paste any error messages or logs here
-```
+-
 
 ## Additional Context
 
-**Add any other context about the problem here. This could include:**
+**I've managed to isolate the issue to pure this snippet where I create a very simple struct that accepts a simple `u32` number as a generic parameter. Yet, the symbols aren't being detected by the compiler.**
 
-- Screenshots
-- Links to relevant documentation
-- Any troubleshooting steps you've already taken
+```
+pub struct Test<let n: u32> {
+    modulus: [Field; n]
+}
 
-## Possible Solution
-
-**If you have any ideas on how to solve this, please share them here:**
+fn main(_n: Test<-----------------------32>) {}
+```
 
 ## Impact on Development
 
-**How is this issue affecting your project's progress?**
-
-## Support Needed
-
-**What kind of support or information do you need to resolve this issue?**
+**Negligibly low**
