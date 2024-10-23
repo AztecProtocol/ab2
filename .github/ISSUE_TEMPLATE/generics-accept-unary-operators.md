@@ -1,5 +1,5 @@
 ---
-name: Development Issue Template
+name: Generics accept unary operators
 about: Use this template to file issues you encounter while working on your challenges.
 title: "Generics accept unary operators"
 labels: "Noir issue"
