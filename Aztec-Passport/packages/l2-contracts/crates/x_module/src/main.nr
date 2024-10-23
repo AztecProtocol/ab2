@@ -2,11 +2,10 @@ use dep::aztec::macros::aztec;
 
 #[aztec]
 contract XModule {
-    use aztec::prelude::{AztecAddress, PublicMutable, PrivateMutable, SharedMutable};
-    use aztec::macros::{storage::storage, functions::{initializer, public, private, view}};
-
-    use dep::address_note::address_note::AddressNote;
-    use aztec::keys::getters::get_public_keys;
+    use aztec::{
+        prelude::{AztecAddress, PublicMutable, SharedMutable},
+        macros::{storage::storage, functions::{initializer, public, private, view}}
+    };
 
     use dep::passport::AztecPassport;
 

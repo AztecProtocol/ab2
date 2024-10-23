@@ -5,7 +5,7 @@ use dep::aztec::macros::aztec;
 pub global SCALE: u64 = 1000000;
 
 #[aztec]
-contract AztecPassport {
+pub contract AztecPassport {
     use aztec::{
         prelude::{AztecAddress, PublicMutable, Map, SharedMutable},
         macros::{storage::storage, functions::{initializer, public, private, view}},
