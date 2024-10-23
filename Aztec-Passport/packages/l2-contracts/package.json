@@ -1,0 +1,18 @@
+{
+  "name": "tests",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "prepare": "bash ./scripts/compile.sh && bash ./scripts/codegen.sh",
+    "test": "bash ./scripts/compile.sh && bash ./scripts/codegen.sh && bun tests/index.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@aztec/accounts": "0.57.0",
+    "@aztec/aztec.js": "0.57.0",
+    "@types/node": "^22.7.8"
+  }
+}

@@ -11,7 +11,9 @@ pub struct Service {
 
 impl Serialize<4> for Service {
     fn serialize(self) -> [Field; 4] {
-        [self.address.to_field(), self.weight as Field, self.base_score as Field, self.max_score as Field]
+        [
+            self.address.to_field(), self.weight as Field, self.base_score as Field, self.max_score as Field
+        ]
     }
 }
 
@@ -21,7 +23,7 @@ impl Deserialize<4> for Service {
             address: AztecAddress::from_field(data[0]),
             weight: data[1] as u64,
             base_score: data[2] as u64,
-            max_score: data[3] as u64,
+            max_score: data[3] as u64
         }
     }
 }
