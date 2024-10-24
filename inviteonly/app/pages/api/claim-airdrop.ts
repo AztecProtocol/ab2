@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { isEligibleRepo, verifyProof } from '../../utils';
+import { verifyProof } from '../../utils';
 
 type ResponseData = {
   success: boolean;
@@ -34,13 +34,13 @@ export default async function handler(
     }
 
     // Construct the repo URL string from the first 50 bytes of publicInputs
-    const repoUrlBytes = publicInputs.slice(0, 50);
+/*     const repoUrlBytes = publicInputs.slice(0, 50);
     const repoUrl = repoUrlBytes.map((byte: number) => String.fromCharCode(byte)).join('').trim();
-
+ */
     // Check if the repo is eligible
-    if (!isEligibleRepo(repoUrl)) { 
+/*     if (!isEligibleRepo(repoUrl)) { 
       return res.status(403).json({ success: false, message: 'Repository is not eligible for the airdrop' });
-    }
+    } */
 
     // Extract nullifier from public inputs
     const nullifier = publicInputs[50];

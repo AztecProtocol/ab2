@@ -3,7 +3,7 @@
 import React, { useState, useCallback, useRef, useEffect } from "react";
 import Head from "next/head";
 import { useDropzone } from "react-dropzone";
-import { generateProof, parseEmail, isEligibleRepo } from "../utils";
+import { generateProof, parseEmail } from "../utils";
 
 export default function Home() {
   const [emailContent, setEmailContent] = useState("");
@@ -144,7 +144,7 @@ export default function Home() {
           <p>Drag the .eml file here, or click to select a file</p>
         )}
       </div>
-      {emailDetails && !emailDetails?.repoName && (
+      {emailDetails && !emailDetails?.keyword && (
         <p className="error-message">
           Unable to parse the email. Please upload a PR merge notification email
           from Github.
@@ -153,29 +153,18 @@ export default function Home() {
     </section>
   );
 
-  const isEligible = emailDetails && isEligibleRepo(emailDetails.repoName);
   const renderDetailsSection = () => (
     <section ref={detailsSectionRef} className="section">
       <h2 className="section-title">Email Details</h2>
 
       <p className="info-block">
-        <span className="label">Repo name (public):</span>
-        <span className="value">{emailDetails?.repoName}</span>
+        <span className="label">Keyword (private):</span>
+        <span className="value">{emailDetails?.keyword}</span>
       </p>
       <p className="info-block">
-        <span className="label">PR Number (private):</span>
-        <span className="value">{emailDetails?.prNumber}</span>
+        <span className="label">Sender email (private):</span>
+        <span className="value">{emailDetails?.from}</span>
       </p>
-      <p className="info-block">
-        <span className="label">Email (private):</span>
-        <span className="value">{emailDetails?.ccEmail}</span>
-      </p>
-      {isEligible !== null && (
-        <p className={`info-block ${isEligible ? '' : 'error'}`}>
-          <span className="label">Eligibility:</span>
-          <span className="value">{isEligible ? 'Eligible' : 'Not Eligible'}</span>
-        </p>
-      )}
 
       <div className="info-block">
         <label className="label" htmlFor="walletAddress">
@@ -196,7 +185,7 @@ export default function Home() {
       <button
         className={`section-button ${isGeneratingProof ? "generating" : ""}`}
         onClick={onGenerateProofClick}
-        disabled={isGeneratingProof || !isEligible || !walletAddress || !!(proof && publicInputs)}
+        disabled={isGeneratingProof ||  !walletAddress || !!(proof && publicInputs)}
       >
         {isGeneratingProof ? (
           <>
@@ -269,7 +258,7 @@ export default function Home() {
       </Head>
       <div className="sections">
         {renderEmailDropSection()}
-        {emailDetails?.repoName && renderDetailsSection()}
+        {emailDetails?.keyword && renderDetailsSection()}
         {proof && renderProofSection()}
       </div>
     </>

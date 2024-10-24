@@ -47,8 +47,8 @@ export async function initVerifier(): Promise<VerifierModules> {
   return verifierPromise;
 }
 
-export function parseEmail(emlContent: string) {
-  // Extract PR URL - between `"target": "` and `#event-`
+export function parseEmail(emlContent: string) : {from: string, keyword: string} {
+/*   // Extract PR URL - between `"target": "` and `#event-`
   const targetUrlMatch = emlContent.match(/"target": "(.*?)event-/);
   const targetUrl = targetUrlMatch ? targetUrlMatch[1] : "";
 
@@ -60,12 +60,18 @@ export function parseEmail(emlContent: string) {
   const prNumber = prNumberMatch ? prNumberMatch[1] : "";
 
   const ccEmailMatch = emlContent.match(/Cc: (.*),/);
-  const ccEmail = ccEmailMatch ? ccEmailMatch[1] : "";
+  const ccEmail = ccEmailMatch ? ccEmailMatch[1] : ""; */
+
+  const fromMatch = emlContent.match(/X-Mail-from: (.*)/);
+  const from = fromMatch ? fromMatch[1] : "";
+
+  const keywordMatch = emlContent.match(/Secret keyword: (.*)/);
+  const keyword = keywordMatch ? keywordMatch[1] : "";
+
 
   return {
-    repoName,
-    prNumber,
-    ccEmail,
+    from,
+    keyword,
   };
 }
 
@@ -85,23 +91,25 @@ export async function generateProof(
 
     const emailDetails = parseEmail(emailContent);
 
+    console.log("Got email details", emailDetails);
+
     // Pad repo name to 50 bytes
-    const repoNamePadded = new Uint8Array(50);
-    repoNamePadded.set(
-      Uint8Array.from(new TextEncoder().encode(emailDetails.repoName))
-    );
+    const keywordPadded = new Uint8Array(50);
+    keywordPadded.set(
+      Uint8Array.from(new TextEncoder().encode(emailDetails.keyword))
+    ); 
 
     // Pad pr number to 6 bytes
     // We need this to compute the "target": url
-    const prNumberPadded = new Uint8Array(6);
+    /* const prNumberPadded = new Uint8Array(6);
     prNumberPadded.set(
       Uint8Array.from(new TextEncoder().encode(emailDetails.prNumber))
-    );
+    ); */
 
     // Pad email address to 60 bytes
     const emailAddressPadded = new Uint8Array(60);
     emailAddressPadded.set(
-      Uint8Array.from(new TextEncoder().encode(emailDetails.ccEmail))
+      Uint8Array.from(new TextEncoder().encode(emailDetails.from))
     );
 
     // Partial body padded
@@ -127,12 +135,17 @@ export async function generateProof(
       pubkey: zkEmailInputs.pubkey,
       pubkey_redc: zkEmailInputs.pubkey_redc,
       signature: zkEmailInputs.signature,
-      repo_name: Array.from(repoNamePadded).map((s) => s.toString()),
+      keyword: Array.from(keywordPadded).map((s) => s.toString()),
+      keyword_length: emailDetails.keyword.length,
+      from: Array.from(emailAddressPadded).map((s) => s.toString()),
+      from_length: emailDetails.from.length,
+
+/*       repo_name: Array.from(repoNamePadded).map((s) => s.toString()),
       repo_name_length: emailDetails.repoName.length,
       pr_number: Array.from(prNumberPadded).map((s) => s.toString()),
       pr_number_length: emailDetails.prNumber.length,
       email_address: Array.from(emailAddressPadded).map((s) => s.toString()),
-      email_address_length: emailDetails.ccEmail.length,
+      email_address_length: emailDetails.ccEmail.length, */
       wallet_address: walletAddressField,
     };
     console.log("Generating proof with inputs:", inputs);
@@ -175,9 +188,9 @@ export async function verifyProof(
   return result;
 }
 
-export function isEligibleRepo(repoName: string): boolean {
+/* export function isEligibleRepo(repoName: string): boolean {
   // This can be updated to check against a list of eligible repos
   // return repoName.includes("noir-lang") || repoName.includes("AztecProtocol");
 
   return true;
-}
+} */
