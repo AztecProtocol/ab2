@@ -119,15 +119,15 @@ passport_address: {
     }
     
 
-  public static get notes(): ContractNotes<'AddressNote' | 'ValueNote'> {
+  public static get notes(): ContractNotes<'ValueNote' | 'AddressNote'> {
     return {
-      AddressNote: {
-          id: new NoteSelector(2232136525),
-        },
-ValueNote: {
+      ValueNote: {
           id: new NoteSelector(1038582377),
+        },
+AddressNote: {
+          id: new NoteSelector(2232136525),
         }
-    } as ContractNotes<'AddressNote' | 'ValueNote'>;
+    } as ContractNotes<'ValueNote' | 'AddressNote'>;
   }
   
 
@@ -158,8 +158,8 @@ ValueNote: {
     /** set_passport_address(_passport_address: struct) */
     set_passport_address: ((_passport_address: AztecAddressLike) => ContractFunctionInteraction) & Pick<ContractMethod, 'selector'>;
 
-    /** verify(address: struct) */
-    verify: ((address: AztecAddressLike) => ContractFunctionInteraction) & Pick<ContractMethod, 'selector'>;
+    /** verify(address: struct, actual: array, given: array) */
+    verify: ((address: AztecAddressLike, actual: (bigint | number)[], given: (bigint | number)[]) => ContractFunctionInteraction) & Pick<ContractMethod, 'selector'>;
   };
 
   

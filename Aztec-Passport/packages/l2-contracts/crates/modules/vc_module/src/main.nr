@@ -17,6 +17,11 @@ contract VerifiableCredentialModule {
         passport_address: SharedMutable<AztecAddress, 1, Context>,
     }
 
+    struct JWT {
+        lenght: u8,
+        arr: [u8; 128]
+    }
+
     #[public]
     #[initializer]
     fn constructor(_admin: AztecAddress) {
