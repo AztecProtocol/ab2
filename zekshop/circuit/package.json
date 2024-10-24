@@ -1,0 +1,6 @@
+{
+  "scripts": {
+    "build": "nargo compile --silence-warnings",
+    "test": "nargo test --silence-warnings"
+  }
+}
