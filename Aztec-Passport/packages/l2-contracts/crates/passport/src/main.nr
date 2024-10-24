@@ -12,7 +12,7 @@ pub contract AztecPassport {
         keys::getters::get_public_keys
     };
 
-    use dep::value_note::{ balance_utils::get_balance};
+    use dep::value_note::{balance_utils::get_balance};
 
     use dep::easy_private_state::EasyPrivateUint;
     use crate::service::Service;

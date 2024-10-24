@@ -107,15 +107,18 @@ export class BalanceModuleContract extends ContractBase {
   }
   
 
-  public static get storage(): ContractStorageLayout<'admin' | 'passport_address'> {
+  public static get storage(): ContractStorageLayout<'admin' | 'balance_registry' | 'passport_address'> {
       return {
         admin: {
       slot: new Fr(1n),
     },
-passport_address: {
+balance_registry: {
       slot: new Fr(2n),
+    },
+passport_address: {
+      slot: new Fr(3n),
     }
-      } as ContractStorageLayout<'admin' | 'passport_address'>;
+      } as ContractStorageLayout<'admin' | 'balance_registry' | 'passport_address'>;
     }
     
 
@@ -143,6 +146,9 @@ ValueNote: {
     /** get_admin_public() */
     get_admin_public: (() => ContractFunctionInteraction) & Pick<ContractMethod, 'selector'>;
 
+    /** get_balance_registry() */
+    get_balance_registry: (() => ContractFunctionInteraction) & Pick<ContractMethod, 'selector'>;
+
     /** get_passport_address() */
     get_passport_address: (() => ContractFunctionInteraction) & Pick<ContractMethod, 'selector'>;
 
@@ -155,11 +161,14 @@ ValueNote: {
     /** set_admin(new_admin: struct) */
     set_admin: ((new_admin: AztecAddressLike) => ContractFunctionInteraction) & Pick<ContractMethod, 'selector'>;
 
+    /** set_balance_registry(_registry: struct) */
+    set_balance_registry: ((_registry: EthAddressLike) => ContractFunctionInteraction) & Pick<ContractMethod, 'selector'>;
+
     /** set_passport_address(_passport_address: struct) */
     set_passport_address: ((_passport_address: AztecAddressLike) => ContractFunctionInteraction) & Pick<ContractMethod, 'selector'>;
 
-    /** verify(address: struct) */
-    verify: ((address: AztecAddressLike) => ContractFunctionInteraction) & Pick<ContractMethod, 'selector'>;
+    /** verify(address: struct, content: field, secret: field) */
+    verify: ((address: AztecAddressLike, content: FieldLike, secret: FieldLike) => ContractFunctionInteraction) & Pick<ContractMethod, 'selector'>;
   };
 
   

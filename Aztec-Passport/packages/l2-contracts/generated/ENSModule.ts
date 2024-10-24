@@ -107,15 +107,18 @@ export class ENSModuleContract extends ContractBase {
   }
   
 
-  public static get storage(): ContractStorageLayout<'admin' | 'passport_address'> {
+  public static get storage(): ContractStorageLayout<'admin' | 'ens_registry' | 'passport_address'> {
       return {
         admin: {
       slot: new Fr(1n),
     },
-passport_address: {
+ens_registry: {
       slot: new Fr(2n),
+    },
+passport_address: {
+      slot: new Fr(3n),
     }
-      } as ContractStorageLayout<'admin' | 'passport_address'>;
+      } as ContractStorageLayout<'admin' | 'ens_registry' | 'passport_address'>;
     }
     
 
@@ -143,6 +146,9 @@ ValueNote: {
     /** get_admin_public() */
     get_admin_public: (() => ContractFunctionInteraction) & Pick<ContractMethod, 'selector'>;
 
+    /** get_ens_registry() */
+    get_ens_registry: (() => ContractFunctionInteraction) & Pick<ContractMethod, 'selector'>;
+
     /** get_passport_address() */
     get_passport_address: (() => ContractFunctionInteraction) & Pick<ContractMethod, 'selector'>;
 
@@ -155,11 +161,14 @@ ValueNote: {
     /** set_admin(new_admin: struct) */
     set_admin: ((new_admin: AztecAddressLike) => ContractFunctionInteraction) & Pick<ContractMethod, 'selector'>;
 
+    /** set_ens_registry(_registry: struct) */
+    set_ens_registry: ((_registry: EthAddressLike) => ContractFunctionInteraction) & Pick<ContractMethod, 'selector'>;
+
     /** set_passport_address(_passport_address: struct) */
     set_passport_address: ((_passport_address: AztecAddressLike) => ContractFunctionInteraction) & Pick<ContractMethod, 'selector'>;
 
-    /** verify(address: struct) */
-    verify: ((address: AztecAddressLike) => ContractFunctionInteraction) & Pick<ContractMethod, 'selector'>;
+    /** verify(address: struct, content: field, secret: field) */
+    verify: ((address: AztecAddressLike, content: FieldLike, secret: FieldLike) => ContractFunctionInteraction) & Pick<ContractMethod, 'selector'>;
   };
 
   

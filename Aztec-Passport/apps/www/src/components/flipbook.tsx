@@ -6,7 +6,7 @@ import { cn } from '~/lib/utils';
 
 import { type Variants, motion } from 'framer-motion';
 
-interface PageProps extends ComponentProps<'div'> {
+interface PageProps extends ComponentProps {
   index: number;
   currentPage: number;
   totalPages: number;
@@ -131,7 +131,7 @@ export const Book = () => {
   return (
     <div className='flex min-h-screen w-full items-center justify-center'>
       <div
-        className='absolute h-[28.4rem] w-[20rem]  transition-all duration-1000'
+        className='absolute h-[28.4rem] w-[20rem] transition-all duration-1000'
         style={{
           transform: `rotateX(10deg) rotateY(-10deg) translateX(${currentPage > 1 ? '50%' : '0%'})`,
           transformStyle: 'preserve-3d',

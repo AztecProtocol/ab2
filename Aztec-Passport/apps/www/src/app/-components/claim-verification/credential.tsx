@@ -27,7 +27,7 @@ export const CredentialVerify = () => {
         Verify your age credentials JWT Proof. <IssueCredential />
       </p>
       <StepButton
-        className='!dark h-9 font-semibold !text-[#223f26] mt-6'
+        className='!dark mt-6 h-9 font-semibold !text-[#223f26]'
         currentMode={status}
         finalContent={
           <div className='flex flex-row items-center justify-center gap-2'>

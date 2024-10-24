@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "prepare": "bash ./scripts/compile.sh && bash ./scripts/codegen.sh",
+    "format": "aztec-nargo fmt",
+    "format:check": "aztec-nargo fmt --check",
+    "prepare-env": "bash ./scripts/compile.sh && bash ./scripts/codegen.sh",
     "test": "bash ./scripts/compile.sh && bash ./scripts/codegen.sh && bun tests/index.ts",
     "deploy-local": "bun src/index.ts"
   },
@@ -14,6 +16,7 @@
   "dependencies": {
     "@aztec/accounts": "0.57.0",
     "@aztec/aztec.js": "0.57.0",
-    "@types/node": "^22.7.8"
+    "@types/node": "^22.7.8",
+    "dotenv": "^16.4.5"
   }
 }

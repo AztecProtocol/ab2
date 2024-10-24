@@ -3,8 +3,7 @@ use dep::aztec::macros::aztec;
 #[aztec]
 contract BalanceModule {
     use aztec::{
-        prelude::{AztecAddress, PublicMutable, SharedMutable},
-        protocol_types::{address::EthAddress},
+        prelude::{AztecAddress, PublicMutable, SharedMutable}, protocol_types::{address::EthAddress},
         macros::{storage::storage, functions::{initializer, public, private, view}}
     };
 
@@ -18,6 +17,10 @@ contract BalanceModule {
         balance_registry: SharedMutable<EthAddress, 1, Context>,
         // Passport Contract Address
         passport_address: SharedMutable<AztecAddress, 1, Context>,
+
+
+
+        
     }
 
     #[public]
@@ -53,7 +56,7 @@ contract BalanceModule {
 
     #[public]
     fn set_passport_address(_passport_address: AztecAddress) {
-         assert(storage.admin.read().eq(context.msg_sender()), "Aztec Passport: Only Admin");
+        assert(storage.admin.read().eq(context.msg_sender()), "Aztec Passport: Only Admin");
         let _ = storage.passport_address.schedule_value_change(_passport_address);
     }
 
@@ -73,7 +76,6 @@ contract BalanceModule {
     fn verify(address: AztecAddress, content: Field, secret: Field) {
         let passport_address = storage.passport_address.get_current_value_in_private();
         let sender = storage.balance_registry.get_current_value_in_private();
-        
 
         context.consume_l1_to_l2_message(content, secret, sender);
 

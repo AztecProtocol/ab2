@@ -37,10 +37,10 @@ export const IssueCredential = () => {
       </DialogTrigger>
       <DialogContent className='!rounded-3xl border-none bg-[#B3A1FF]'>
         <DialogHeader>
-          <DialogTitle className='!font-semibold text-neutral-800 text-2xl'>
+          <DialogTitle className='text-2xl !font-semibold text-neutral-800'>
             Create a KYC Age Credential
           </DialogTitle>
-          <DialogDescription className='font-medium text-neutral-600 text-base'>
+          <DialogDescription className='text-base font-medium text-neutral-600'>
             This will generate and issue a mock Age Credential for the user. It
             can be used to verify JWT Claims for the Credential.
           </DialogDescription>

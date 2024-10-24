@@ -2,8 +2,7 @@ use dep::aztec::macros::aztec;
 #[aztec]
 contract ENSModule {
     use aztec::{
-        prelude::{AztecAddress, PublicMutable, SharedMutable},
-        protocol_types::{address::EthAddress},
+        prelude::{AztecAddress, PublicMutable, SharedMutable}, protocol_types::{address::EthAddress},
         macros::{storage::storage, functions::{initializer, public, private, view}}
     };
 
@@ -72,7 +71,6 @@ contract ENSModule {
     fn verify(address: AztecAddress, content: Field, secret: Field) {
         let passport_address = storage.passport_address.get_current_value_in_private();
         let sender = storage.ens_registry.get_current_value_in_private();
-        
 
         context.consume_l1_to_l2_message(content, secret, sender);
 
