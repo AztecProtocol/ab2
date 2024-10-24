@@ -12,7 +12,8 @@ import { useAtomValue } from 'jotai'
 import { pxeAtom } from '../atoms.js'
 import { RPC_URL } from '../constants.js'
 import { TokenContract, TokenContractArtifact } from '@aztec/noir-contracts.js'
-import { NFTContract, NFTContractArtifact } from '@aztec/noir-contracts.js/NFT'
+// import { NFTContract, NFTContractArtifact } from '@aztec/noir-contracts.js/NFT'
+import { NFTContract } from '../artifacts/NFT.js'
 
 export const useAccount = () => {
   // const pxe = useAtomValue(pxeAtom)

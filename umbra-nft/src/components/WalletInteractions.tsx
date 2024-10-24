@@ -17,12 +17,16 @@ import {
   Fr,
   Note,
   PXE,
+
 } from '@aztec/aztec.js'
 import chalk from 'chalk'
 import { toast } from 'react-hot-toast'
 import { TokenContract } from '@aztec/noir-contracts.js'
 import { createNewCustomAccount } from '../utils/custom-account.js'
 import { NFTContract } from '@aztec/noir-contracts.js/NFT'
+import { pedersenHash } from '@aztec/foundation/crypto'
+
+const TRANSIENT_STORAGE_SLOT_PEDERSEN_INDEX = 3
 
 export const WalletInteractions = ({ pxe }: { pxe: PXE }) => {
   // const pxeClient = useAtomValue(pxeAtom)
@@ -39,6 +43,12 @@ export const WalletInteractions = ({ pxe }: { pxe: PXE }) => {
   const [receipentAddress, setReceipentAddress] = useState('')
   const [transferAmount, setTransferAmount] = useState<number>(0)
   const [shieldAmount, setShiedAmount] = useState<number>(0)
+
+  const [tokenId, setTokenId] = useState(0)
+  const [NFTMintAddress, setNFTMintAddress] = useState('')
+
+  const [storageSlotRandomness, setStorageSlotRandomness] = useState<Fr | null>(null)
+
 
   const handleCreateAccount = async () => {
     setIsInProgressObj({ ...isInProgressObj, createAccount: true })
@@ -252,6 +262,135 @@ export const WalletInteractions = ({ pxe }: { pxe: PXE }) => {
     }
     setIsInProgressObj({ ...isInProgressObj, createCustomAccount: false })
   }
+
+  const handleMintNFT = async () => {
+    if (!nftContract || !currentWallet) {
+      console.error('no contract or addrees')
+      return
+    }
+    setIsInProgressObj({ ...isInProgressObj, isMintingNFT: true })
+    const tx = await nftContract.methods.mint(AztecAddress.fromString(NFTMintAddress), tokenId).send()
+
+    console.log(`Sent nft mint transaction ${await tx.getTxHash()}`)
+    console.log(chalk.blackBright('Awaiting transaction to be mined'))
+    const receipt = await tx.wait()
+    console.log(
+      chalk.green(`Transaction has been mined on block ${chalk.bold(receipt.blockNumber)}`)
+    )
+    setIsInProgressObj({ ...isInProgressObj, isMintingNFT: false })
+  }
+
+  const handlePublicTransferNFT = async () => {
+    if (!nftContract || !currentWallet) {
+      console.error('no contract or addrees')
+      return
+    }
+    setIsInProgressObj({ ...isInProgressObj, isPublicTransferNFTInProgress: true })
+    const tx = await nftContract.methods.transfer_in_public(currentWallet.getAddress(), AztecAddress.fromString(NFTMintAddress), tokenId, 0).send()
+
+    console.log(`Sent public nft transfer transaction ${await tx.getTxHash()}`)
+    console.log(chalk.blackBright('Awaiting transaction to be mined'))
+    const receipt = await tx.wait()
+    console.log(
+      chalk.green(`Transaction has been mined on block ${chalk.bold(receipt.blockNumber)}`)
+    )
+    setIsInProgressObj({ ...isInProgressObj, isPublicTransferNFTInProgress: false })
+  }
+
+  const handleFetchNFTOwner = async () => {
+    if (!nftContract) {
+      console.error('no contract or addrees')
+      return
+    }
+
+    try {
+      setIsInProgressObj({ ...isInProgressObj, isFetchingNFTOwner: true })
+      const owner = await nftContract.methods.owner_of(tokenId).simulate();
+      toast.success(
+        `Owner of token Id ${tokenId}: ${owner}`
+      )
+    } catch (error: any) {
+      toast.error(error.toString())
+    } finally {
+      setIsInProgressObj({ ...isInProgressObj, isFetchingNFTOwner: false })
+    }
+  }
+
+  const handlePreaparePrivateTransferNFT = async () => {
+    if (!nftContract || !currentWallet) {
+      console.error('no contract or addrees')
+      return
+    }
+
+    try {
+      setIsInProgressObj({ ...isInProgressObj, isPreparePrivateTransferNFTInProgress: true })
+      setStorageSlotRandomness(null)
+      const slotRandomness = Fr.random();
+      const tx = await nftContract.methods.prepare_transfer_to_private(currentWallet.getAddress(), AztecAddress.fromString(NFTMintAddress), slotRandomness).send()
+      console.log(`Private transfer transaction ${await tx.getTxHash()}`)
+      console.log(chalk.blackBright('Awaiting transaction to be mined'))
+      const receipt = await tx.wait()
+      console.log(
+        chalk.green(`Transaction has been mined on block ${chalk.bold(receipt.blockNumber)}`)
+      )
+      setStorageSlotRandomness(slotRandomness)
+      toast.success('Private Transfer preparation done')
+    } catch (error: any) {
+      toast.error(error.toString())
+    } finally {
+      setIsInProgressObj({ ...isInProgressObj, isPreparePrivateTransferNFTInProgress: false })
+    }
+  }
+
+  const handleFinalizePrivateTransferNFT = async () => {
+    if (!nftContract || !currentWallet) {
+      console.error('no contract or addrees')
+      return
+    }
+    if (storageSlotRandomness === null) {
+      return toast.error(`Storage slot randomness shouldn't be null`)
+    }
+
+    const commitment = pedersenHash([currentWallet.getAddress().toField(), storageSlotRandomness], TRANSIENT_STORAGE_SLOT_PEDERSEN_INDEX)
+    try {
+      setIsInProgressObj({ ...isInProgressObj, isFinalizePrivateTransferNFTInProgress: true })
+      const tx = await nftContract.methods.finalize_transfer_to_private(tokenId, commitment).send()
+      console.log(`Private transfer transaction ${await tx.getTxHash()}`)
+      console.log(chalk.blackBright('Awaiting transaction to be mined'))
+      const receipt = await tx.wait()
+      console.log(
+        chalk.green(`Transaction has been mined on block ${chalk.bold(receipt.blockNumber)}`)
+      )
+      return toast.success('Private Transfer finalize step done')
+
+    } catch (error: any) {
+      return toast.error(error.toString())
+    } finally {
+      setIsInProgressObj({ ...isInProgressObj, isFinalizePrivateTransferNFTInProgress: false })
+      return
+    }
+  }
+
+  const handleFetchPrivateNFTTokenIds = async () => {
+    if (!nftContract || !currentWallet) {
+      console.error('no contract or addrees')
+      return
+    }
+
+    try {
+      setIsInProgressObj({ ...isInProgressObj, isFetchPrivateNFTTokenIds: true })
+      const nfts = await nftContract.methods.get_private_nfts(currentWallet.getAddress(), 0).simulate()
+      return toast.success(`Private NFTS: ${nfts}`)
+
+    } catch (error: any) {
+      return toast.error(error.toString())
+    } finally {
+      setIsInProgressObj({ ...isInProgressObj, isFetchPrivateNFTTokenIds: false })
+      return
+    }
+  }
+
+
   return (
     <main className="h-screen w-full p-4 md:p-8">
       <h1 className="mb-4"> Wallet Interactions</h1>
@@ -264,7 +403,7 @@ export const WalletInteractions = ({ pxe }: { pxe: PXE }) => {
               onClick={() => {
                 setCurrentWallet(wallet)
               }}
-              className={`btn ${currentWallet === wallet ? 'btn-primary' : 'btn-secondary'}`}
+              className={`btn ${currentWallet === wallet ? 'btn-primary' : 'btn-secondary'} `}
             >
               Wallet{idx + 1}
             </button>
@@ -277,7 +416,7 @@ export const WalletInteractions = ({ pxe }: { pxe: PXE }) => {
               onClick={() => {
                 setCurrentWallet(wallet)
               }}
-              className={`btn ${currentWallet === wallet ? 'btn-primary' : 'btn-secondary'}`}
+              className={`btn ${currentWallet === wallet ? 'btn-primary' : 'btn-secondary'} `}
             >
               Custom Wallet{idx + 1}
             </button>
@@ -370,31 +509,132 @@ export const WalletInteractions = ({ pxe }: { pxe: PXE }) => {
             </button>
           </div>
 
-
+          {/** Mint NFT Flow  Starts*/}
           <hr />
-
           <div className="border border-primary/20 rounded-md p-8 flex flex-col gap-2 mt-4">
             <h3> Mint NFT</h3>
             <label className="input flex items-center gap-2 py-7 w-full">
               <input
-                id="shieldAmount"
                 type="number"
                 className="grow"
-                placeholder="Shield Balance"
-                data-testid="send/to"
-                value={shieldAmount}
+                placeholder="Token ID"
+                value={tokenId}
                 onChange={(e) => {
-                  setShiedAmount(+e.target.value)
+                  setTokenId(+e.target.value)
                 }}
               />
             </label>
-            <button className="btn btn-primary" onClick={handleShield}>
-              Shield {isInProgressObj.shield && <Spinner />}
-            </button>
-            <button className="btn btn-primary" onClick={handleFetchPendingShields}>
-              Fetch Pending Shields {isInProgressObj.pendingShields && <Spinner />}
+            <label className="input flex items-center gap-2 py-7 w-full">
+              <input
+                type="text"
+                className="grow"
+                placeholder="Receiver Address"
+                value={NFTMintAddress}
+                onChange={(e) => {
+                  setNFTMintAddress(e.target.value)
+                }}
+              />
+            </label>
+            <button className="btn btn-primary" onClick={handleMintNFT}>
+              Mint New NFT {isInProgressObj.isMintingNFT && <Spinner />}
             </button>
           </div>
+          <hr />
+          {/** Mint NFT Flow  Ends*/}
+
+          {/** Public Transfer NFT Flow  Starts*/}
+          <hr />
+          <div className="border border-primary/20 rounded-md p-8 flex flex-col gap-2 mt-4">
+            <h3> Public Transfer NFT</h3>
+            <label className="input flex items-center gap-2 py-7 w-full">
+              <input
+                type="number"
+                className="grow"
+                placeholder="Token ID"
+                value={tokenId}
+                onChange={(e) => {
+                  setTokenId(+e.target.value)
+                }}
+              />
+            </label>
+            <label className="input flex items-center gap-2 py-7 w-full">
+              <input
+                type="text"
+                className="grow"
+                placeholder="Receiver Address"
+                value={NFTMintAddress}
+                onChange={(e) => {
+                  setNFTMintAddress(e.target.value)
+                }}
+              />
+            </label>
+            <button className="btn btn-primary" onClick={handlePublicTransferNFT}>
+              Transfer {isInProgressObj.isPublicTransferNFTInProgress && <Spinner />}
+            </button>
+          </div>
+          <hr />
+          {/** Public Transfer NFT Flow  Ends*/}
+
+
+
+
+          {/** Fetch NFT Owner Flow  Starts*/}
+          <hr />
+          <div className="border border-primary/20 rounded-md p-8 flex flex-col gap-2 mt-4">
+            <h3> Check NFT Owner </h3>
+            <label className="input flex items-center gap-2 py-7 w-full">
+              <input
+                type="number"
+                className="grow"
+                placeholder="Token ID"
+                value={tokenId}
+                onChange={(e) => {
+                  setTokenId(+e.target.value)
+                }}
+              />
+            </label>
+            <button className="btn btn-primary" onClick={handleFetchNFTOwner}>
+              Fetch Owner {isInProgressObj.isFetchingNFTOwner && <Spinner />}
+            </button>
+          </div>
+          <hr />
+          {/** Fetch NFT Owner Flow  Ends*/}
+
+          {/** Private Transfer NFT Flow  Starts*/}
+          <hr />
+          <div className="border border-primary/20 rounded-md p-8 flex flex-col gap-2 mt-4">
+            <h3>Public to Private NFT Transfer</h3>
+            <label className="input flex items-center gap-2 py-7 w-full">
+              <input
+                type="number"
+                className="grow"
+                placeholder="Token ID"
+                value={tokenId}
+                onChange={(e) => {
+                  setTokenId(+e.target.value)
+                }}
+              />
+            </label>
+            <label className="input flex items-center gap-2 py-7 w-full">
+              <input
+                type="text"
+                className="grow"
+                placeholder="Receiver Address"
+                value={NFTMintAddress}
+                onChange={(e) => {
+                  setNFTMintAddress(e.target.value)
+                }}
+              />
+            </label>
+            <button className='btn btn-secondary' onClick={handlePreaparePrivateTransferNFT}>Prepare for Transfer {isInProgressObj.isPreparePrivateTransferNFTInProgress && <Spinner />}</button>
+            <button className="btn btn-primary" onClick={handleFinalizePrivateTransferNFT} disabled={storageSlotRandomness === null}>
+              Finalise Transfer {isInProgressObj.isFinalizePrivateTransferNFTInProgress && <Spinner />}
+            </button>
+          </div>
+          <hr />
+          {/** Private Transfer NFT Flow  Ends*/}
+
+          <button className='btn btn-secondary' onClick={handleFetchPrivateNFTTokenIds}> Fetch Private NFTS {isInProgressObj.isFetchPrivateNFTTokenIds && <Spinner />}</button>
         </div>
         <div className="output border border-primary/10 rounded-md flex flex-1 bg-primary/60 text-black flex-col gap-2 p-8">
           {currentWallet && (
@@ -423,6 +663,6 @@ export const WalletInteractions = ({ pxe }: { pxe: PXE }) => {
           )}
         </div>
       </div>
-    </main>
+    </main >
   )
 }
