@@ -1,7 +1,8 @@
 {
-  "name": "umbra-nft-frontend",
+  "name": "umbra-helix-frontend",
   "author": {
-    "name": "Satyam Bansal"
+    "name": "Satyam Bansal",
+    "email": "satyamsgsits1994@gmail.com"
   },
   "private": true,
   "version": "0.0.0",
