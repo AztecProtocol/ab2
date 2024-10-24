@@ -7,6 +7,11 @@ contract BiometricModule {
         macros::{storage::storage, functions::{initializer, public, private, view}}
     };
 
+    use dep::biometric_verify::{
+        utils::{Descriptor},
+        verify_biometric
+    };
+
     use dep::passport::AztecPassport;
 
     #[storage]
@@ -48,16 +53,21 @@ contract BiometricModule {
 
     #[public]
     fn set_passport_address(_passport_address: AztecAddress) {
-        // assert(is_admin(), "Aztec PasspoPrt: Only Admin");
-
+       assert(storage.admin.read().eq(context.msg_sender()), "Aztec Passport: Only Admin");
         let _ = storage.passport_address.schedule_value_change(_passport_address);
     }
 
     #[private]
-    fn verify(address: AztecAddress) {
+    fn verify(address: AztecAddress, actual: Descriptor, given: Descriptor)  {
         let passport_address = storage.passport_address.get_current_value_in_private();
+
+        let (_, verified): (u32, bool) = verify_biometric(actual, given);
+
+        assert(verified, "Aztec Passport: Biometric Verification Failed");
 
         let index = AztecPassport::at(passport_address).get_service_index_private(context.this_address()).view(&mut context);
         let _ = AztecPassport::at(passport_address).verify_service(address, index, context.this_address()).call(&mut context);
     }
 }
+
+
