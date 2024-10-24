@@ -1,0 +1,3 @@
+[submodule "Aztec-Passport/packages/l1-contracts/lib/forge-std"]
+	path = Aztec-Passport/packages/l1-contracts/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
