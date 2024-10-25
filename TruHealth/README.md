@@ -4,12 +4,22 @@ Nowadays many people try to search some information about their health on the in
 
 This project can leverage Aztec's unique features by demonstrating a potential real-world application of privacy-preserving technology. The platform will create a trustless environment where users can trust the information shared by health professionals even if they don't know them, and they can be confident on having a source of truth about something that is so important and cannot be trusted from any source. It also creates a comfortable environment for users to review the professionals' service without the fear of being identified.
 
+For this challenge we plan to implement:
+
+- Skill verification system using email certificates for health and fitness professionals
+- Professionals can share public information based on their certified skills and reputation and only reveal what they want to (name or anonymous, where studied or not)
+
+Some of the features planned to implement for the long term:
+
+- Reputation System for these professionals based on feedback emails, reviews, social influence
+- Users can mint a subscription from a professional and professionals can tier their members according to what they paid for the subscription
+
 ## Challenge Selection
 
 Read [this article](https://aztec.network/blog/unlocking-the-future-of-privacy-exploring-identity-and-social-use-cases-in-alpha-build-2-with-100k-in-prizes) that announces Alpha Build 2 to learn more about the challenges and get ideas on what to build!
 
 - [x] ZKEmail Guardian
-- [ ] Social Cipher
+- [x] Social Cipher
 
 **Note**: You can change which challenges you've selected during the competition if you'd like. You are not bound by your choices or descriptions entered during the one week check-in.
 
