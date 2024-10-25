@@ -19,6 +19,7 @@ import {
   AccountWalletWithSecretKey,
   AztecAddress,
   CompleteAddress,
+  EthAddress,
 } from '@aztec/aztec.js';
 
 const args = {
@@ -178,6 +179,14 @@ const deployEthModules = async (
     .send()
     .wait();
 
+  await ensModule
+    .withWallet(owner)
+    .methods.set_ens_registry(
+      EthAddress.fromString('0x0DCd1Bf9A1b36cE34237eEaFef220932846BCD82')
+    )
+    .send()
+    .wait();
+
   await passport
     .withWallet(owner)
     .methods.add_service(
@@ -199,6 +208,14 @@ const deployEthModules = async (
   await balanceModule
     .withWallet(owner)
     .methods.set_passport_address(passport.address)
+    .send()
+    .wait();
+
+  await balanceModule
+    .withWallet(owner)
+    .methods.set_balance_registry(
+      EthAddress.fromString('0x0DCd1Bf9A1b36cE34237eEaFef220932846BCD82')
+    )
     .send()
     .wait();
 
@@ -228,6 +245,14 @@ const deployVerifiableCredentialModules = async (
   await verifiableCredentialModule
     .withWallet(owner)
     .methods.set_passport_address(passport.address)
+    .send()
+    .wait();
+
+  await verifiableCredentialModule
+    .withWallet(owner)
+    .methods.set_jwt_registry(
+      EthAddress.fromString('0x0DCd1Bf9A1b36cE34237eEaFef220932846BCD82')
+    )
     .send()
     .wait();
 

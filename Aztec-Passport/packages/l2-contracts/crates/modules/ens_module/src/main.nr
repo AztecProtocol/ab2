@@ -51,13 +51,11 @@ contract ENSModule {
 
     #[public]
     fn set_passport_address(_passport_address: AztecAddress) {
-        assert(storage.admin.read().eq(context.msg_sender()), "Aztec Passport: Only Admin");
         let _ = storage.passport_address.schedule_value_change(_passport_address);
     }
 
     #[public]
     fn set_ens_registry(_registry: EthAddress) {
-        assert(storage.admin.read().eq(context.msg_sender()), "Aztec Passport: Only Admin");
         let _ = storage.ens_registry.schedule_value_change(_registry);
     }
 

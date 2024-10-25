@@ -6,6 +6,7 @@ import {
   Fr,
   GrumpkinScalar,
   createPXEClient,
+  waitForPXE,
 } from '@aztec/aztec.js';
 import { useQuery } from '@tanstack/react-query';
 import { toast } from 'sonner';
@@ -66,14 +67,10 @@ export const useAztecAccount = () => {
   const createAccount = async () => {
     const PXE_URL = import.meta.env.VITE_PXE_URL;
     const secretKey = Fr.random();
-    secretKey.toString();
     const signingPrivateKey = GrumpkinScalar.random();
 
-    console.log({
-      secretKey,
-      signingPrivateKey,
-    });
     const pxe = createPXEClient(PXE_URL);
+    await waitForPXE(pxe);
 
     const wallet = await getSchnorrAccount(
       pxe,

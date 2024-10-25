@@ -1,5 +1,8 @@
 import React from 'react';
 
+import { useAztecAccount } from '~/lib/hooks';
+
+import AztecLogo from 'public/assets/aztec-pink.svg';
 import EthereumLogo from 'public/assets/eth.svg';
 import GoogleLogo from 'public/assets/google.svg';
 
@@ -15,11 +18,12 @@ import {
 import { GoogleLoginButton } from './google-button';
 
 export const UserModal = () => {
+  const { wallet } = useAztecAccount();
   return (
     <Dialog>
       <DialogTrigger asChild>
         <Button className='my-6 !rounded-full' variant='secondary'>
-          User Modal
+          {wallet?.getAddress().toShortString()}
         </Button>
       </DialogTrigger>
       <DialogContent className='min-h-[30rem] !rounded-3xl border-none bg-[#ffffff]'>
@@ -29,6 +33,20 @@ export const UserModal = () => {
           </DialogTitle>
 
           <div className='!my-4 flex flex-col gap-6'>
+            <div className='flex flex-row items-center justify-between'>
+              <div className='flex flex-row items-center gap-2 text-lg font-medium'>
+                <div className='flex h-10 w-10 items-center justify-center rounded-full bg-neutral-200'>
+                  <img
+                    alt='Aztec Logo'
+                    height={24}
+                    src={AztecLogo as unknown as string}
+                    width={24}
+                  />
+                </div>
+                Aztec Address
+              </div>
+              {wallet?.getAddress().toShortString()}
+            </div>
             <div className='flex flex-row items-center justify-between'>
               <div className='flex flex-row items-center gap-2 text-lg font-medium'>
                 <div className='flex h-10 w-10 items-center justify-center rounded-full bg-neutral-200'>

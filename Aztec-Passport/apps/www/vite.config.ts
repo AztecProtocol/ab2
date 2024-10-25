@@ -16,7 +16,6 @@ export default defineConfig({
           '@aztec/bb.js': `export * from "https://unpkg.com/@aztec/bb.js@${aztecVersion}/dest/browser/index.js"`,
         })
       : undefined,
-    nodePolyfills({ protocolImports: true }),
   ],
   server: {
     port: 3000,
@@ -36,6 +35,7 @@ export default defineConfig({
       'fs/promises': 'node:fs/promises',
       fs: 'node:fs',
       path: 'node:path',
+      Buffer: 'buffer',
     },
   },
 });

@@ -11,7 +11,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 /* eslint-disable react/no-unstable-nested-components -- safe */
 
-export type CalendarProps = React.ComponentProps;
+export type CalendarProps = React.ComponentProps<typeof DayPicker>;
 
 const Calendar = ({
   className,

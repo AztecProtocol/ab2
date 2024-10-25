@@ -53,9 +53,7 @@ contract LinkedinModule {
 
     #[public]
     fn set_passport_address(_passport_address: AztecAddress) {
-        // assert(is_admin(), "Aztec PasspoPrt: Only Admin");
-
-        let _ = storage.passport_address.schedule_value_change(_passport_address);
+        storage.passport_address.schedule_value_change(_passport_address);
     }
 
     #[private]

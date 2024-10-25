@@ -17,10 +17,6 @@ contract BalanceModule {
         balance_registry: SharedMutable<EthAddress, 1, Context>,
         // Passport Contract Address
         passport_address: SharedMutable<AztecAddress, 1, Context>,
-
-
-
-        
     }
 
     #[public]
@@ -56,13 +52,11 @@ contract BalanceModule {
 
     #[public]
     fn set_passport_address(_passport_address: AztecAddress) {
-        assert(storage.admin.read().eq(context.msg_sender()), "Aztec Passport: Only Admin");
         let _ = storage.passport_address.schedule_value_change(_passport_address);
     }
 
     #[public]
     fn set_balance_registry(_registry: EthAddress) {
-        assert(storage.admin.read().eq(context.msg_sender()), "Aztec Passport: Only Admin");
         let _ = storage.balance_registry.schedule_value_change(_registry);
     }
 

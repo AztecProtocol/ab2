@@ -17,6 +17,7 @@ export const usePassport = () => {
       return score;
     },
     enabled: Boolean(wallet),
+    initialData: 0,
   });
 
   const getPassportScore = async () => {

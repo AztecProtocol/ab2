@@ -55,7 +55,6 @@ contract GitHubModule {
 
     #[public]
     fn set_passport_address(_passport_address: AztecAddress) {
-        assert(storage.admin.read().eq(context.msg_sender()), "Aztec Passport: Only Admin");
         storage.passport_address.schedule_value_change(_passport_address);
     }
 

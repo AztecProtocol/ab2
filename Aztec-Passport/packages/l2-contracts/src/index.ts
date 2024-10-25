@@ -46,7 +46,7 @@ const data = {
 
 const newEnv = {
   ...appEnv.parsed,
-  data,
+  ...data,
 };
 let toWrite = '';
 Object.entries(newEnv).forEach(([k, v]) => {
@@ -54,3 +54,5 @@ Object.entries(newEnv).forEach(([k, v]) => {
 });
 
 console.log(toWrite);
+
+writeFileSync(appEnvPath, toWrite);
