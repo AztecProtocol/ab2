@@ -19,7 +19,7 @@ Some of the features planned to implement for the long term:
 Read [this article](https://aztec.network/blog/unlocking-the-future-of-privacy-exploring-identity-and-social-use-cases-in-alpha-build-2-with-100k-in-prizes) that announces Alpha Build 2 to learn more about the challenges and get ideas on what to build!
 
 - [x] ZKEmail Guardian
-- [x] Social Cipher
+- [ ] Social Cipher
 
 **Note**: You can change which challenges you've selected during the competition if you'd like. You are not bound by your choices or descriptions entered during the one week check-in.
 
@@ -37,6 +37,8 @@ Who are the authors of your project? Happy to integrate someone else in the team
 ## Expected Outcomes
 
 What do you hope to achieve by the end of the challenge(s)?
+
+Having a MVP with the first planned features and being able to keep working on the project and scale it to a real-world application, making users use blockchain and zero knowledge without noticing it.
 
 ## Lessons Learned (For Submission)
 
