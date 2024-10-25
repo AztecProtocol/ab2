@@ -17,6 +17,8 @@
     "@aztec/accounts": "0.57.0",
     "@aztec/aztec.js": "0.57.0",
     "@types/node": "^22.7.8",
+    "@zk-email/helpers": "6.2.0",
+    "@zk-email/zkemail-nr": "^1.2.1",
     "dotenv": "^16.4.5"
   }
 }

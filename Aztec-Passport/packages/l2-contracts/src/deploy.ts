@@ -22,46 +22,48 @@ import {
   EthAddress,
 } from '@aztec/aztec.js';
 
+const DECIMALS = 10 ** 6;
+
 const args = {
   x_module: {
-    weight: 0.1 * 10 ** 6,
-    base_score: 2 * 10 ** 6,
-    max_score: 10 * 10 ** 6,
+    weight: 0.1 * DECIMALS,
+    base_score: 2 * DECIMALS,
+    max_score: 10 * DECIMALS,
   },
   github_module: {
-    weight: 0.1 * 10 ** 6,
-    base_score: 2 * 10 ** 6,
-    max_score: 10 * 10 ** 6,
+    weight: 0.2 * DECIMALS,
+    base_score: 4 * DECIMALS,
+    max_score: 12 * DECIMALS,
   },
   linkedin_module: {
-    weight: 0.1 * 10 ** 6,
-    base_score: 2 * 10 ** 6,
-    max_score: 10 * 10 ** 6,
+    weight: 0.25 * DECIMALS,
+    base_score: 5 * DECIMALS,
+    max_score: 15 * DECIMALS,
   },
   google_module: {
-    weight: 0.1 * 10 ** 6,
-    base_score: 2 * 10 ** 6,
-    max_score: 10 * 10 ** 6,
+    weight: 0.1 * DECIMALS,
+    base_score: 3 * DECIMALS,
+    max_score: 10 * DECIMALS,
   },
   ens_module: {
-    weight: 0.1 * 10 ** 6,
-    base_score: 2 * 10 ** 6,
-    max_score: 10 * 10 ** 6,
+    weight: 0.4 * DECIMALS,
+    base_score: 4 * DECIMALS,
+    max_score: 14 * DECIMALS,
   },
   balance_module: {
-    weight: 0.1 * 10 ** 6,
-    base_score: 2 * 10 ** 6,
-    max_score: 10 * 10 ** 6,
+    weight: 0.1 * DECIMALS,
+    base_score: 2 * DECIMALS,
+    max_score: 5 * DECIMALS,
   },
   verifiable_credential_module: {
-    weight: 0.1 * 10 ** 6,
-    base_score: 2 * 10 ** 6,
-    max_score: 10 * 10 ** 6,
+    weight: 0.5 * DECIMALS,
+    base_score: 8 * DECIMALS,
+    max_score: 20 * DECIMALS,
   },
   biometric_module: {
-    weight: 0.1 * 10 ** 6,
-    base_score: 2 * 10 ** 6,
-    max_score: 10 * 10 ** 6,
+    weight: 0.65 * DECIMALS,
+    base_score: 15 * DECIMALS,
+    max_score: 25 * DECIMALS,
   },
 };
 

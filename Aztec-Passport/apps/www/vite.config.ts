@@ -1,5 +1,6 @@
 import { TanStackRouterVite } from '@tanstack/router-plugin/vite';
 import react from '@vitejs/plugin-react';
+import { Buffer } from 'node:buffer';
 import path from 'node:path';
 import { defineConfig } from 'vite';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
@@ -16,9 +17,16 @@ export default defineConfig({
           '@aztec/bb.js': `export * from "https://unpkg.com/@aztec/bb.js@${aztecVersion}/dest/browser/index.js"`,
         })
       : undefined,
+    nodePolyfills({
+      protocolImports: true,
+      globals: { Buffer: false },
+    }),
   ],
   server: {
     port: 3000,
+    watch: {
+      ignored: ['**/node_modules/**', '**/.git/**'],
+    },
   },
   optimizeDeps: {
     include: ['@aztec/bb.js'],
@@ -26,6 +34,16 @@ export default defineConfig({
       target: 'esnext',
       sourcemap: true,
       minify: false,
+    },
+  },
+  build: {
+    target: 'esnext',
+    sourcemap: true,
+    minify: false,
+    rollupOptions: {
+      input: {
+        main: 'index.html',
+      },
     },
   },
   resolve: {
@@ -36,6 +54,7 @@ export default defineConfig({
       fs: 'node:fs',
       path: 'node:path',
       Buffer: 'buffer',
+      Buffer2: 'buffer',
     },
   },
 });

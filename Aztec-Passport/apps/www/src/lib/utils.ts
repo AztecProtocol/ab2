@@ -51,3 +51,9 @@ export function formatBytes(
       : (sizes[i] ?? 'Bytes')
   }`;
 }
+
+export const sleep = async (ms: number) => {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+};

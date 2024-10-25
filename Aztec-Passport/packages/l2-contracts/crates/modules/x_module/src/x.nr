@@ -5,7 +5,7 @@ pub trait BoundedVecExtentions {
     fn is_eq<let M: u32>(self, array: [u8;M]) -> bool;
 }
 
-impl BoundedVecExtentions for BoundedVec<u8,320> {
+impl BoundedVecExtentions for BoundedVec<u8,64> {
     fn is_eq<let M: u32>(self, array: [u8; M]) -> bool {
         if (self.len != M) {
             false
@@ -64,7 +64,7 @@ pub fn verify_x(
     dkim_header_sequence: Sequence,
     from_header_sequence: Sequence,
     from_address_sequence: Sequence,
-    username: BoundedVec<u8,MAX_USERNAME_LENGTH>
+    username: BoundedVec<u8, MAX_USERNAME_LENGTH>
 ) -> BoundedVec<u8, MAX_USERNAME_LENGTH> {
     assert(header.len() <= MAX_EMAIL_HEADER_LENGTH);
     assert(body.len() <= MAX_EMAIL_BODY_LENGTH);

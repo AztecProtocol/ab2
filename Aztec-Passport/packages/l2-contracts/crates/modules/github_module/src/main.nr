@@ -62,6 +62,7 @@ contract GitHubModule {
     fn verify(
         address: AztecAddress,
         header_array: [u8; MAX_EMAIL_HEADER_LENGTH],
+        header_length: u32,
         pubkey_modulus: [Field; KEY_LIMBS_1024],
         pubkey_redc: [Field; KEY_LIMBS_1024],
         signature: [Field; KEY_LIMBS_1024],
@@ -79,7 +80,8 @@ contract GitHubModule {
 
         let expected_email: BoundedVec<u8, 320> = BoundedVec::from(email_array);
 
-        let header: BoundedVec<u8, MAX_EMAIL_HEADER_LENGTH> = BoundedVec::from(header_array);
+        let mut header: BoundedVec<u8, MAX_EMAIL_HEADER_LENGTH> = BoundedVec::from(header_array);
+        header.len = header_length;
         let pubkey = RSAPubkey { modulus: pubkey_modulus, redc: pubkey_redc };
 
         let from_address_sequence = Sequence { index: from_address_sequence_index, length: from_address_sequence_length };
@@ -100,7 +102,7 @@ contract GitHubModule {
             to_address_sequence
         );
 
-        assert(expected_email.eq(extracted_email));
+        assert(expected_email.is_eq(extracted_email.storage));
 
         let index = AztecPassport::at(passport_address).get_service_index_private(context.this_address()).view(&mut context);
         let _ = AztecPassport::at(passport_address).verify_service(address, index, context.this_address()).call(&mut context);

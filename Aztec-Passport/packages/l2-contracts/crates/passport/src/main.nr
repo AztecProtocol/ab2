@@ -130,9 +130,10 @@ pub contract AztecPassport {
             0
         }
 
-        let diminishing_factor = verified_count * verified_count / (total_services * total_services);
-        let adjusted_max_score = total_max_contribution * diminishing_factor;
+        let diminishing_factor = verified_count / total_services;
         let bonus_multiplier = (verified_count * SCALE) / total_services;
+        
+        let adjusted_max_score = total_max_contribution * diminishing_factor;
         let final_score = (total_base_contribution + adjusted_max_score) * bonus_multiplier / SCALE;
 
         final_score

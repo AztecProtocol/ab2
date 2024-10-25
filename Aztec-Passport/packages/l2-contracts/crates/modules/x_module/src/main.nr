@@ -62,7 +62,9 @@ contract XModule {
     fn verify(
         address: AztecAddress,
         header_array: [u8; MAX_EMAIL_HEADER_LENGTH],
+        header_length: u32,
         body_array: [u8; MAX_EMAIL_BODY_LENGTH],
+        body_length: u32,
         pubkey_modulus: [Field; KEY_LIMBS_2048],
         pubkey_redc: [Field; KEY_LIMBS_2048],
         signature: [Field; KEY_LIMBS_2048],
@@ -73,13 +75,18 @@ contract XModule {
         from_header_sequence_length: u32,
         from_address_sequence_index: u32,
         from_address_sequence_length: u32,
-        username_array: [u8; MAX_USERNAME_LENGTH]
+        username_array: [u8; MAX_USERNAME_LENGTH],
+        username_length: u32
     ) {
         let passport_address = storage.passport_address.get_current_value_in_private();
 
-        let expected_username: BoundedVec<u8, MAX_USERNAME_LENGTH> = BoundedVec::from(username_array);
-        let header: BoundedVec<u8, MAX_EMAIL_HEADER_LENGTH> = BoundedVec::from(header_array);
-        let body: BoundedVec<u8, MAX_EMAIL_BODY_LENGTH> = BoundedVec::from(body_array);
+        let mut expected_username: BoundedVec<u8, MAX_USERNAME_LENGTH> = BoundedVec::from(username_array);
+        let mut header: BoundedVec<u8, MAX_EMAIL_HEADER_LENGTH> = BoundedVec::from(header_array);
+        let mut body: BoundedVec<u8, MAX_EMAIL_BODY_LENGTH> = BoundedVec::from(body_array);
+
+        expected_username.len= username_length;
+        header.len= header_length;
+        body.len= body_length;
 
         let pubkey = RSAPubkey { modulus: pubkey_modulus, redc: pubkey_redc };
 
@@ -101,7 +108,7 @@ contract XModule {
             expected_username
         );
 
-        assert(extracted_username.eq(expected_username));
+        assert(expected_username.is_eq(extracted_username.storage));
 
         let index = AztecPassport::at(passport_address).get_service_index_private(context.this_address()).view(&mut context);
         let _ = AztecPassport::at(passport_address).verify_service(address, index, context.this_address()).call(&mut context);

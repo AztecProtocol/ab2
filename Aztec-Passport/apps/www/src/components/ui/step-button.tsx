@@ -10,7 +10,8 @@ interface StepButtonProps extends ButtonProps {
   initialContent: ReactNode;
   loadingContent: ReactNode;
   finalContent: ReactNode;
-  currentMode: 'idle' | 'loading' | 'complete';
+  errorContent?: ReactNode;
+  currentMode: 'idle' | 'loading' | 'complete' | 'error';
   variants: Variants;
 }
 
@@ -21,6 +22,7 @@ export const StepButton = ({
   currentMode,
   className,
   variants,
+  errorContent,
   ...props
 }: StepButtonProps) => {
   return (
@@ -60,6 +62,18 @@ export const StepButton = ({
             variants={variants}
           >
             {finalContent}
+          </motion.div>
+        )}
+        {currentMode === 'error' && (
+          <motion.div
+            key='error'
+            animate='animate'
+            className='w-full'
+            exit='exit'
+            initial='initial'
+            variants={variants}
+          >
+            {errorContent}
           </motion.div>
         )}
       </AnimatePresence>
