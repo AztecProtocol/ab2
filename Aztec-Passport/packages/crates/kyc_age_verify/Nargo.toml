@@ -1,0 +1,8 @@
+[package]
+name = "kyc_age_verify"
+type = "bin"
+authors = ["Vedant Chainani <vedantchainani1084@gmail.com>"]
+compiler_version = ">=0.35.0"
+
+[dependencies]
+json = { tag = "v0.2.0", git = "https://github.com/noir-lang/noir_json_parser" }

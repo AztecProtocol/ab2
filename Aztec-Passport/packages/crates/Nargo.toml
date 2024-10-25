@@ -1,3 +1,3 @@
 [workspace]
-members = ["biometric_verify"]
+members = ["biometric_verify", "kyc_age_verify"]
 default-member = "biometric_verify"
