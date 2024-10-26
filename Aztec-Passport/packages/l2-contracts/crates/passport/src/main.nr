@@ -123,7 +123,7 @@ pub contract AztecPassport {
     }
 
     unconstrained fn get_total_score(address: AztecAddress) -> u64 {
-        // Total Score Calculation based on weighed average of verified services and honoring diminishing returns and bonus multiplier
+        // Total Score Calculation based on weighed average of verified services and honoring diminishing returns and bonus multiplier and rounding it to 0-100
 
         // Total Base = Sum of Base Scores of Verified Services
         // Total Max = Sum of Max Scores of Verified Services
@@ -135,21 +135,25 @@ pub contract AztecPassport {
         // Diminishing Factor will reduce the max score based on the number of verified services
         // Bonus Multiplier will increase the max score based on the number of verified services and the weight of the services so a service will more weight will have more impact on the score.
         let mut total_weight: u64 = 0;
-        let mut total_base_contribution: u64 = 0;
-        let mut total_max_contribution: u64 = 0;
+        let mut total_base_contribution = 0;
+        let mut total_max_contribution = 0;
+        let mut total_verified_base_contribution: u64 = 0;
+        let mut total_verified_max_contribution: u64 = 0;
         let mut verified_count: u64 = 0;
 
-        let total_services = storage.total_services.get_current_value_in_unconstrained();
+        let total_services: u64 = storage.total_services.get_current_value_in_unconstrained();
 
         for i in 0..total_services {
             let service = storage.services.at(i).read();
             total_weight += service.weight;
+            total_base_contribution += service.base_score;
+            total_max_contribution += ((service.max_score - service.base_score) * service.weight) / SCALE;
             let res = storage.scores.at(address).at(i).set;
             let balance = get_balance(res);
             let verified = balance as u32 >= 1;
             if (verified) {
-                total_base_contribution += service.base_score;
-                total_max_contribution += service.max_score - service.base_score;
+                total_verified_base_contribution += service.base_score;
+                total_verified_max_contribution += ((service.max_score - service.base_score) * service.weight) / SCALE;
                 verified_count += 1;
             }
         }
@@ -161,10 +165,14 @@ pub contract AztecPassport {
         let diminishing_factor = (verified_count * SCALE) / total_services;
         let bonus_multiplier = (verified_count * total_weight) / total_services;
 
-        let adjusted_max_score = (total_max_contribution * diminishing_factor) / SCALE;
+        let adjusted_max_score = (total_verified_max_contribution * diminishing_factor) / SCALE;
         let bonus_score = (adjusted_max_score * bonus_multiplier / SCALE);
-        let final_score = total_base_contribution + bonus_score;
+        let final_score = total_verified_base_contribution + bonus_score;
 
-        final_score
+        let max_theortical = total_base_contribution + ((total_max_contribution * total_weight) / SCALE);
+
+        let round_to_hundred = (final_score * 100 * SCALE) / max_theortical;
+
+        round_to_hundred
     }
 }

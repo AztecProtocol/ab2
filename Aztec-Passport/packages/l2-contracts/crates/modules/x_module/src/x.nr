@@ -1,23 +1,26 @@
 use dep::string_search::{SubString, SubString128, StringBody16384, SubString64};
 use dep::string_search::StringBody;
 
-pub trait BoundedVecExtentions {
-    fn is_eq<let M: u32>(self, array: [u8;M]) -> bool;
+trait Equal<T> {
+    fn is_eq(self, array: T) -> bool;
 }
 
-impl BoundedVecExtentions for BoundedVec<u8,64> {
-    fn is_eq<let M: u32>(self, array: [u8; M]) -> bool {
-        if (self.len != M) {
-            false
+impl<let MaxLen: u32, let M: u32> Equal<[u8; M]> for BoundedVec<u8, MaxLen> {
+    fn is_eq(self, array: [u8; M]) -> bool {
+        let mut res = true;
+        if (self.len != array.len()) {
+            res = false;
         }
-        for i in 0..M {
-            if {
-                self.get_unchecked(i) != array[i]
-            } {
-                false
+
+        for i in 0..MaxLen {
+            if (i < self.len) {
+                if (self.storage[i] != array[i]) {
+                    res = false;
+                }
             }
         }
-        true
+
+        res
     }
 }
 
