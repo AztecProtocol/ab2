@@ -105,7 +105,7 @@ const Actions = ({ idDescriptors, faceDescriptors }: ActionProps) => {
         throw new Error('Missing descriptors');
       }
       const tx = await verifyBiometric(idDescriptors, faceDescriptors);
-      toast.success('GitHub verification successful', {
+      toast.success('Biometric verification successful', {
         description: `Transaction ID: ${truncate(tx.txHash.to0xString())}`,
       });
       await sleep(3000);
