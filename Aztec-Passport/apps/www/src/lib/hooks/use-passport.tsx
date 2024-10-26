@@ -1,3 +1,4 @@
+import { AztecAddress } from '@aztec/aztec.js';
 import { useQuery } from '@tanstack/react-query';
 import { useGoogleAuth } from '@zk-email/zk-email-sdk';
 
@@ -21,19 +22,29 @@ export const usePassport = () => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- safe
   const { googleAuthToken, loggedInGmail } = useGoogleAuth();
 
-  const {
-    data: passportScore,
-    refetch: refetchPassportScore,
-    isLoading: isPassportScoreLoading,
-  } = useQuery({
+  const { data: passportScore, refetch: refetchPassportScore } = useQuery({
     queryKey: ['passport-score', wallet?.getAddress().toString()],
     queryFn: async () => {
       const score = await getPassportScore();
+      console.log(await getVerifiedServices());
       return score;
     },
     enabled: Boolean(wallet),
     initialData: 0,
   });
+
+  const { data: verifiedServices, refetch: refetchVerifiedServices } = useQuery(
+    {
+      queryKey: ['verified-services', wallet?.getAddress().toString()],
+      queryFn: async () => {
+        const services = await getVerifiedServices();
+
+        return services;
+      },
+      enabled: Boolean(wallet),
+      initialData: [],
+    }
+  );
 
   const getPassportScore = async () => {
     const w = await getWallet();
@@ -46,6 +57,57 @@ export const usePassport = () => {
 
     const formatted = Number(score) / 10 ** 6;
     return formatted;
+  };
+
+  const getService = (address: string) => {
+    if (address === import.meta.env.VITE_X_MODULE_ADDRESS) {
+      return 'x';
+    } else if (address === import.meta.env.VITE_GITHUB_MODULE_ADDRESS) {
+      return 'github';
+    } else if (address === import.meta.env.VITE_GOOGLE_MODULE_ADDRESS) {
+      return 'google';
+    } else if (address === import.meta.env.VITE_LINKEDIN_MODULE_ADDRESS) {
+      return 'linkedin';
+    } else if (address === import.meta.env.VITE_BIOMETRIC_MODULE_ADDRESS) {
+      return 'biometric';
+    } else if (address === import.meta.env.VITE_BALANCE_MODULE_ADDRESS) {
+      return 'balance';
+    } else if (address === import.meta.env.VITE_ENS_MODULE_ADDRESS) {
+      return 'ens';
+    }
+    return 'vc';
+  };
+
+  const refetchAll = async () => {
+    await refetchPassportScore();
+    await refetchVerifiedServices();
+  };
+
+  const getVerifiedServices = async () => {
+    const w = await getWallet();
+    const passport = await getPassport(w);
+    const services = (await passport.methods
+      .get_all_verified(w.getCompleteAddress())
+      .simulate()) as {
+      address: AztecAddress;
+      base_score: bigint;
+      max_score: bigint;
+      weight: bigint;
+    }[];
+
+    const verifiedServices = services
+      .filter((s) => s.address.toString() !== AztecAddress.ZERO.toString())
+      .map((s) => ({
+        service: getService(s.address.toString()),
+        address: s.address.toString(),
+        weight: Number(s.weight) / 10 ** 6,
+        maxScore: Number(s.max_score) / 10 ** 6,
+        baseScore: Number(s.base_score) / 10 ** 6,
+      }));
+
+    console.log(verifiedServices);
+
+    return verifiedServices;
   };
 
   const verifyGithub = async () => {
@@ -86,7 +148,7 @@ export const usePassport = () => {
       .send()
       .wait();
 
-    await refetchPassportScore();
+    await refetchAll();
 
     return tx;
   };
@@ -129,7 +191,7 @@ export const usePassport = () => {
       .send()
       .wait();
 
-    await refetchPassportScore();
+    await refetchAll();
 
     return tx;
   };
@@ -172,7 +234,7 @@ export const usePassport = () => {
       .send()
       .wait();
 
-    await refetchPassportScore();
+    await refetchAll();
 
     return tx;
   };
@@ -220,7 +282,7 @@ export const usePassport = () => {
       .send()
       .wait();
 
-    await refetchPassportScore();
+    await refetchAll();
 
     return tx;
   };
@@ -235,20 +297,21 @@ export const usePassport = () => {
       .send()
       .wait();
 
-    await refetchPassportScore();
+    await refetchAll();
 
     return tx;
   };
 
   return {
     passportScore,
-    refetchPassportScore,
-    isPassportScoreLoading,
+    verifiedServices,
+    refetchAll,
     getPassportScore,
     verifyGithub,
     verifyGoogle,
     verifyLinkedin,
     verifyTwitter,
     verifyBiometric,
+    getVerifiedServices,
   };
 };
