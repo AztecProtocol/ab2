@@ -6,6 +6,7 @@ import { fetchEmailList, fetchEmailsRaw } from '@zk-email/zk-email-sdk';
 import {
   AztecPassportContract,
   BalanceModuleContract,
+  BiometricModuleContract,
   ENSModuleContract,
   GitHubModuleContract,
   GoogleModuleContract,
@@ -108,7 +109,7 @@ export const getVerifiableCredentialModule = async (wallet: Wallet) => {
   return verifiableCredentialModule;
 };
 
-export const getENsModule = async (wallet: Wallet) => {
+export const getENSModule = async (wallet: Wallet) => {
   const ensModule = await ENSModuleContract.at(
     AztecAddress.fromString(import.meta.env.VITE_ENS_MODULE_ADDRESS),
     wallet
@@ -124,6 +125,15 @@ export const getBalanceModule = async (wallet: Wallet) => {
   );
 
   return balanceModule;
+};
+
+export const getBiometricModule = async (wallet: Wallet) => {
+  const biometricModule = await BiometricModuleContract.at(
+    AztecAddress.fromString(import.meta.env.VITE_BIOMETRIC_MODULE_ADDRESS),
+    wallet
+  );
+
+  return biometricModule;
 };
 
 const QUERY = {

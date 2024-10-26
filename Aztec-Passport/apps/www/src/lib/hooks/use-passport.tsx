@@ -6,6 +6,7 @@ import {
   type WithToParams,
   extractXUsername,
   generateInputs,
+  getBiometricModule,
   getEmail,
   getGitHubModule,
   getGoogleModule,
@@ -224,6 +225,21 @@ export const usePassport = () => {
     return tx;
   };
 
+  const verifyBiometric = async (actual: number[], expected: number[]) => {
+    const w = await getWallet();
+
+    const module = await getBiometricModule(w);
+    const tx = await module
+      .withWallet(w)
+      .methods.verify(w.getAddress(), actual, expected)
+      .send()
+      .wait();
+
+    await refetchPassportScore();
+
+    return tx;
+  };
+
   return {
     passportScore,
     refetchPassportScore,
@@ -233,5 +249,6 @@ export const usePassport = () => {
     verifyGoogle,
     verifyLinkedin,
     verifyTwitter,
+    verifyBiometric,
   };
 };
