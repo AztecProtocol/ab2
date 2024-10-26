@@ -155,6 +155,9 @@ ValueNote: {
     /** get_admin_public() */
     get_admin_public: (() => ContractFunctionInteraction) & Pick<ContractMethod, 'selector'>;
 
+    /** get_all_verified(address: struct) */
+    get_all_verified: ((address: AztecAddressLike) => ContractFunctionInteraction) & Pick<ContractMethod, 'selector'>;
+
     /** get_service(service_id: integer) */
     get_service: ((service_id: (bigint | number)) => ContractFunctionInteraction) & Pick<ContractMethod, 'selector'>;
 

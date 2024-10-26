@@ -17,10 +17,12 @@ import { VerifiableCredentialModuleContract } from '../generated/VerifiableCrede
 import { BiometricModuleContract } from '../generated/BiometricModule';
 import {
   AccountWalletWithSecretKey,
-  AztecAddress,
   CompleteAddress,
   EthAddress,
 } from '@aztec/aztec.js';
+import PASSPORT_CONFIG from '../config.json';
+
+const PASSPORT_L1_ADDRESS = PASSPORT_CONFIG.PORTAL_L1_ADDRESS;
 
 const DECIMALS = 10 ** 6;
 
@@ -183,9 +185,7 @@ const deployEthModules = async (
 
   await ensModule
     .withWallet(owner)
-    .methods.set_ens_registry(
-      EthAddress.fromString('0x0DCd1Bf9A1b36cE34237eEaFef220932846BCD82')
-    )
+    .methods.set_ens_registry(EthAddress.fromString(PASSPORT_L1_ADDRESS))
     .send()
     .wait();
 
@@ -215,9 +215,7 @@ const deployEthModules = async (
 
   await balanceModule
     .withWallet(owner)
-    .methods.set_balance_registry(
-      EthAddress.fromString('0x0DCd1Bf9A1b36cE34237eEaFef220932846BCD82')
-    )
+    .methods.set_balance_registry(EthAddress.fromString(PASSPORT_L1_ADDRESS))
     .send()
     .wait();
 
@@ -252,9 +250,7 @@ const deployVerifiableCredentialModules = async (
 
   await verifiableCredentialModule
     .withWallet(owner)
-    .methods.set_jwt_registry(
-      EthAddress.fromString('0x0DCd1Bf9A1b36cE34237eEaFef220932846BCD82')
-    )
+    .methods.set_jwt_registry(EthAddress.fromString(PASSPORT_L1_ADDRESS))
     .send()
     .wait();
 

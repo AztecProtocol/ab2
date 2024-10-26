@@ -3,7 +3,8 @@ pragma solidity >=0.8.18;
 
 contract MockENS {
     mapping(bytes => bool) public _exists;
-    mapping(address => bytes) public _names;
+    mapping(address => uint256) public _totalNames;
+    mapping(address => mapping(uint256 => bytes)) public _names;
 
     error InvalidName();
     error NameAlreadyTaken();
@@ -20,12 +21,10 @@ contract MockENS {
             revert NameAlreadyExists();
         }
 
-        if (_names[msg.sender].length != 0) {
-            revert NameAlreadyTaken();
-        }
-
         _exists[_name] = true;
-        _names[msg.sender] = _name;
+        uint256 nextCount = _totalNames[msg.sender];
+        _names[msg.sender][nextCount] = _name;
+        _totalNames[msg.sender]++;
         emit NameRegistered(msg.sender, _name);
     }
 
@@ -33,11 +32,11 @@ contract MockENS {
         return _exists[_name];
     }
 
-    function nameOf(address _owner) public view returns (bytes memory) {
-        return _names[_owner];
+    function nameOf(address _owner, uint256 index) public view returns (bytes memory) {
+        return _names[_owner][index];
     }
 
     function hasEns(address _owner) public view returns (bool) {
-        return _names[_owner].length != 0;
+        return _totalNames[_owner] != 0;
     }
 }

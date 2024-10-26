@@ -97,6 +97,23 @@ pub contract AztecPassport {
         balance as u32 >= 1
     }
 
+    unconstrained fn get_all_verified(address: AztecAddress) -> [Service; 10] {
+        let mut verified_services: [Service; 10] = [Service { address: AztecAddress::zero(), weight: 0, base_score: 0, max_score: 0 }; 10];
+
+        let total = storage.total_services.get_current_value_in_unconstrained();
+
+        for i in 0..total {
+            let service = storage.services.at(i).read();
+            let res = storage.scores.at(address).at(i).set;
+            let balance = get_balance(res);
+            let verified = balance as u32 >= 1;
+            if (verified) {
+                verified_services[i] = service;
+            }
+        }
+        verified_services
+    }
+
     #[private]
     fn verify_service(address: AztecAddress, service_id: u64, service_address: AztecAddress) {
         assert(service_address.eq(context.msg_sender()), "Aztec Passport: Only Service");
@@ -132,7 +149,7 @@ pub contract AztecPassport {
 
         let diminishing_factor = verified_count / total_services;
         let bonus_multiplier = (verified_count * SCALE) / total_services;
-        
+
         let adjusted_max_score = total_max_contribution * diminishing_factor;
         let final_score = (total_base_contribution + adjusted_max_score) * bonus_multiplier / SCALE;
 

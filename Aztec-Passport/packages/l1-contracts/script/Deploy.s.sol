@@ -18,9 +18,13 @@ contract DeployScript is Script {
         vm.startBroadcast(deployerPrivateKey);
         ens = new MockENS();
         address registry = 0x5FbDB2315678afecb367f032d93F642f64180aa3;
-        bytes32 l2Bridge = bytes32(0x1abe6c7f5c4caf04cbf7556495e08ad9c0a225a5f9d33554ae07285b13c494d7);
         verifier = new UltraVerifier();
-        portal = new AztecPassportPortal(registry, l2Bridge, address(ens), address(verifier));
+        portal = new AztecPassportPortal(registry, address(ens), address(verifier));
+
+        string memory addrStr = vm.toString(address(portal));
+
+        vm.writeJson(addrStr, "../l2-contracts/config.json", ".PORTAL_L1_ADDRESS");
+        vm.writeJson(addrStr, "../../apps/www/config.json", ".PORTAL_L1_ADDRESS");
 
         console.log("Deployed AztecPassportPortal at", address(portal));
         vm.stopBroadcast();
