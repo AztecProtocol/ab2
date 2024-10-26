@@ -3,6 +3,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion -- safe */
 import { AztecAddress, type Wallet } from '@aztec/aztec.js';
 import { fetchEmailList, fetchEmailsRaw } from '@zk-email/zk-email-sdk';
+
 import {
   AztecPassportContract,
   BalanceModuleContract,
@@ -13,8 +14,7 @@ import {
   LinkedinModuleContract,
   VerifiableCredentialModuleContract,
   XModuleContract,
-} from '~/generated';
-
+} from '../../artifacts';
 import { generateEmailVerifierInputs } from './zkemail';
 import { getXUsername, padEmail } from './zkemail/utils';
 
@@ -239,8 +239,6 @@ export const generateInputs = async (
 ) => {
   const options = inputParams[type];
   const i = await generateEmailVerifierInputs(emailContent, options);
-
-  console.log(i);
 
   const commonInputs = {
     address: AztecAddress.fromString(address),

@@ -214,7 +214,6 @@ const DocumentUpload = ({ setDescriptors }: FileUploadPropsBase) => {
           const reader = new FileReader();
           reader.onload = async () => {
             const descriptors = await getDescriptors(reader.result as string);
-            console.log(descriptors);
             setDescriptors(descriptors);
           };
           reader.readAsDataURL(face);

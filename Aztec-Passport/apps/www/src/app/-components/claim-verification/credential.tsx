@@ -22,7 +22,7 @@ export const CredentialVerify = () => {
     try {
       setStatus('loading');
       const tx = await verifyJWT();
-      toast.success('Balance verification successful', {
+      toast.success('JWT verification successful', {
         description: `Transaction ID: ${truncate(tx.txHash.to0xString())}`,
       });
       await sleep(3000);

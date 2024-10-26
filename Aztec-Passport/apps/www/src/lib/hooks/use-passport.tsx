@@ -1,6 +1,7 @@
 import { getSchnorrAccount } from '@aztec/accounts/schnorr';
 import {
   AztecAddress,
+  CheatCodes,
   Fr,
   GrumpkinScalar,
   computeSecretHash,
@@ -326,10 +327,22 @@ export const usePassport = () => {
     const pxe = createPXEClient(PXE_URL);
     await waitForPXE(pxe);
 
-    for await (const _ of Array(3).keys()) {
+    const cheats = await CheatCodes.create('http://localhost:8545', pxe);
+    const currentBlock = await cheats.aztec.blockNumber();
+
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition, no-constant-condition -- safe
+    while (true) {
       const secretKey = Fr.random();
       const signingPrivateKey = GrumpkinScalar.random();
       await getSchnorrAccount(pxe, secretKey, signingPrivateKey).waitSetup();
+      const newBlock = await cheats.aztec.blockNumber();
+      console.log({
+        prev: currentBlock,
+        new: newBlock,
+      });
+      if (newBlock > currentBlock + 3) {
+        break;
+      }
     }
   };
 

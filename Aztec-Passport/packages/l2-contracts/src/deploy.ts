@@ -30,27 +30,27 @@ const args = {
   x_module: {
     weight: 0.1 * DECIMALS,
     base_score: 2 * DECIMALS,
-    max_score: 10 * DECIMALS,
+    max_score: 4 * DECIMALS,
   },
   github_module: {
     weight: 0.2 * DECIMALS,
-    base_score: 4 * DECIMALS,
-    max_score: 12 * DECIMALS,
+    base_score: 3 * DECIMALS,
+    max_score: 4 * DECIMALS,
   },
   linkedin_module: {
     weight: 0.25 * DECIMALS,
     base_score: 5 * DECIMALS,
-    max_score: 15 * DECIMALS,
+    max_score: 8 * DECIMALS,
   },
   google_module: {
     weight: 0.1 * DECIMALS,
     base_score: 3 * DECIMALS,
-    max_score: 10 * DECIMALS,
+    max_score: 6 * DECIMALS,
   },
   ens_module: {
     weight: 0.4 * DECIMALS,
     base_score: 4 * DECIMALS,
-    max_score: 14 * DECIMALS,
+    max_score: 9 * DECIMALS,
   },
   balance_module: {
     weight: 0.1 * DECIMALS,
@@ -65,7 +65,7 @@ const args = {
   biometric_module: {
     weight: 0.65 * DECIMALS,
     base_score: 15 * DECIMALS,
-    max_score: 25 * DECIMALS,
+    max_score: 30 * DECIMALS,
   },
 };
 

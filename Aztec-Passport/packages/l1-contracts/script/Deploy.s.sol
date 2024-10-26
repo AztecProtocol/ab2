@@ -25,6 +25,7 @@ contract DeployScript is Script {
 
         vm.writeJson(addrStr, "../l2-contracts/config.json", ".PORTAL_L1_ADDRESS");
         vm.writeJson(addrStr, "../../apps/www/config.json", ".PORTAL_L1_ADDRESS");
+        vm.writeJson(vm.toString(address(ens)), "../../apps/www/config.json", ".MOCK_ENS_ADDRESS");
 
         console.log("Deployed AztecPassportPortal at", address(portal));
         vm.stopBroadcast();

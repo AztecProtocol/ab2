@@ -123,6 +123,17 @@ pub contract AztecPassport {
     }
 
     unconstrained fn get_total_score(address: AztecAddress) -> u64 {
+        // Total Score Calculation based on weighed average of verified services and honoring diminishing returns and bonus multiplier
+
+        // Total Base = Sum of Base Scores of Verified Services
+        // Total Max = Sum of Max Scores of Verified Services
+
+        // Diminishing Factor = (Verified Services * SCALE) / Total Services
+        // Bonus Multiplier = (Verified Services * SCALE * Total Weight) / Total Services
+
+        // User Will get the whole base score
+        // Diminishing Factor will reduce the max score based on the number of verified services
+        // Bonus Multiplier will increase the max score based on the number of verified services and the weight of the services so a service will more weight will have more impact on the score.
         let mut total_weight: u64 = 0;
         let mut total_base_contribution: u64 = 0;
         let mut total_max_contribution: u64 = 0;
@@ -137,8 +148,8 @@ pub contract AztecPassport {
             let balance = get_balance(res);
             let verified = balance as u32 >= 1;
             if (verified) {
-                total_base_contribution += (service.base_score * service.weight) / SCALE;
-                total_max_contribution += (service.max_score * service.weight) / SCALE;
+                total_base_contribution += service.base_score;
+                total_max_contribution += service.max_score - service.base_score;
                 verified_count += 1;
             }
         }
@@ -147,11 +158,12 @@ pub contract AztecPassport {
             0
         }
 
-        let diminishing_factor = verified_count / total_services;
-        let bonus_multiplier = (verified_count * SCALE) / total_services;
+        let diminishing_factor = (verified_count * SCALE) / total_services;
+        let bonus_multiplier = (verified_count * total_weight) / total_services;
 
-        let adjusted_max_score = total_max_contribution * diminishing_factor;
-        let final_score = (total_base_contribution + adjusted_max_score) * bonus_multiplier / SCALE;
+        let adjusted_max_score = (total_max_contribution * diminishing_factor) / SCALE;
+        let bonus_score = (adjusted_max_score * bonus_multiplier / SCALE);
+        let final_score = total_base_contribution + bonus_score;
 
         final_score
     }

@@ -20,7 +20,7 @@ export const LinkedinVerify = () => {
     try {
       setStatus('loading');
       const tx = await verifyLinkedin();
-      toast.success('GitHub verification successful', {
+      toast.success('Linkedin verification successful', {
         description: `Transaction ID: ${truncate(tx.txHash.to0xString())}`,
       });
       await sleep(3000);

@@ -15,20 +15,20 @@ import { ArrowLeft, ArrowRight } from 'lucide-react';
 
 const options = [
   {
-    type: 'claims',
-    component: <ClaimsVerify />,
+    type: 'social',
+    component: <SocialVerify />,
   },
   {
     type: 'on-chain',
     component: <OnChainVerify />,
   },
   {
-    type: 'biometric',
-    component: <BiometricVerify />,
+    type: 'claims',
+    component: <ClaimsVerify />,
   },
   {
-    type: 'social',
-    component: <SocialVerify />,
+    type: 'biometric',
+    component: <BiometricVerify />,
   },
 ];
 
