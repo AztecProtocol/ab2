@@ -1,5 +1,5 @@
 {
-  "name": "zekshop",
+  "name": "zekshop_circuits",
   "version": "0.0.1",
   "license": "MIT",
   "type": "module",
@@ -8,24 +8,24 @@
     "test": "jest",
     "e2e": "yarn build && yarn test"
   },
-  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e",
+  "packageManager": "yarn@4.5.1",
   "dependencies": {
-    "fs": "^0.0.1-security",
-    "jest": "^29.7.0",
     "@mach-34/noir-bignum-paramgen": "^1.0.2",
     "@noir-lang/backend_barretenberg": "=0.35.0",
     "@noir-lang/noir_js": "=0.35.0",
     "@noir-lang/noirc_abi": "^0.35.0",
     "@zk-email/helpers": "=6.1.5",
-    "@zk-email/zkemail-nr": "^1.2.1"
+    "@zk-email/zkemail-nr": "^1.2.1",
+    "fs": "^0.0.1-security",
+    "jest": "^29.7.0"
   },
   "devDependencies": {
-    "@types/node": "^22.8.1",
     "@babel/core": "^7.25.2",
     "@babel/preset-env": "^7.25.4",
     "@babel/preset-typescript": "^7.24.7",
     "@types/jest": "^29.5.13",
     "@types/mocha": "^10.0.8",
+    "@types/node": "^22.8.1",
     "@typescript-eslint/eslint-plugin": "7",
     "@typescript-eslint/parser": "7",
     "babel-jest": "^29.7.0",

@@ -19,6 +19,6 @@
     "outDir": "dist",
     "tsBuildInfoFile": "./.tsbuildinfo"
   },
-  "include": ["js/tests/**/*.ts"],
+  "include": ["client/tests/**/*.ts"],
   "exclude": ["dist", "node_modules"]
 }

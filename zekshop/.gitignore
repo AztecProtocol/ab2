@@ -1,2 +1,4 @@
-circuit/**/target/
+circuits/**/target/
 node_modules/
+.pnp.cjs
+.yarn/

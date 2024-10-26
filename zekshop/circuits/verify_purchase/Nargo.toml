@@ -1,5 +1,5 @@
 [package]
-name = "circuit"
+name = "verify_purchase"
 type = "bin"
 authors = ["Nikolay Kostadinov"]
 compiler_version = ">=0.35.0"

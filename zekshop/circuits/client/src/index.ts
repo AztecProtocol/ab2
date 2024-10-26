@@ -48,6 +48,12 @@ export type CircuitInput = {
   to_header_sequence?: Sequence;
   to_address_sequence?: Sequence;
   purchase_number: string[];
+  purchase_number_length: string;
+  from_email_address: string[];
+  from_email_address_length: string;
+  to_email_address: string[];
+  to_email_address_length: string;
+  header_length: string;
 };
 
 export type InputGenerationArgs = {
@@ -62,6 +68,12 @@ export type InputGenerationArgs = {
   extractFrom?: boolean;
   extractTo?: boolean;
   purchaseNumber?: string[];
+  purchaseNumberLength?: string;
+  fromEmailAddress?: string[];
+  fromEmailAddressLength?: string;
+  toEmailAddress?: string[];
+  toEmailAddressLength?: string;
+  headerLength?: string;
 };
 
 // copied without modification, but not publicly exported in original
@@ -123,6 +135,7 @@ export function generateEmailVerifierInputsFromDKIMResult(
     headers,
     params.maxHeadersLength || MAX_HEADER_PADDED_BYTES
   );
+  let utf8Encode = new TextEncoder();
 
   // set inputs used in all cases
   const circuitInputs: CircuitInput = {
@@ -138,6 +151,12 @@ export function generateEmailVerifierInputsFromDKIMResult(
     signature: NoirBignum.bnToLimbStrArray(signature),
     dkim_header_sequence: getHeaderSequence(headers, "dkim-signature"),
     purchase_number: params.purchaseNumber ? params.purchaseNumber : [],
+    purchase_number_length: params.purchaseNumberLength as any,
+    from_email_address: params.fromEmailAddress ? params.fromEmailAddress : [],
+    from_email_address_length: params.fromEmailAddressLength as any,
+    to_email_address: params.toEmailAddress ? params.toEmailAddress : [],
+    to_email_address_length: params.toEmailAddressLength as any,
+    header_length: params.headerLength as any,
   };
 
   // removed: header mask
