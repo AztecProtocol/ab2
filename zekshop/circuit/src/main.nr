@@ -8,7 +8,7 @@ type StringBody1280 = StringBody<1302, 42, 1280>;
 fn main(
     header: BoundedVec<u8, MAX_EMAIL_HEADER_LENGTH>,
     body: BoundedVec<u8, MAX_PARTIAL_EMAIL_BODY_LENGTH>,
-    purchase_number: [u8; 4],
+    purchase_number: [u8; 10],
     pubkey: RSAPubkey<KEY_LIMBS_2048>,
     signature: [Field; KEY_LIMBS_2048]
 ) {
@@ -20,7 +20,7 @@ fn verify_purchase(
     body: BoundedVec<u8, MAX_PARTIAL_EMAIL_BODY_LENGTH>,
     pubkey: RSAPubkey<KEY_LIMBS_2048>,
     signature: [Field; KEY_LIMBS_2048],
-    purchase_number: [u8; 4]
+    purchase_number: [u8; 10]
 ) {
     // Check that the header's length is within bounds
     assert(header.len() <= MAX_EMAIL_HEADER_LENGTH);
@@ -36,7 +36,7 @@ fn verify_purchase(
 
 fn assert_purchase_number_in_header(
     haystack: StringBody1280,
-    purchase_number: [u8; 4],
+    purchase_number: [u8; 10],
     purchase_number_length: u32
 ) {
     // String search in body

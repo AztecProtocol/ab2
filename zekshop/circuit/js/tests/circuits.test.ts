@@ -6,14 +6,8 @@ import circuitPurchaseNumber from "../../target/circuit.json";
 import { toProverToml } from "../src/utils";
 import { Uint8ArrayToCharArray } from "@zk-email/helpers";
 
-function numberToBytes(num: number): Uint8Array {
-    const buffer = new ArrayBuffer(4); // 4 bytes for a 32-bit integer
-    const view = new DataView(buffer);
-    view.setUint32(0, num, false); // Use `false` for big-endian, `true` for little-endian
-    return new Uint8Array(buffer);
-}
-
-const purchaseNumber = Uint8ArrayToCharArray(numberToBytes(1294352407)).reverse();
+let utf8Encode = new TextEncoder();
+const purchaseNumber = Uint8ArrayToCharArray(utf8Encode.encode("1294352407"));
 const email = {
     data: fs.readFileSync(path.join(__dirname, "./test-data/attempt_without_exclamation.eml")),
 };
