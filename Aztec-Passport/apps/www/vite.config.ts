@@ -1,16 +1,33 @@
 import { TanStackRouterVite } from '@tanstack/router-plugin/vite';
 import react from '@vitejs/plugin-react';
 import path from 'node:path';
-import { defineConfig } from 'vite';
+import { Plugin, defineConfig } from 'vite';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
 import resolve from 'vite-plugin-resolve';
+import topLevelAwait from 'vite-plugin-top-level-await';
+import wasm from 'vite-plugin-wasm';
+
+const wasmContentTypePlugin: Plugin = {
+  name: 'wasm-content-type-plugin',
+  configureServer(server) {
+    server.middlewares.use((req, res, next) => {
+      if (req.url?.endsWith('.wasm')) {
+        res.setHeader('Content-Type', 'application/wasm');
+      }
+      next();
+    });
+  },
+};
 
 const aztecVersion = '0.57.0';
 export default defineConfig({
   envPrefix: 'VITE_',
   plugins: [
+    wasm(),
+    topLevelAwait(),
     TanStackRouterVite({}),
     react(),
+    wasmContentTypePlugin,
     process.env.NODE_ENV === 'production'
       ? resolve({
           '@aztec/bb.js': `export * from "https://unpkg.com/@aztec/bb.js@${aztecVersion}/dest/browser/index.js"`,
@@ -20,6 +37,8 @@ export default defineConfig({
       protocolImports: true,
       globals: { Buffer: false },
     }),
+    // wasm(),
+    // topLevelAwait(),
   ],
   server: {
     port: 3000,
@@ -29,6 +48,11 @@ export default defineConfig({
   },
   optimizeDeps: {
     include: ['@aztec/bb.js'],
+    exclude: [
+      '@noir-lang/backend_barretenberg',
+      '@noir-lang/noir_js',
+      '@noir-lang/noirc_abi',
+    ],
     esbuildOptions: {
       target: 'esnext',
       sourcemap: true,

@@ -1,32 +1,56 @@
-import { AztecAddress } from '@aztec/aztec.js';
+import { getSchnorrAccount } from '@aztec/accounts/schnorr';
+import {
+  AztecAddress,
+  Fr,
+  GrumpkinScalar,
+  computeSecretHash,
+  createPXEClient,
+  waitForPXE,
+} from '@aztec/aztec.js';
+import { type CompiledCircuit } from '@noir-lang/backend_barretenberg';
 import { useQuery } from '@tanstack/react-query';
+import { waitForTransactionReceipt } from '@wagmi/core';
 import { useGoogleAuth } from '@zk-email/zk-email-sdk';
+import { useLocalStorage } from 'usehooks-ts';
+import { toHex } from 'viem';
+import { useWriteContract } from 'wagmi';
 
+import KYCAgeCircuit from '../../../assets/public/kyc_age_verify.json';
 import {
   type WithBodyParams,
   type WithToParams,
   extractXUsername,
   generateInputs,
+  getBalanceModule,
   getBiometricModule,
+  getENSModule,
   getEmail,
   getGitHubModule,
   getGoogleModule,
   getLinkedinModule,
   getPassport,
+  getVerifiableCredentialModule,
   getXModule,
 } from '../helpers';
+import { Prover, generateJWTInputs } from '../jwt';
+import { mockEnsConfig, passportConfig, wagmiConfig } from '../viem';
 import { useAztecAccount } from './use-aztec-account';
 
 export const usePassport = () => {
   const { wallet, getWallet } = useAztecAccount();
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- safe
   const { googleAuthToken, loggedInGmail } = useGoogleAuth();
+  const { writeContractAsync } = useWriteContract();
+
+  const [credential, setCredential] = useLocalStorage<{
+    jwt: string;
+    secret_key: string;
+  } | null>('kyc-credential', null);
 
   const { data: passportScore, refetch: refetchPassportScore } = useQuery({
     queryKey: ['passport-score', wallet?.getAddress().toString()],
     queryFn: async () => {
       const score = await getPassportScore();
-      console.log(await getVerifiedServices());
       return score;
     },
     enabled: Boolean(wallet),
@@ -38,7 +62,6 @@ export const usePassport = () => {
       queryKey: ['verified-services', wallet?.getAddress().toString()],
       queryFn: async () => {
         const services = await getVerifiedServices();
-
         return services;
       },
       enabled: Boolean(wallet),
@@ -52,8 +75,6 @@ export const usePassport = () => {
     const score = (await passport.methods
       .get_total_score(w.getCompleteAddress())
       .simulate()) as bigint;
-
-    console.log('Passport Score:', score);
 
     const formatted = Number(score) / 10 ** 6;
     return formatted;
@@ -104,8 +125,6 @@ export const usePassport = () => {
         maxScore: Number(s.max_score) / 10 ** 6,
         baseScore: Number(s.base_score) / 10 ** 6,
       }));
-
-    console.log(verifiedServices);
 
     return verifiedServices;
   };
@@ -302,6 +321,131 @@ export const usePassport = () => {
     return tx;
   };
 
+  const mineBlock = async () => {
+    const PXE_URL = import.meta.env.VITE_PXE_URL;
+    const pxe = createPXEClient(PXE_URL);
+    await waitForPXE(pxe);
+
+    for await (const _ of Array(3).keys()) {
+      const secretKey = Fr.random();
+      const signingPrivateKey = GrumpkinScalar.random();
+      await getSchnorrAccount(pxe, secretKey, signingPrivateKey).waitSetup();
+    }
+  };
+
+  const verifyBalance = async () => {
+    const w = await getWallet();
+    const secret = Fr.fromString('0x123456');
+    const secretHash = computeSecretHash(secret).toString();
+
+    const l1TxHash = await writeContractAsync({
+      ...passportConfig,
+      functionName: 'verifyBalance',
+      args: [
+        secretHash,
+        import.meta.env.VITE_BALANCE_MODULE_ADDRESS as `0x${string}`,
+      ],
+    });
+
+    await waitForTransactionReceipt(wagmiConfig, { hash: l1TxHash });
+
+    await mineBlock();
+
+    const module = await getBalanceModule(w);
+
+    const tx = await module
+      .withWallet(w)
+      .methods.verify(w.getAddress(), 1, secret)
+      .send()
+      .wait();
+
+    await refetchAll();
+
+    return tx;
+  };
+
+  const verifyENS = async (name: string) => {
+    const w = await getWallet();
+    const secret = Fr.fromString('0x123456');
+    const secretHash = computeSecretHash(secret).toString();
+
+    // MINT ENS
+    const ensMintHash = await writeContractAsync({
+      ...mockEnsConfig,
+      functionName: 'register',
+      args: [toHex(name)],
+    });
+    await waitForTransactionReceipt(wagmiConfig, { hash: ensMintHash });
+
+    const l1TxHash = await writeContractAsync({
+      ...passportConfig,
+      functionName: 'verifyENS',
+      args: [
+        secretHash,
+        import.meta.env.VITE_ENS_MODULE_ADDRESS as `0x${string}`,
+      ],
+    });
+
+    await waitForTransactionReceipt(wagmiConfig, { hash: l1TxHash });
+
+    await mineBlock();
+
+    const module = await getENSModule(w);
+
+    const tx = await module
+      .withWallet(w)
+      .methods.verify(w.getAddress(), 1, secret)
+      .send()
+      .wait();
+
+    await refetchAll();
+
+    return tx;
+  };
+
+  const verifyJWT = async () => {
+    if (!credential) {
+      throw new Error('Unable to find Age Credential.');
+    }
+
+    const prover = new Prover(KYCAgeCircuit as CompiledCircuit, 'plonk');
+    const inputs = generateJWTInputs(credential.jwt, credential.secret_key);
+
+    const res = await prover.fullProve(inputs, 'plonk');
+    const proof = toHex(res.proof);
+
+    const w = await getWallet();
+    const secret = Fr.fromString('0x123456');
+    const secretHash = computeSecretHash(secret).toString();
+
+    // MINT ENS
+    const hash = await writeContractAsync({
+      ...passportConfig,
+      functionName: 'verifyAge',
+      args: [
+        proof,
+        secretHash,
+        import.meta.env
+          .VITE_VERIFIABLE_CREDENTIAL_MODULE_ADDRESS as `0x${string}`,
+      ],
+    });
+    await waitForTransactionReceipt(wagmiConfig, { hash });
+
+    await mineBlock();
+
+    const module = await getVerifiableCredentialModule(w);
+
+    const tx = await module
+      .withWallet(w)
+      .methods.verify(w.getAddress(), 1, secret)
+      .send()
+      .wait();
+
+    await refetchAll();
+
+    return tx;
+  };
+
   return {
     passportScore,
     verifiedServices,
@@ -313,5 +457,10 @@ export const usePassport = () => {
     verifyTwitter,
     verifyBiometric,
     getVerifiedServices,
+    verifyBalance,
+    verifyENS,
+    credential,
+    setCredential,
+    verifyJWT,
   };
 };

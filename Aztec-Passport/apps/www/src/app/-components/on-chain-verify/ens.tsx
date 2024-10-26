@@ -1,22 +1,44 @@
 import React, { useState } from 'react';
 
-import ENSLogo from 'public/assets/ens.svg';
+import { usePassport } from '~/lib/hooks';
+import { sleep, truncate } from '~/lib/utils';
 
+import ENSLogo from 'public/assets/ens.svg';
+import { toast } from 'sonner';
+
+import { Input } from '~/components/ui/input';
 import { StepButton } from '~/components/ui/step-button';
 
 import { Loader2Icon } from 'lucide-react';
 
 export const ENSVerify = () => {
-  const [status, setStatus] = useState<'idle' | 'loading' | 'complete'>('idle');
+  const [status, setStatus] = useState<
+    'idle' | 'loading' | 'complete' | 'error'
+  >('idle');
+  const { verifyENS } = usePassport();
 
-  const onVerify = () => {
-    setStatus('loading');
-    setTimeout(() => {
+  const [name, setName] = useState<string>('');
+
+  const onVerify = async () => {
+    try {
+      setStatus('loading');
+      if (name.length <= 0) {
+        throw new Error('Please enter a valid ENS domain');
+      }
+      const tx = await verifyENS(name);
+      toast.success('ENS verification successful', {
+        description: `Transaction ID: ${truncate(tx.txHash.to0xString())}`,
+      });
+      await sleep(3000);
       setStatus('complete');
-    }, 3000);
-    setTimeout(() => {
+      await sleep(1000);
+    } catch (error) {
+      setStatus('error');
+      console.error(error);
+      await sleep(3000);
+    } finally {
       setStatus('idle');
-    }, 5000);
+    }
   };
 
   return (
@@ -26,9 +48,20 @@ export const ENSVerify = () => {
       <p className='text-sm font-medium text-[#305835]'>
         Verify your ENS Domain.
       </p>
+      <Input
+        className='h-9 border-none'
+        placeholder='ENS Domain'
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
       <StepButton
-        className='!dark mt-6 h-9 font-semibold !text-[#223f26]'
+        className='!dark h-9 font-semibold !text-[#223f26]'
         currentMode={status}
+        errorContent={
+          <div className='flex flex-row items-center justify-center gap-2'>
+            <div>❌</div> Error
+          </div>
+        }
         finalContent={
           <div className='flex flex-row items-center justify-center gap-2'>
             <div>✅</div> Verified

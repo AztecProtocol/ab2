@@ -5,8 +5,11 @@ import {
   createStorage,
   http,
 } from 'wagmi';
-import { anvil, mainnet, sepolia } from 'wagmi/chains';
+import { anvil } from 'wagmi/chains';
 import { walletConnect } from 'wagmi/connectors';
+
+import PASSPORT_CONFIG from '../../../config.json';
+import { MOCK_ENS_ABI, PASSPORT_ABI } from './abi';
 
 export const projectId = import.meta.env.VITE_WALLETCONNECT_ID;
 
@@ -18,15 +21,23 @@ const metadata = {
 };
 
 export const wagmiConfig: Config = createConfig({
-  chains: [mainnet, sepolia, anvil],
+  chains: [anvil],
   ssr: true,
   storage: createStorage({
     storage: cookieStorage,
   }),
   connectors: [walletConnect({ projectId, metadata, showQrModal: false })],
   transports: {
-    [mainnet.id]: http(),
-    [sepolia.id]: http(),
     [anvil.id]: http(),
   },
 });
+
+export const passportConfig = {
+  address: PASSPORT_CONFIG.PORTAL_L1_ADDRESS as `0x${string}`,
+  abi: PASSPORT_ABI,
+};
+
+export const mockEnsConfig = {
+  address: PASSPORT_CONFIG.MOCK_ENS_ADDRESS as `0x${string}`,
+  abi: MOCK_ENS_ABI,
+};

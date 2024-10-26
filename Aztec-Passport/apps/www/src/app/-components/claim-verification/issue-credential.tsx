@@ -1,5 +1,11 @@
 import React, { useState } from 'react';
 
+import { usePassport } from '~/lib/hooks';
+import { errorHandler, sleep } from '~/lib/utils';
+
+import * as jose from 'jose';
+import { toast } from 'sonner';
+
 import { Button } from '~/components/ui/button';
 import { DateTimePicker } from '~/components/ui/datetime-picker';
 import {
@@ -15,19 +21,50 @@ import { StepButton } from '~/components/ui/step-button';
 import { Loader2Icon } from 'lucide-react';
 
 export const IssueCredential = () => {
-  const [status, setStatus] = useState<'idle' | 'loading' | 'complete'>('idle');
+  const [status, setStatus] = useState<
+    'idle' | 'loading' | 'complete' | 'error'
+  >('idle');
   const [date, setDate] = useState<Date>();
 
-  const onVerify = () => {
-    setStatus('loading');
-    setTimeout(() => {
+  const { setCredential } = usePassport();
+
+  const onVerify = async () => {
+    try {
+      setStatus('loading');
+
+      if (!date) {
+        throw new Error('Please select a date');
+      }
+
+      const birthdate = Math.floor(date.getTime() / 1000);
+      const randomness = crypto.randomUUID().slice(0, 8);
+      const secret = Buffer.from(randomness);
+      const alg = 'HS256';
+
+      const jwt = await new jose.SignJWT({ birthdate })
+        .setProtectedHeader({ alg })
+        .setIssuedAt()
+        .sign(secret);
+
+      setCredential({
+        jwt,
+        secret_key: randomness,
+      });
+
+      toast.success('Credential Issued successful');
+      await sleep(3000);
       setStatus('complete');
-    }, 3000);
-    setTimeout(() => {
+      await sleep(1000);
+    } catch (error) {
+      setStatus('error');
+      toast.error(errorHandler(error));
+      console.error(error);
+      await sleep(3000);
+    } finally {
       setStatus('idle');
-    }, 5000);
-    setDate(undefined);
+    }
   };
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -53,6 +90,11 @@ export const IssueCredential = () => {
             <StepButton
               className='dark h-9 font-semibold !text-[#223f26]'
               currentMode={status}
+              errorContent={
+                <div className='flex flex-row items-center justify-center gap-2'>
+                  <div>❌</div> Error
+                </div>
+              }
               finalContent={
                 <div className='flex flex-row items-center justify-center gap-2'>
                   <div>✅</div> Credential Issued
