@@ -11,7 +11,7 @@ import chalk from 'chalk'
 import { createAccount, getInitialTestAccountsWallets } from '@aztec/accounts/testing'
 import { TokenContract } from '@aztec/noir-contracts.js'
 
-const { PXE_URL = 'http://localhost:8080' } = process.env
+const { PXE_URL = 'http://98.70.35.172:8080' } = process.env
 
 const pxe = createPXEClient(PXE_URL)
 

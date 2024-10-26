@@ -22,7 +22,6 @@ import {
 import chalk from 'chalk'
 import { toast } from 'react-hot-toast'
 import { TokenContract } from '@aztec/noir-contracts.js'
-import { createNewCustomAccount } from '../utils/custom-account.js'
 import { NFTContract } from '@aztec/noir-contracts.js/NFT'
 import { pedersenHash } from '@aztec/foundation/crypto'
 
@@ -254,13 +253,13 @@ export const WalletInteractions = ({ pxe }: { pxe: PXE }) => {
   const handleFetchPendingShields = async () => { }
 
   const handleCreateCustomAccount = async () => {
-    setIsInProgressObj({ ...isInProgressObj, createCustomAccount: true })
-    // // createAccount({client: pxeAtom, ...CREATE_ACCOUNT_DEFAULT_PARAMS});
-    const customWallet = await createNewCustomAccount(pxeClient!)
-    if (customWallet) {
-      setCustomWallets([...customWallets, customWallet])
-    }
-    setIsInProgressObj({ ...isInProgressObj, createCustomAccount: false })
+    // setIsInProgressObj({ ...isInProgressObj, createCustomAccount: true })
+    // // // createAccount({client: pxeAtom, ...CREATE_ACCOUNT_DEFAULT_PARAMS});
+    // const customWallet = await createNewCustomAccount(pxeClient!)
+    // if (customWallet) {
+    //   setCustomWallets([...customWallets, customWallet])
+    // }
+    // setIsInProgressObj({ ...isInProgressObj, createCustomAccount: false })
   }
 
   const handleMintNFT = async () => {
