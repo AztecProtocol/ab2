@@ -1,5 +1,7 @@
 # ZeKshop
+
 Check the [official paper of ZeKshop](./ZeKshop-whitepaper.pdf)
+
 ## Abstract
 
 ZeKshop addresses the severe privacy issues in purchasing erotic merchandise by using Aztec, a privacy-first Layer 2 on Ethereum. By leveraging zero-knowledge proofs, ZeKshop ensures confidential transactions, secure communications, and anonymous order deliveries without collecting personal data from users. This document outlines the key features of ZeKshop, including private payment methods, order receipt through BoxNow, and secure communication using zkemail.
@@ -22,13 +24,13 @@ Note that the message and proof are sent to a server, which verifies and stores 
 
 Aztec is the privacy-first Layer 2 on Ethereum. Private transactions in Aztec are designed to maintain user privacy by encrypting transaction details such as amounts and recipients. This is achieved through zero-knowledge proofs, which allow the network to verify the correctness of transactions without revealing any sensitive information. That’s why ZeKshop uses Aztec L2 on Ethereum to keep private the sender (user) and (optionally) the amount that are being used in a particular transaction. So the workflow is the following. User choses product(s) of choice and proceeds to payment. User confirms that wants to use a completely private method of payment and sends the required amount of his purchase within a private transaction. After the transaction is being successfully processed, the user will receive the hash of the transaction to his email that is associated with the store.
 
-![Paying for an order](paying_for_an_order.png)
+![Paying for an order](docs_imgs/paying_for_an_order.png)
 
 ## Receiving an order
 
 After a successful transaction (whose hash is already sent to the mail of the customer) all the notifications and updates regarding the purchase are being sent from the store’s mail account to the user’s mail account. We seek privacy and that means that who our customers are isn’t of our interest nor when they are collecting their packages. That’s why ZeKshop is using BoxNow as a way to collect your packet. BoxNow is a smart, parcel-receiving machine that allows orders to be delivered easily and quickly and obviously without any human interaction. As mentioned earlier, all communication is done via email, so the code to open the box where the user’s package is stored will be sent through email. The user simply goes to his local BoxNow machine, inputs the code that is sent to him via his email and finally receives its package!
 
-![Receiving an order](receiving_an_order.png)
+![Receiving an order](docs_imgs/receiving_an_order.png)
 
 ## Basic workflow for paying and receiving an order
 

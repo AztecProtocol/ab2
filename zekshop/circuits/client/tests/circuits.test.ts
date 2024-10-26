@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import { ZKEmailProver } from "../src/prover";
 import { generateEmailVerifierInputs } from "../src/index";
-import circuitPurchaseNumber from "../../target/circuit.json";
+import circuitPurchaseNumber from "../../verify_purchase/target/verify_purchase.json";
 import { toProverToml } from "../src/utils";
 import { Uint8ArrayToCharArray } from "@zk-email/helpers";
 
