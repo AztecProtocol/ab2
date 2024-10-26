@@ -1,6 +1,0 @@
-{
-  "scripts": {
-    "compile-all": "find . -type d -exec sh -c 'cd \"{}\" && [ -f \"Nargo.toml\" ] && nargo compile --silence-warnings' \\;"
-  },
-  "packageManager": "yarn@4.5.1"
-}
