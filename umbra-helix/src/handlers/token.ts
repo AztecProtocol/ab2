@@ -10,10 +10,10 @@ import {
 import chalk from 'chalk'
 import { createAccount, getInitialTestAccountsWallets } from '@aztec/accounts/testing'
 import { TokenContract } from '@aztec/noir-contracts.js'
+import { RPC_URL } from '../constants.js'
 
-const { PXE_URL = 'http://98.70.35.172:8080' } = process.env
 
-const pxe = createPXEClient(PXE_URL)
+const pxe = createPXEClient(RPC_URL)
 
 const getFirstAccount = (() => {
   let firstAccount = null

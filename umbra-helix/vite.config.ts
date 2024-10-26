@@ -5,7 +5,7 @@ import react from '@vitejs/plugin-react'
 import basicssl from '@vitejs/plugin-basic-ssl'
 const aztecVersion = '0.60.0'
 
-const IS_HTTPS = true
+const IS_HTTPS = false
 
 const plugins = [
   /** @type {any} */ resolve({

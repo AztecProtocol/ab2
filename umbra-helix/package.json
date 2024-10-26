@@ -12,7 +12,9 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "clean": "rm -rf node_modules/.vite dist",
-    "postinstall": "patch-package"
+    "postinstall": "patch-package",
+    "server": "nodemon -r dotenv/config discord-server/server.js",
+    "discord:register": "node discord-server/commands.js"
   },
   "devDependencies": {
     "@types/node": "^22.3.0",
@@ -21,6 +23,9 @@
     "@vitejs/plugin-react": "^4.3.1",
     "autoprefixer": "^10.4.20",
     "daisyui": "^4.12.10",
+    "dotenv": "^16.0.3",
+    "dotenv-cli": "^7.4.2",
+    "nodemon": "^3.0.0",
     "patch-package": "^8.0.0",
     "postcss": "^8.4.41",
     "postinstall-postinstall": "^2.1.0",
@@ -51,6 +56,9 @@
     "react-router-dom": "6.25.1",
     "sonner": "1.5.0",
     "vite-plugin-node-polyfills": "^0.22.0",
-    "vite-plugin-resolve": "^2.5.2"
+    "vite-plugin-resolve": "^2.5.2",
+    "discord-interactions": "^4.0.0",
+    "express": "^4.18.2",
+    "express-session": "^1.18.1"
   }
 }

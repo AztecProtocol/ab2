@@ -372,22 +372,39 @@ export const WalletInteractions = ({ pxe }: { pxe: PXE }) => {
   }
 
   const handleFetchPrivateNFTTokenIds = async () => {
+    let nfts: [number[], boolean] = [[], false]
     if (!nftContract || !currentWallet) {
       console.error('no contract or addrees')
-      return
+      return nfts
     }
 
     try {
       setIsInProgressObj({ ...isInProgressObj, isFetchPrivateNFTTokenIds: true })
-      const nfts = await nftContract.methods.get_private_nfts(currentWallet.getAddress(), 0).simulate()
-      return toast.success(`Private NFTS: ${nfts}`)
-
+      nfts = await nftContract.methods.get_private_nfts(currentWallet.getAddress(), 0).simulate()
+      toast.success(`Private NFTS: ${nfts}`)
     } catch (error: any) {
-      return toast.error(error.toString())
+      toast.error(error.toString())
     } finally {
       setIsInProgressObj({ ...isInProgressObj, isFetchPrivateNFTTokenIds: false })
-      return
+      return nfts
     }
+  }
+
+  const handleVerifyWallet = async () => {
+    const pathname = window.location.pathname
+    const pathParts = pathname.split('/').filter(path => path !== "")
+    if (pathParts.length !== 2 || pathParts[0] !== 'verify') {
+      return toast.error(`Invalid path. path should follow /verify/<token>`)
+    }
+    let privateNFTResponse = await handleFetchPrivateNFTTokenIds()
+    const [tokenIds = [], isMoreNfts] = privateNFTResponse
+    // console.log("Private NFTS", privateNFTs)
+
+    const nonZeroTokenIds = tokenIds.filter((nftTokenId: number) => nftTokenId !== 0)
+    if (nonZeroTokenIds.length === 0) {
+      return toast.error(`Current wallet is not an NFT holder`)
+    }
+    return toast.success("You are an NFT holder", )
   }
 
 
@@ -595,6 +612,10 @@ export const WalletInteractions = ({ pxe }: { pxe: PXE }) => {
             </label>
             <button className="btn btn-primary" onClick={handleFetchNFTOwner}>
               Fetch Owner {isInProgressObj.isFetchingNFTOwner && <Spinner />}
+            </button>
+
+            <button className="btn btn-primary" onClick={handleVerifyWallet}>
+              Verify Wallet {isInProgressObj.verifyWallet && <Spinner />}
             </button>
           </div>
           <hr />
