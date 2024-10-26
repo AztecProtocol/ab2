@@ -325,7 +325,8 @@ export const WalletInteractions = ({ pxe }: { pxe: PXE }) => {
       setIsInProgressObj({ ...isInProgressObj, isPreparePrivateTransferNFTInProgress: true })
       setStorageSlotRandomness(null)
       const slotRandomness = Fr.random();
-      const tx = await nftContract.methods.prepare_transfer_to_private(currentWallet.getAddress(), AztecAddress.fromString(NFTMintAddress), slotRandomness).send()
+      // const tx = await nftContract.methods.prepare_transfer_to_private(currentWallet.getAddress(), AztecAddress.fromString(NFTMintAddress), slotRandomness).send()
+      const tx = await nftContract.methods.transfer_to_private(AztecAddress.fromString(NFTMintAddress), tokenId).send()
       console.log(`Private transfer transaction ${await tx.getTxHash()}`)
       console.log(chalk.blackBright('Awaiting transaction to be mined'))
       const receipt = await tx.wait()
@@ -333,7 +334,7 @@ export const WalletInteractions = ({ pxe }: { pxe: PXE }) => {
         chalk.green(`Transaction has been mined on block ${chalk.bold(receipt.blockNumber)}`)
       )
       setStorageSlotRandomness(slotRandomness)
-      toast.success('Private Transfer preparation done')
+      toast.success('Private Transfer  done')
     } catch (error: any) {
       toast.error(error.toString())
     } finally {

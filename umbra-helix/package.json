@@ -31,12 +31,12 @@
     "vite": "^5.4.0"
   },
   "dependencies": {
-    "@aztec/accounts": "0.57.0",
-    "@aztec/aztec.js": "0.57.0",
-    "@aztec/circuits.js": "0.57.0",
-    "@aztec/foundation": "0.57.0",
+    "@aztec/accounts": "0.60.0",
+    "@aztec/aztec.js": "0.60.0",
+    "@aztec/circuits.js": "0.60.0",
     "@aztec/kv-store": "^0.52.0",
-    "@aztec/noir-contracts.js": "0.57.0",
+    "@aztec/noir-contracts.js": "0.60.0",
+    "@aztec/foundation": "0.60.0",
     "@headlessui/react": "2.1.2",
     "@vitejs/plugin-basic-ssl": "^1.1.0",
     "buffer": "^6.0.3",

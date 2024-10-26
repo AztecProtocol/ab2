@@ -1,7 +1,7 @@
 # UmbraHelix
 
 ## Overview
-UmbraHelix is an Aztec NFT holder verifier for Discord. It also has other useful features like creating collection, minting nft, public and private transfer and to fetch nft owner.
+UmbraHelix is an Aztec NFT Ownership verifier for Discord. It also has other useful features like creating collection, minting nft, public and private transfer and to fetch nft owner.
 
 Developers can use UmbraHelix by installing the sdk from npm.
 
