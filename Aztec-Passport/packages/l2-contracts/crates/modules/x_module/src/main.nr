@@ -108,7 +108,7 @@ contract XModule {
             expected_username
         );
 
-        assert(expected_username.is_eq(extracted_username.storage));
+        assert(expected_username.eq(extracted_username));
 
         let index = AztecPassport::at(passport_address).get_service_index_private(context.this_address()).view(&mut context);
         let _ = AztecPassport::at(passport_address).verify_service(address, index, context.this_address()).call(&mut context);

@@ -7,13 +7,13 @@ import { HumanityScore, Passport, Verification } from './-components';
 
 const AboutComponent = () => {
   return (
-    <div className='hide-scrollbar max-h-screen overflow-y-scroll py-12'>
+    <div className='hide-scrollbar max-h-screen overflow-y-scroll py-4'>
       <Navbar />
       <div className='flex flex-col'>
         <div className='mx-auto'>
           <HumanityScore />
         </div>
-        <div className='relative mx-auto my-12'>
+        <div className='relative mx-auto my-4'>
           <Passport />
         </div>
         <div className='relative mx-auto flex min-h-[30rem] w-full max-w-screen-xl flex-col'>

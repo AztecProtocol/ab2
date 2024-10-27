@@ -283,3 +283,14 @@ export const generateInputs = async (
   }
   return { ...commonInputs, ...otherInputs } as WithBodyParams;
 };
+
+export const Stamp = {
+  x: '/stamps/x.svg',
+  balance: '/stamps/balance.svg',
+  github: '/stamps/github.svg',
+  google: '/stamps/google.svg',
+  linkedin: '/stamps/linkedin.svg',
+  biometric: '/stamps/biometric.svg',
+  ens: '/stamps/ens.svg',
+  vc: '/stamps/vc.svg',
+};

@@ -122,17 +122,6 @@ export function makeEmailAddressCharTable(): string {
   return tableStr;
 }
 
-export const getXUsername = (username: string): BoundedVec => {
-  const [padded] = sha256Pad(Uint8Array.from(Buffer.from(username)), 64);
-
-  const vec: BoundedVec = {
-    storage: Uint8ArrayToCharArray(padded),
-    len: username.length.toString(),
-  };
-
-  return vec;
-};
-
 export const padEmail = (email: string) => {
   const arr = Array.from(Buffer.from(email).map((v) => v)).map((v) =>
     v.toString()
@@ -140,7 +129,21 @@ export const padEmail = (email: string) => {
   while (arr.length < 320) {
     arr.push('0');
   }
+
   return arr.map((e) => BigInt(e));
+};
+
+export const getXUsername = (username: string) => {
+  const arr = Array.from(Buffer.from(username).map((v) => v)).map((v) =>
+    v.toString()
+  );
+  while (arr.length < 64) {
+    arr.push('0');
+  }
+  return {
+    storage: arr,
+    len: username.length.toString(),
+  } as BoundedVec;
 };
 
 export const extractDataFromVec = (data: BoundedVec): string => {

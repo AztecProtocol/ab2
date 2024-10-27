@@ -1,29 +1,6 @@
 use dep::string_search::{SubString, SubString128, StringBody16384, SubString64};
 use dep::string_search::StringBody;
 
-trait Equal<T> {
-    fn is_eq(self, array: T) -> bool;
-}
-
-impl<let MaxLen: u32, let M: u32> Equal<[u8; M]> for BoundedVec<u8, MaxLen> {
-    fn is_eq(self, array: [u8; M]) -> bool {
-        let mut res = true;
-        if (self.len != array.len()) {
-            res = false;
-        }
-
-        for i in 0..MaxLen {
-            if (i < self.len) {
-                if (self.storage[i] != array[i]) {
-                    res = false;
-                }
-            }
-        }
-
-        res
-    }
-}
-
 pub fn find_x_username(
     data: [u8; 16384],
     data_length: u32,

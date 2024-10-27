@@ -171,8 +171,12 @@ pub contract AztecPassport {
 
         let max_theortical = total_base_contribution + ((total_max_contribution * total_weight) / SCALE);
 
-        let round_to_hundred = (final_score * 100 * SCALE) / max_theortical;
+        let mut rounded_score = final_score;
 
-        round_to_hundred
+        if (rounded_score > SCALE * 100) {
+            rounded_score = (final_score * 100 * SCALE) / max_theortical;
+        }
+
+        rounded_score
     }
 }

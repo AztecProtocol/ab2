@@ -15,6 +15,7 @@ import { useGoogleAuth } from '@zk-email/zk-email-sdk';
 import { useLocalStorage } from 'usehooks-ts';
 import { toHex } from 'viem';
 import { useWriteContract } from 'wagmi';
+import { Service } from '~/types';
 
 import KYCAgeCircuit from '../../../assets/public/kyc_age_verify.json';
 import {
@@ -117,7 +118,7 @@ export const usePassport = () => {
       weight: bigint;
     }[];
 
-    const verifiedServices = services
+    const verifiedServices: Service[] = services
       .filter((s) => s.address.toString() !== AztecAddress.ZERO.toString())
       .map((s) => ({
         service: getService(s.address.toString()),

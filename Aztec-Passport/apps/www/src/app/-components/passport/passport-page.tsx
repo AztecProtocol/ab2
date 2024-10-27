@@ -1,9 +1,13 @@
-import { getTransforms } from '~/lib/helpers';
+import { Stamp, getTransforms } from '~/lib/helpers';
 import { cn } from '~/lib/utils';
 
 import { type Variants, motion } from 'framer-motion';
 import AztecLogo from 'public/assets/aztec.svg';
-import type { PageProps } from '~/types';
+import type { PageProps, Service } from '~/types';
+
+interface PassportPageProps extends PageProps {
+  services: [Service | null, Service | null, Service | null, Service | null];
+}
 
 export const PassportPage = ({
   children,
@@ -12,7 +16,8 @@ export const PassportPage = ({
   currentPage,
   goToNextPage,
   goToPreviousPage,
-}: PageProps) => {
+  services,
+}: PassportPageProps) => {
   const isLeftSide = currentPage > index;
 
   const onClick = () => {
@@ -54,7 +59,29 @@ export const PassportPage = ({
       )}
       onClick={onClick}
     >
-      <div className='relative flex h-full items-center justify-center gap-4'>
+      <div className='relative flex h-full gap-4'>
+        <div className='z-[2] grid w-full grid-cols-2 place-items-center justify-around'>
+          {services.map((s, i) => {
+            if (s)
+              return (
+                <div key={s.address}>
+                  <img
+                    alt={s.service}
+                    className='h-32 w-32'
+                    src={Stamp[s.service]}
+                  />
+                </div>
+              );
+            return (
+              <div
+                key={`page-${String(index)}-stamp-${String(i)}`}
+                className='invisible'
+              >
+                a
+              </div>
+            );
+          })}
+        </div>
         <img
           alt='Aztec Logo'
           className='absolute right-1/2 top-1/2 h-[16rem] w-[16rem] -translate-y-1/2 translate-x-1/2'
