@@ -31,6 +31,7 @@ Aztec Passport is an identity verification platform that enables users to verify
   - **Social Verification Module**: Verifies social accounts using zk-email proofs, enabling private proof of ownership for platforms like Twitter, GitHub, or LinkedIn.
 
   - **zkJWT Contracts**: Verifies DIDs by processing JWTs using zk-proofs.
+  - **Biometric Verification Module**: Verifies government-issued IDs using face descriptors, ensuring secure and private identity verification.
 
   - **Message Portal Contracts**: Utilize Aztec’s L1-to-L2 message portal to verify on-chain activities such as balances, transactions, and other blockchain interactions, ensuring cross-layer communication.
 
