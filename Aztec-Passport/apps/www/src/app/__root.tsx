@@ -1,5 +1,5 @@
 import { Outlet, createRootRoute } from '@tanstack/react-router';
-import { TanStackRouterDevtools } from '@tanstack/router-devtools';
+// import { TanStackRouterDevtools } from '@tanstack/router-devtools';
 import { Web3Provider, ZKEmailProvider } from '~/providers';
 
 import { Toaster } from '~/components/ui/sonner';
@@ -10,7 +10,7 @@ const RootComponent = () => {
       <ZKEmailProvider>
         <Outlet />
         <Toaster />
-        <TanStackRouterDevtools position='bottom-right' />
+        {/* <TanStackRouterDevtools position='bottom-right' /> */}
       </ZKEmailProvider>
     </Web3Provider>
   );
