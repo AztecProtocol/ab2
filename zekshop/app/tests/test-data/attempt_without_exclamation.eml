@@ -1,0 +1,97 @@
+Delivered-To: nikolaykostadinov21@gmail.com
+Received: by 2002:a05:612c:1fc3:b0:49e:6cf9:b269 with SMTP id kr3csp267147vqb;
+        Fri, 25 Oct 2024 19:36:18 -0700 (PDT)
+X-Received: by 2002:a05:690c:dd3:b0:6e8:497:49cc with SMTP id 00721157ae682-6e9d88d02d8mr17124867b3.2.1729910178210;
+        Fri, 25 Oct 2024 19:36:18 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1729910178; cv=none;
+        d=google.com; s=arc-20240605;
+        b=UJy016qV2aR+hVBQTg3hhtXDlaaqYhLxmX2QCcVVwKEpNwEi3Qty+j4XB/F6T3nOkp
+         pu4srHIE4z+rUol2xEK29KRW3hQkjMrUAlj/Qmazoq6O1/KbolU4sltEFE+SRJxhtdk5
+         KsAzgYnY2U0NPFbEOY00x6zI9vcLvmvrh6pGycrtfvrhUuQQUKXM0cjPqxb9xmoopl4r
+         vI6Zqmj1aLpXlhS4MwOYhW6wFAp0Jsjr+xwtRI2wvW9SALDczrcsvlg5BizsLVQtGL+H
+         MczbYDYCowQkZjqZr5scDLN+nOLmtlVBHHyyTv0S/2q172RYy7XYe4Xs4wyBlPkE0ODb
+         4z1g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=dP+iwcLYwzrmPIQ2l72GOlPdc6BJhnyDdz4bNdtmqC4=;
+        fh=JytCMoVlCNjejLn6SgHZnM84jQwkWALJyT+6Bij+Cww=;
+        b=N0A/dELL6s3/A1Ual6KHm5ESrAI0dE+N8MMjlXxJCE/3niKNUxncHy8SBCBzsLw+eZ
+         pOjpk+3EnlAij+n1OfNSkRkWWS0U8nqM4po8j0ab0BYCbcpzHIm3z2/NEt/lUEGVXXsp
+         9GKGrXR5s//GdVBaj45o+qtC4z5dVlJzOrcZPFc83I0PzHmr8iQYgBJ91YnzYRPJ6vVE
+         4uIr8dt6R0VMcg3oJxwT2OUyWjkOW/aP+3u2RSiCeatFu4LzNTY3MJ7H5pydltSnYIvS
+         CZ7tHrIp1EBdM5bIvsWC/4bvvF5DM0IXJ2iGi3h88xTbkZe5fySrOJMghYReszbkjA9B
+         TbtA==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=FHPDUvUd;
+       spf=pass (google.com: domain of nikossta4@gmail.com designates 209.85.220.41 as permitted sender) smtp.mailfrom=nikossta4@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dara=pass header.i=@gmail.com
+Return-Path: <nikossta4@gmail.com>
+Received: from mail-sor-f41.google.com (mail-sor-f41.google.com. [209.85.220.41])
+        by mx.google.com with SMTPS id 00721157ae682-6e9c6c10bebsor18595387b3.9.2024.10.25.19.36.18
+        for <nikolaykostadinov21@gmail.com>
+        (Google Transport Security);
+        Fri, 25 Oct 2024 19:36:18 -0700 (PDT)
+Received-SPF: pass (google.com: domain of nikossta4@gmail.com designates 209.85.220.41 as permitted sender) client-ip=209.85.220.41;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=FHPDUvUd;
+       spf=pass (google.com: domain of nikossta4@gmail.com designates 209.85.220.41 as permitted sender) smtp.mailfrom=nikossta4@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dara=pass header.i=@gmail.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729910178; x=1730514978; dara=google.com;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=dP+iwcLYwzrmPIQ2l72GOlPdc6BJhnyDdz4bNdtmqC4=;
+        b=FHPDUvUdYSUNtw2RjYx6hFjyQiYIecQPM7zQyUM8ppJhiP5kjIVG1IH9lXlraitqUl
+         MgDFr2PnSTYx/XHChfQ/KQUNlr0QloFNNPo79wuk8Kt4TIjjeoG+BdYJtY3gK7iMapVu
+         ldxb8XaCiSvXs9bgJthPUCLDfZhZWEdri/Xo3gk8vq9efFhdUchDGGVjmkg9eeI2tnDb
+         aoFj0H2ZB31g50SLzCHnXXBYxxQY7DFaHyKydYCyNG6/nBL3+xLhKt8gpV/g0mN3tuNz
+         SkcyvXY9rThRUlVh6GCPPZB3Yl88YKzrLjl0JynlJ/O9Xzwd6X474/H6nYS4is9Q53B4
+         sOCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729910178; x=1730514978;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=dP+iwcLYwzrmPIQ2l72GOlPdc6BJhnyDdz4bNdtmqC4=;
+        b=Sy0PTjgM/MCZqnopKBpcWGKdvHM3NEtOTzmTnU1npVh/Ardj+sl/CyMr2OkqK60evA
+         i+NXd/s3aBwcRfA429XbiMDt2yrdfqjyi+rZMEWacBJDGydYoUpdV++7GrBszW8zQ8+W
+         C/RY5q/fD7KgDll7WxkgHxCPlhwcG1AIsfZDmvjZChqhqyz8gMQQiyxwXOXQf7YBdcyH
+         FUBwkYy0BZJbgYFCVE/AavW72pumU7rclvVR86Ioc7eUqzlb1NjJCInd7HDXYQUdJYYG
+         MgcKQD1qlTNTUSYaxUOQtO5A6OmUejXNiIyCXM9TrDmAL18ulYE3DrPoubVQ0WHXQmsh
+         JZqw==
+X-Gm-Message-State: AOJu0Yyax6yNzmKe5w5/uChL/KzythWLg1viJZf9kRBaMvBr25LKhZ0d
+	5f3zM/hrgF+KtP8+kerT7fTkOz27oQEq1aJx8rzrB1m/rIYhdIOHkOM/XaKIHmZ4/NsXRyZ7/vS
+	d/jXl7ZFM8fE/Soar8i7NfwJWmC6glQve
+X-Google-Smtp-Source: AGHT+IHSZIe9ljwRnZXS9XaYXvDUDEB8ACOWRmgdwJebuKoEpjyRm/tByMq4mQJrKxdpzrhqhvWzNbNx6xDr8nci4TE=
+X-Received: by 2002:a05:6902:1884:b0:e2e:aae:cb83 with SMTP id
+ 3f1490d57ef6-e3087b838d8mr1754455276.25.1729910177756; Fri, 25 Oct 2024
+ 19:36:17 -0700 (PDT)
+MIME-Version: 1.0
+From: nikolai kostadinov <nikossta4@gmail.com>
+Date: Sat, 26 Oct 2024 05:36:07 +0300
+Message-ID: <CAAN=4oJR5vGWB0i4smqymn6a8tHwVBhXjYbRJ+i85MDeOGSyvg@mail.gmail.com>
+Subject: Confirmation about successful purchase. Purchase number: 1294352407
+To: nikolaykostadinov21@gmail.com
+Content-Type: multipart/alternative; boundary="000000000000a37ed2062558199c"
+
+--000000000000a37ed2062558199c
+Content-Type: text/plain; charset="UTF-8"
+
+Thank you so much for shopping at ZeKshop! Your purchase number is:
+1294352407
+
+--000000000000a37ed2062558199c
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div><table cellpadding=3D"0"><tbody><tr><td colspan=3D"3"=
+><table cellpadding=3D"0"><tbody><tr><td><div id=3D"m_4747089800201983601gm=
+ail-:v5" aria-haspopup=3D"true" role=3D"button" aria-label=3D"Show details"=
+><br></div></td></tr></tbody></table></td></tr></tbody></table></div><div i=
+d=3D"m_4747089800201983601gmail-:us"><div></div><div></div><div></div><div>=
+</div></div><div><div></div><div dir=3D"ltr">Thank you so much for shopping=
+ at ZeKshop! Your purchase number is: 1294352407</div></div></div>
+
+--000000000000a37ed2062558199c--
