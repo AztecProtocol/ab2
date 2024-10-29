@@ -6,6 +6,10 @@ Check the [official paper of ZeKshop](./ZeKshop-whitepaper.pdf)
 
 ZeKshop addresses the severe privacy issues in purchasing erotic merchandise by using Aztec, a privacy-first Layer 2 on Ethereum. By leveraging zero-knowledge proofs, ZeKshop ensures confidential transactions, secure communications, and anonymous order deliveries without collecting personal data from users. This document outlines the key features of ZeKshop, including private payment methods, order receipt through BoxNow, and secure communication using zkemail.
 
+## Diagram
+
+![ZeKshop diagram](docs_imgs/ZeKshop_diagram.png)
+
 ## Introduction
 
 Shops that are selling and offering erotic merchandise (commonly referred to as “adult stores”) are targeting everyone that is an adult.They are presenting the opportunity to buy and order everything confidentially and without disclosure of personal data. They are trying to (as they say) collect as little personal data as possible and still If a personal data is collected by a third party, the data operator must ensure that personal data is collected legally. But as you can probably guess, there is a huge privacy issue. You are trusting them that they will collect as little data as possible, your eventually collected personal data might go to some third party that you don’t even know. There is no room for privacy here, you are just blindly trusting them. ZeKshop solves this severe privacy issue.
