@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 // import { createAccount } from '../handlers/create-account.js'
 // import { CREATE_ACCOUNT_DEFAULT_PARAMS } from '../constants.js'
-import { useAtomValue } from 'jotai'
-import { pxeAtom } from '../atoms.js'
+import { useAtomValue } from "jotai";
+import { pxeAtom } from "../atoms.js";
 // import { interactWithCounter } from '../utils/setup.js'
-import { useAccount } from '../hooks/useAccounts.js'
-import { Spinner } from './Spinnner.js'
+import { useAccount } from "../hooks/useAccounts.js";
+import { Spinner } from "./Spinnner.js";
 // import { FeeOpts } from '../utils/options/fees.js'
 import {
   AccountWalletWithSecretKey,
@@ -17,109 +17,131 @@ import {
   Fr,
   Note,
   PXE,
+} from "@aztec/aztec.js";
+import chalk from "chalk";
+import { toast } from "react-hot-toast";
+import { TokenContract } from "@aztec/noir-contracts.js";
+import { NFTContract } from "@aztec/noir-contracts.js/NFT";
+import { pedersenHash } from "@aztec/foundation/crypto";
+import { useSearchParams } from "react-router-dom";
 
-} from '@aztec/aztec.js'
-import chalk from 'chalk'
-import { toast } from 'react-hot-toast'
-import { TokenContract } from '@aztec/noir-contracts.js'
-import { NFTContract } from '@aztec/noir-contracts.js/NFT'
-import { pedersenHash } from '@aztec/foundation/crypto'
-
-const TRANSIENT_STORAGE_SLOT_PEDERSEN_INDEX = 3
+const TRANSIENT_STORAGE_SLOT_PEDERSEN_INDEX = 3;
 
 export const WalletInteractions = ({ pxe }: { pxe: PXE }) => {
-  // const pxeClient = useAtomValue(pxeAtom)
-  const pxeClient = pxe
-  const { deployToken, createAccount, deployNFTContract } = useAccount()
-  const [wallets, setWallets] = useState<AccountWalletWithSecretKey[]>([])
-  const [customWallets, setCustomWallets] = useState<AccountWalletWithSecretKey[]>([])
-  const [currentWallet, setCurrentWallet] = useState<AccountWalletWithSecretKey | null>(null)
+  const pxeClient = pxe;
+  const { deployToken, createAccount, deployNFTContract } = useAccount();
+  const [wallets, setWallets] = useState<AccountWalletWithSecretKey[]>([]);
+  const [customWallets, setCustomWallets] = useState<
+    AccountWalletWithSecretKey[]
+  >([]);
+  const [currentWallet, setCurrentWallet] =
+    useState<AccountWalletWithSecretKey | null>(null);
   const [isInProgressObj, setIsInProgressObj] = useState<{
-    [key: string]: boolean
-  }>({})
-  const [tokenContract, setTokenContract] = useState<TokenContract | null>(null)
-  const [nftContract, setNFTContract] = useState<NFTContract | null>(null)
-  const [receipentAddress, setReceipentAddress] = useState('')
-  const [transferAmount, setTransferAmount] = useState<number>(0)
-  const [shieldAmount, setShiedAmount] = useState<number>(0)
+    [key: string]: boolean;
+  }>({});
+  const [tokenContract, setTokenContract] = useState<TokenContract | null>(
+    null
+  );
+  const [nftContract, setNFTContract] = useState<NFTContract | null>(null);
+  const [receipentAddress, setReceipentAddress] = useState("");
+  const [transferAmount, setTransferAmount] = useState<number>(0);
+  const [shieldAmount, setShiedAmount] = useState<number>(0);
 
-  const [tokenId, setTokenId] = useState(0)
-  const [NFTMintAddress, setNFTMintAddress] = useState('')
+  const [tokenId, setTokenId] = useState(0);
+  const [NFTMintAddress, setNFTMintAddress] = useState("");
 
-  const [storageSlotRandomness, setStorageSlotRandomness] = useState<Fr | null>(null)
+  const [storageSlotRandomness, setStorageSlotRandomness] = useState<Fr | null>(
+    null
+  );
 
+  const [searchParams] = useSearchParams();
+  const userId = searchParams.get("userId");
+
+  console.log("USER ID alsjdf", userId);
 
   const handleCreateAccount = async () => {
-    setIsInProgressObj({ ...isInProgressObj, createAccount: true })
+    setIsInProgressObj({ ...isInProgressObj, createAccount: true });
     // // createAccount({client: pxeAtom, ...CREATE_ACCOUNT_DEFAULT_PARAMS});
-    const wallet = await createAccount(pxeClient!)
+    const wallet = await createAccount(pxeClient!);
     if (wallet) {
-      setWallets([...wallets, wallet])
+      setWallets([...wallets, wallet]);
     }
-    setIsInProgressObj({ ...isInProgressObj, createAccount: false })
-  }
+    setIsInProgressObj({ ...isInProgressObj, createAccount: false });
+  };
 
   const handleDeployToken = async () => {
     if (!currentWallet) {
-      console.error('Current Wallet not found!')
-      return
+      console.error("Current Wallet not found!");
+      return;
     }
-    setIsInProgressObj({ ...isInProgressObj, deployToken: true })
-    console.log('Deploying token')
-    const tokenContract = await deployToken(currentWallet)
-    setTokenContract(tokenContract)
+    setIsInProgressObj({ ...isInProgressObj, deployToken: true });
+    console.log("Deploying token");
+    const tokenContract = await deployToken(currentWallet);
+    setTokenContract(tokenContract);
 
-    setIsInProgressObj({ ...isInProgressObj, deployToken: false })
-  }
+    setIsInProgressObj({ ...isInProgressObj, deployToken: false });
+  };
 
   const handleDeployNFTContract = async () => {
     if (!currentWallet) {
-      console.error('Current Wallet not found!')
-      return
+      console.error("Current Wallet not found!");
+      return;
     }
-    setIsInProgressObj({ ...isInProgressObj, nftContract: true })
-    console.log('Deploying token')
-    const nftContract = await deployNFTContract(currentWallet, 'Umbra OG', 'UMOG')
-    setNFTContract(nftContract)
+    setIsInProgressObj({ ...isInProgressObj, nftContract: true });
+    console.log("Deploying token");
+    const nftContract = await deployNFTContract(
+      currentWallet,
+      "Umbra OG",
+      "UMOG"
+    );
+    setNFTContract(nftContract);
 
-    setIsInProgressObj({ ...isInProgressObj, nftContract: false })
-  }
+    setIsInProgressObj({ ...isInProgressObj, nftContract: false });
+  };
 
   const handleMintPublic100 = async () => {
     if (!tokenContract || !currentWallet) {
-      console.error('no contract or addrees')
-      return
+      console.error("no contract or addrees");
+      return;
     }
-    setIsInProgressObj({ ...isInProgressObj, mintPublic: true })
-    const tx = await tokenContract.methods.mint_public(currentWallet.getAddress(), 100n).send()
+    setIsInProgressObj({ ...isInProgressObj, mintPublic: true });
+    const tx = await tokenContract.methods
+      .mint_public(currentWallet.getAddress(), 100n)
+      .send();
 
-    console.log(`Sent mint transaction ${await tx.getTxHash()}`)
-    console.log(chalk.blackBright('Awaiting transaction to be mined'))
-    const receipt = await tx.wait()
+    console.log(`Sent mint transaction ${await tx.getTxHash()}`);
+    console.log(chalk.blackBright("Awaiting transaction to be mined"));
+    const receipt = await tx.wait();
     console.log(
-      chalk.green(`Transaction has been mined on block ${chalk.bold(receipt.blockNumber)}`)
-    )
-    setIsInProgressObj({ ...isInProgressObj, mintPublic: false })
-  }
+      chalk.green(
+        `Transaction has been mined on block ${chalk.bold(receipt.blockNumber)}`
+      )
+    );
+    setIsInProgressObj({ ...isInProgressObj, mintPublic: false });
+  };
 
   const handleMintPrivate100 = async () => {
     if (!tokenContract || !currentWallet) {
-      console.error('no contract or addrees')
-      return
+      console.error("no contract or addrees");
+      return;
     }
 
-    setIsInProgressObj({ ...isInProgressObj, mintPrivate: true })
-    const random = Fr.random()
-    const secretHash = await computeSecretHash(random)
+    setIsInProgressObj({ ...isInProgressObj, mintPrivate: true });
+    const random = Fr.random();
+    const secretHash = await computeSecretHash(random);
 
-    const tx = await tokenContract.methods.mint_private(100n, secretHash).send()
-    console.log(`Sent mint transaction ${await tx.getTxHash()}`)
-    console.log(chalk.blackBright('Awaiting transaction to be mined'))
-    const receipt = await tx.wait()
+    const tx = await tokenContract.methods
+      .mint_private(100n, secretHash)
+      .send();
+    console.log(`Sent mint transaction ${await tx.getTxHash()}`);
+    console.log(chalk.blackBright("Awaiting transaction to be mined"));
+    const receipt = await tx.wait();
     console.log(
-      chalk.green(`Transaction has been mined on block ${chalk.bold(receipt.blockNumber)}`)
-    )
-    const note = new Note([new Fr(100n), secretHash])
+      chalk.green(
+        `Transaction has been mined on block ${chalk.bold(receipt.blockNumber)}`
+      )
+    );
+    const note = new Note([new Fr(100n), secretHash]);
     const extendedNote = new ExtendedNote(
       note,
       currentWallet.getAddress(),
@@ -127,61 +149,74 @@ export const WalletInteractions = ({ pxe }: { pxe: PXE }) => {
       TokenContract.storage.pending_shields.slot,
       TokenContract.notes.TransparentNote.id,
       receipt.txHash
-    )
-    await currentWallet.addNote(extendedNote)
+    );
+    await currentWallet.addNote(extendedNote);
 
     console.log(
       chalk.bgBlueBright(
         `Redeeming created note for second wallet: ${currentWallet.getAddress()} \n`
       )
-    )
+    );
 
     const tx1 = await tokenContract.methods
       .redeem_shield(currentWallet.getAddress(), 100n, random)
-      .send()
-    console.log(`Sent mint transaction ${await tx.getTxHash()}`)
-    console.log(chalk.blackBright('Awaiting transaction to be mined'))
-    const receipt1 = await tx1.wait()
+      .send();
+    console.log(`Sent mint transaction ${await tx.getTxHash()}`);
+    console.log(chalk.blackBright("Awaiting transaction to be mined"));
+    const receipt1 = await tx1.wait();
     console.log(
-      chalk.green(`Transaction has been mined on block ${chalk.bold(receipt1.blockNumber)}`)
-    )
-    setIsInProgressObj({ ...isInProgressObj, mintPrivate: false })
-  }
+      chalk.green(
+        `Transaction has been mined on block ${chalk.bold(
+          receipt1.blockNumber
+        )}`
+      )
+    );
+    setIsInProgressObj({ ...isInProgressObj, mintPrivate: false });
+  };
 
   const checkBalancePublic = async () => {
     if (!tokenContract || !currentWallet) {
-      console.error('no contract or addrees')
-      return
+      console.error("no contract or addrees");
+      return;
     }
 
     const balance = await tokenContract.methods
       .balance_of_public(currentWallet.getAddress())
-      .simulate()
+      .simulate();
     toast.success(
-      `Public Balance of address ${currentWallet.getAddress().toShortString()}: ${balance}`
-    )
-  }
+      `Public Balance of address ${currentWallet
+        .getAddress()
+        .toShortString()}: ${balance}`
+    );
+  };
 
   const checkBalancePrivate = async () => {
     if (!tokenContract || !currentWallet) {
-      console.error('no contract or addrees')
-      return
+      console.error("no contract or addrees");
+      return;
     }
 
     const balance = await tokenContract.methods
       .balance_of_private(currentWallet.getAddress())
-      .simulate()
+      .simulate();
     toast.success(
-      `Private Balance of address ${currentWallet.getAddress().toShortString()}: ${balance}`
-    )
-  }
+      `Private Balance of address ${currentWallet
+        .getAddress()
+        .toShortString()}: ${balance}`
+    );
+  };
 
   const handlePublicTransfer = async () => {
-    if (!receipentAddress || transferAmount === 0 || !tokenContract || !currentWallet) {
-      return toast.error(`Invalid call`)
+    if (
+      !receipentAddress ||
+      transferAmount === 0 ||
+      !tokenContract ||
+      !currentWallet
+    ) {
+      return toast.error(`Invalid call`);
     }
     try {
-      setIsInProgressObj({ ...isInProgressObj, transferPublic: true })
+      setIsInProgressObj({ ...isInProgressObj, transferPublic: true });
 
       const tx = tokenContract.methods
         .transfer_public(
@@ -190,67 +225,84 @@ export const WalletInteractions = ({ pxe }: { pxe: PXE }) => {
           BigInt(transferAmount),
           BigInt(0)
         )
-        .send()
-      console.log(`Sent mint transaction ${await tx.getTxHash()}`)
-      console.log(chalk.blackBright('Awaiting transaction to be mined'))
-      const receipt1 = await tx.wait()
+        .send();
+      console.log(`Sent mint transaction ${await tx.getTxHash()}`);
+      console.log(chalk.blackBright("Awaiting transaction to be mined"));
+      const receipt1 = await tx.wait();
       console.log(
-        chalk.green(`Transaction has been mined on block ${chalk.bold(receipt1.blockNumber)}`)
-      )
+        chalk.green(
+          `Transaction has been mined on block ${chalk.bold(
+            receipt1.blockNumber
+          )}`
+        )
+      );
     } catch (e: any) {
-      toast.error(e.toString())
+      toast.error(e.toString());
     } finally {
-      setIsInProgressObj({ ...isInProgressObj, transferPublic: false })
+      setIsInProgressObj({ ...isInProgressObj, transferPublic: false });
     }
-  }
+  };
   const handlePrivateTransfer = async () => {
-    if (!receipentAddress || transferAmount === 0 || !tokenContract || !currentWallet) {
-      return toast.error(`Invalid call`)
+    if (
+      !receipentAddress ||
+      transferAmount === 0 ||
+      !tokenContract ||
+      !currentWallet
+    ) {
+      return toast.error(`Invalid call`);
     }
 
     try {
-      setIsInProgressObj({ ...isInProgressObj, transferPrivate: true })
+      setIsInProgressObj({ ...isInProgressObj, transferPrivate: true });
       const tx = await tokenContract.methods
         .transfer(receipentAddress as any as AztecAddress, transferAmount)
-        .send()
-      console.log(`Sent mint transaction ${await tx.getTxHash()}`)
-      console.log(chalk.blackBright('Awaiting transaction to be mined'))
-      const receipt1 = await tx.wait()
+        .send();
+      console.log(`Sent mint transaction ${await tx.getTxHash()}`);
+      console.log(chalk.blackBright("Awaiting transaction to be mined"));
+      const receipt1 = await tx.wait();
       console.log(
-        chalk.green(`Transaction has been mined on block ${chalk.bold(receipt1.blockNumber)}`)
-      )
+        chalk.green(
+          `Transaction has been mined on block ${chalk.bold(
+            receipt1.blockNumber
+          )}`
+        )
+      );
     } catch (e: any) {
-      toast.error(e.toString())
+      toast.error(e.toString());
     } finally {
-      setIsInProgressObj({ ...isInProgressObj, transferPrivate: false })
+      setIsInProgressObj({ ...isInProgressObj, transferPrivate: false });
     }
-  }
+  };
 
   const handleShield = async () => {
     if (shieldAmount === 0 || !tokenContract || !currentWallet) {
-      return toast.error(`Invalid call`)
+      return toast.error(`Invalid call`);
     }
     try {
-      setIsInProgressObj({ ...isInProgressObj, shield: true })
-      const secret = Fr.random()
-      const secret_hash = computeSecretHash(secret)
+      setIsInProgressObj({ ...isInProgressObj, shield: true });
+      const secret = Fr.random();
+      const secret_hash = computeSecretHash(secret);
       const tx = await tokenContract.methods
         .shield(currentWallet.getAddress(), shieldAmount, secret_hash, 0)
-        .send()
-      console.log(`Sent mint transaction ${await tx.getTxHash()}`)
-      console.log(chalk.blackBright('Awaiting transaction to be mined'))
-      const receipt1 = await tx.wait()
+        .send();
+      console.log(`Sent mint transaction ${await tx.getTxHash()}`);
+      console.log(chalk.blackBright("Awaiting transaction to be mined"));
+      const receipt1 = await tx.wait();
       console.log(
-        chalk.green(`Transaction has been mined on block ${chalk.bold(receipt1.blockNumber)}`)
-      )
+        chalk.green(
+          `Transaction has been mined on block ${chalk.bold(
+            receipt1.blockNumber
+          )}`
+        )
+      );
     } catch (e: any) {
-      toast.error(e.toString())
+      toast.error(e.toString());
     } finally {
-      setIsInProgressObj({ ...isInProgressObj, shield: false })
+      setIsInProgressObj({ ...isInProgressObj, shield: false });
     }
-  }
+  };
 
-  const handleFetchPendingShields = async () => { }
+  const handleFetchPendingShields = async () => {};
 
   const handleCreateCustomAccount = async () => {
     // setIsInProgressObj({ ...isInProgressObj, createCustomAccount: true })
@@ -260,153 +312,243 @@ export const WalletInteractions = ({ pxe }: { pxe: PXE }) => {
     //   setCustomWallets([...customWallets, customWallet])
     // }
     // setIsInProgressObj({ ...isInProgressObj, createCustomAccount: false })
-  }
+  };
 
   const handleMintNFT = async () => {
     if (!nftContract || !currentWallet) {
-      console.error('no contract or addrees')
-      return
+      console.error("no contract or addrees");
+      return;
     }
-    setIsInProgressObj({ ...isInProgressObj, isMintingNFT: true })
-    const tx = await nftContract.methods.mint(AztecAddress.fromString(NFTMintAddress), tokenId).send()
+    setIsInProgressObj({ ...isInProgressObj, isMintingNFT: true });
+    const tx = await nftContract.methods
+      .mint(AztecAddress.fromString(NFTMintAddress), tokenId)
+      .send();
 
-    console.log(`Sent nft mint transaction ${await tx.getTxHash()}`)
-    console.log(chalk.blackBright('Awaiting transaction to be mined'))
-    const receipt = await tx.wait()
+    console.log(`Sent nft mint transaction ${await tx.getTxHash()}`);
+    console.log(chalk.blackBright("Awaiting transaction to be mined"));
+    const receipt = await tx.wait();
     console.log(
-      chalk.green(`Transaction has been mined on block ${chalk.bold(receipt.blockNumber)}`)
-    )
-    setIsInProgressObj({ ...isInProgressObj, isMintingNFT: false })
-  }
+      chalk.green(
+        `Transaction has been mined on block ${chalk.bold(receipt.blockNumber)}`
+      )
+    );
+    setIsInProgressObj({ ...isInProgressObj, isMintingNFT: false });
+  };
 
   const handlePublicTransferNFT = async () => {
     if (!nftContract || !currentWallet) {
-      console.error('no contract or addrees')
-      return
+      console.error("no contract or addrees");
+      return;
     }
-    setIsInProgressObj({ ...isInProgressObj, isPublicTransferNFTInProgress: true })
-    const tx = await nftContract.methods.transfer_in_public(currentWallet.getAddress(), AztecAddress.fromString(NFTMintAddress), tokenId, 0).send()
+    setIsInProgressObj({
+      ...isInProgressObj,
+      isPublicTransferNFTInProgress: true,
+    });
+    const tx = await nftContract.methods
+      .transfer_in_public(
+        currentWallet.getAddress(),
+        AztecAddress.fromString(NFTMintAddress),
+        tokenId,
+        0
+      )
+      .send();
 
-    console.log(`Sent public nft transfer transaction ${await tx.getTxHash()}`)
-    console.log(chalk.blackBright('Awaiting transaction to be mined'))
-    const receipt = await tx.wait()
+    console.log(`Sent public nft transfer transaction ${await tx.getTxHash()}`);
+    console.log(chalk.blackBright("Awaiting transaction to be mined"));
+    const receipt = await tx.wait();
     console.log(
-      chalk.green(`Transaction has been mined on block ${chalk.bold(receipt.blockNumber)}`)
-    )
-    setIsInProgressObj({ ...isInProgressObj, isPublicTransferNFTInProgress: false })
-  }
+      chalk.green(
+        `Transaction has been mined on block ${chalk.bold(receipt.blockNumber)}`
+      )
+    );
+    setIsInProgressObj({
+      ...isInProgressObj,
+      isPublicTransferNFTInProgress: false,
+    });
+  };
 
   const handleFetchNFTOwner = async () => {
     if (!nftContract) {
-      console.error('no contract or addrees')
-      return
+      console.error("no contract or addrees");
+      return;
     }
 
     try {
-      setIsInProgressObj({ ...isInProgressObj, isFetchingNFTOwner: true })
+      setIsInProgressObj({ ...isInProgressObj, isFetchingNFTOwner: true });
       const owner = await nftContract.methods.owner_of(tokenId).simulate();
-      toast.success(
-        `Owner of token Id ${tokenId}: ${owner}`
-      )
+      toast.success(`Owner of token Id ${tokenId}: ${owner}`);
     } catch (error: any) {
-      toast.error(error.toString())
+      toast.error(error.toString());
     } finally {
-      setIsInProgressObj({ ...isInProgressObj, isFetchingNFTOwner: false })
+      setIsInProgressObj({ ...isInProgressObj, isFetchingNFTOwner: false });
     }
-  }
+  };
 
   const handlePreaparePrivateTransferNFT = async () => {
     if (!nftContract || !currentWallet) {
-      console.error('no contract or addrees')
-      return
+      console.error("no contract or addrees");
+      return;
     }
 
     try {
-      setIsInProgressObj({ ...isInProgressObj, isPreparePrivateTransferNFTInProgress: true })
-      setStorageSlotRandomness(null)
+      setIsInProgressObj({
+        ...isInProgressObj,
+        isPreparePrivateTransferNFTInProgress: true,
+      });
+      setStorageSlotRandomness(null);
       const slotRandomness = Fr.random();
       // const tx = await nftContract.methods.prepare_transfer_to_private(currentWallet.getAddress(), AztecAddress.fromString(NFTMintAddress), slotRandomness).send()
-      const tx = await nftContract.methods.transfer_to_private(AztecAddress.fromString(NFTMintAddress), tokenId).send()
-      console.log(`Private transfer transaction ${await tx.getTxHash()}`)
-      console.log(chalk.blackBright('Awaiting transaction to be mined'))
-      const receipt = await tx.wait()
+      const tx = await nftContract.methods
+        .transfer_to_private(AztecAddress.fromString(NFTMintAddress), tokenId)
+        .send();
+      console.log(`Private transfer transaction ${await tx.getTxHash()}`);
+      console.log(chalk.blackBright("Awaiting transaction to be mined"));
+      const receipt = await tx.wait();
       console.log(
-        chalk.green(`Transaction has been mined on block ${chalk.bold(receipt.blockNumber)}`)
-      )
-      setStorageSlotRandomness(slotRandomness)
-      toast.success('Private Transfer  done')
+        chalk.green(
+          `Transaction has been mined on block ${chalk.bold(
+            receipt.blockNumber
+          )}`
+        )
+      );
+      setStorageSlotRandomness(slotRandomness);
+      toast.success("Private Transfer  done");
     } catch (error: any) {
-      toast.error(error.toString())
+      toast.error(error.toString());
     } finally {
-      setIsInProgressObj({ ...isInProgressObj, isPreparePrivateTransferNFTInProgress: false })
+      setIsInProgressObj({
+        ...isInProgressObj,
+        isPreparePrivateTransferNFTInProgress: false,
+      });
     }
-  }
+  };
 
   const handleFinalizePrivateTransferNFT = async () => {
     if (!nftContract || !currentWallet) {
-      console.error('no contract or addrees')
-      return
+      console.error("no contract or addrees");
+      return;
     }
     if (storageSlotRandomness === null) {
-      return toast.error(`Storage slot randomness shouldn't be null`)
+      return toast.error(`Storage slot randomness shouldn't be null`);
     }
 
-    const commitment = pedersenHash([currentWallet.getAddress().toField(), storageSlotRandomness], TRANSIENT_STORAGE_SLOT_PEDERSEN_INDEX)
+    const commitment = pedersenHash(
+      [currentWallet.getAddress().toField(), storageSlotRandomness],
+      TRANSIENT_STORAGE_SLOT_PEDERSEN_INDEX
+    );
     try {
-      setIsInProgressObj({ ...isInProgressObj, isFinalizePrivateTransferNFTInProgress: true })
-      const tx = await nftContract.methods.finalize_transfer_to_private(tokenId, commitment).send()
-      console.log(`Private transfer transaction ${await tx.getTxHash()}`)
-      console.log(chalk.blackBright('Awaiting transaction to be mined'))
-      const receipt = await tx.wait()
+      setIsInProgressObj({
+        ...isInProgressObj,
+        isFinalizePrivateTransferNFTInProgress: true,
+      });
+      const tx = await nftContract.methods
+        .finalize_transfer_to_private(tokenId, commitment)
+        .send();
+      console.log(`Private transfer transaction ${await tx.getTxHash()}`);
+      console.log(chalk.blackBright("Awaiting transaction to be mined"));
+      const receipt = await tx.wait();
       console.log(
-        chalk.green(`Transaction has been mined on block ${chalk.bold(receipt.blockNumber)}`)
-      )
-      return toast.success('Private Transfer finalize step done')
-
+        chalk.green(
+          `Transaction has been mined on block ${chalk.bold(
+            receipt.blockNumber
+          )}`
+        )
+      );
+      return toast.success("Private Transfer finalize step done");
     } catch (error: any) {
-      return toast.error(error.toString())
+      return toast.error(error.toString());
     } finally {
-      setIsInProgressObj({ ...isInProgressObj, isFinalizePrivateTransferNFTInProgress: false })
-      return
+      setIsInProgressObj({
+        ...isInProgressObj,
+        isFinalizePrivateTransferNFTInProgress: false,
+      });
+      return;
     }
-  }
+  };
 
   const handleFetchPrivateNFTTokenIds = async () => {
-    let nfts: [number[], boolean] = [[], false]
+    let nfts: [number[], boolean] = [[], false];
     if (!nftContract || !currentWallet) {
-      console.error('no contract or addrees')
-      return nfts
+      console.error("no contract or addrees");
+      return nfts;
     }
 
     try {
-      setIsInProgressObj({ ...isInProgressObj, isFetchPrivateNFTTokenIds: true })
-      nfts = await nftContract.methods.get_private_nfts(currentWallet.getAddress(), 0).simulate()
-      toast.success(`Private NFTS: ${nfts}`)
+      setIsInProgressObj({
+        ...isInProgressObj,
+        isFetchPrivateNFTTokenIds: true,
+      });
+      nfts = await nftContract.methods
+        .get_private_nfts(currentWallet.getAddress(), 0)
+        .simulate();
+      toast.success(`Private NFTS: ${nfts}`);
     } catch (error: any) {
-      toast.error(error.toString())
+      toast.error(error.toString());
     } finally {
-      setIsInProgressObj({ ...isInProgressObj, isFetchPrivateNFTTokenIds: false })
-      return nfts
+      setIsInProgressObj({
+        ...isInProgressObj,
+        isFetchPrivateNFTTokenIds: false,
+      });
+      return nfts;
     }
-  }
+  };
 
   const handleVerifyWallet = async () => {
-    const pathname = window.location.pathname
-    const pathParts = pathname.split('/').filter(path => path !== "")
-    if (pathParts.length !== 2 || pathParts[0] !== 'verify') {
-      return toast.error(`Invalid path. path should follow /verify/<token>`)
-    }
-    let privateNFTResponse = await handleFetchPrivateNFTTokenIds()
-    const [tokenIds = [], isMoreNfts] = privateNFTResponse
+    //!! I commented this line because after fixing route issue /verify route was giving error of /verify route not found
+    // const pathname = window.location.pathname;
+    // const pathParts = pathname.split("/").filter((path) => path !== "");
+    // if (pathParts.length !== 2 || pathParts[0] !== "verify") {
+    //   return toast.error(`Invalid path. path should follow /verify/<token>`);
+    // }
+    let privateNFTResponse = await handleFetchPrivateNFTTokenIds();
+    console.log("PRIVATEN NFT RESPONSE", privateNFTResponse);
+    const [tokenIds = [], isMoreNfts] = privateNFTResponse;
     // console.log("Private NFTS", privateNFTs)
 
-    const nonZeroTokenIds = tokenIds.filter((nftTokenId: number) => nftTokenId !== 0)
+    const nonZeroTokenIds = tokenIds.filter(
+      (nftTokenId: number) => nftTokenId !== 0
+    );
     if (nonZeroTokenIds.length === 0) {
-      return toast.error(`Current wallet is not an NFT holder`)
+      return toast.error(`Current wallet is not an NFT holder`);
     }
-    return toast.success("You are an NFT holder", )
-  }
 
+    toast.success(
+      "You are an NFT holder \n So you assigned a role of the NFT owner in our discord server"
+    );
+
+    try {
+      console.log("verifying role");
+      //TODO : HERE ARE THE MAIN CODE TO VERIFY ROLE
+      const response = await fetch(
+        //!! This code is printing like http://localhost:5173/undefined/api/verify-role  i think the reason is it's not in the API folder
+        `${process.env.REACT_APP_API_URL}/api/verify-role`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ userId }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (data.success) {
+        setTimeout(() => {
+          window.close();
+        }, 3000);
+
+        console.log("verified role");
+      } else {
+        throw new Error(data.error || "Verification failed");
+      }
+    } catch (err) {
+      console.log("ERROR in verify", err);
+      // setError(err.message || "Failed to verify. Please try again.");
+    } finally {
+      // setVerifying(false);
+    }
+  };
 
   return (
     <main className="h-screen w-full p-4 md:p-8">
@@ -418,9 +560,11 @@ export const WalletInteractions = ({ pxe }: { pxe: PXE }) => {
             <button
               key={wallet.getAddress().toShortString()}
               onClick={() => {
-                setCurrentWallet(wallet)
+                setCurrentWallet(wallet);
               }}
-              className={`btn ${currentWallet === wallet ? 'btn-primary' : 'btn-secondary'} `}
+              className={`btn ${
+                currentWallet === wallet ? "btn-primary" : "btn-secondary"
+              } `}
             >
               Wallet{idx + 1}
             </button>
@@ -431,9 +575,11 @@ export const WalletInteractions = ({ pxe }: { pxe: PXE }) => {
             <button
               key={wallet.getAddress().toShortString()}
               onClick={() => {
-                setCurrentWallet(wallet)
+                setCurrentWallet(wallet);
               }}
-              className={`btn ${currentWallet === wallet ? 'btn-primary' : 'btn-secondary'} `}
+              className={`btn ${
+                currentWallet === wallet ? "btn-primary" : "btn-secondary"
+              } `}
             >
               Custom Wallet{idx + 1}
             </button>
@@ -444,19 +590,35 @@ export const WalletInteractions = ({ pxe }: { pxe: PXE }) => {
             <button onClick={handleCreateAccount} className="btn btn-primary">
               Create New Wallet {isInProgressObj.createAccount && <Spinner />}
             </button>
-            <button onClick={handleCreateCustomAccount} className="btn btn-primary">
-              Create New Custom Wallet {isInProgressObj.createCustomAccount && <Spinner />}
+            <button
+              onClick={handleCreateCustomAccount}
+              className="btn btn-primary"
+            >
+              Create New Custom Wallet{" "}
+              {isInProgressObj.createCustomAccount && <Spinner />}
             </button>
-            <button onClick={handleDeployToken} className="flex items-center btn btn-primary">
+            <button
+              onClick={handleDeployToken}
+              className="flex items-center btn btn-primary"
+            >
               Deploy Token {isInProgressObj.deployToken && <Spinner />}
             </button>
-            <button onClick={handleDeployNFTContract} className="flex items-center btn btn-primary">
+            <button
+              onClick={handleDeployNFTContract}
+              className="flex items-center btn btn-primary"
+            >
               Deploy NFT Contract {isInProgressObj.nftContract && <Spinner />}
             </button>
-            <button onClick={handleMintPublic100} className="flex items-center btn btn-primary">
+            <button
+              onClick={handleMintPublic100}
+              className="flex items-center btn btn-primary"
+            >
               Mint Public {isInProgressObj.mintPublic && <Spinner />}
             </button>
-            <button onClick={handleMintPrivate100} className="flex items-center btn btn-primary">
+            <button
+              onClick={handleMintPrivate100}
+              className="flex items-center btn btn-primary"
+            >
               Mint Private {isInProgressObj.mintPrivate && <Spinner />}
             </button>
             <button onClick={checkBalancePublic} className="btn btn-primary">
@@ -477,7 +639,7 @@ export const WalletInteractions = ({ pxe }: { pxe: PXE }) => {
                 data-testid="send/to"
                 value={receipentAddress}
                 onChange={(e) => {
-                  setReceipentAddress(e.target.value)
+                  setReceipentAddress(e.target.value);
                 }}
               />
             </label>
@@ -491,7 +653,7 @@ export const WalletInteractions = ({ pxe }: { pxe: PXE }) => {
                 data-testid="send/to"
                 value={transferAmount}
                 onChange={(e) => {
-                  setTransferAmount(+e.target.value)
+                  setTransferAmount(+e.target.value);
                 }}
               />
             </label>
@@ -514,15 +676,19 @@ export const WalletInteractions = ({ pxe }: { pxe: PXE }) => {
                 data-testid="send/to"
                 value={shieldAmount}
                 onChange={(e) => {
-                  setShiedAmount(+e.target.value)
+                  setShiedAmount(+e.target.value);
                 }}
               />
             </label>
             <button className="btn btn-primary" onClick={handleShield}>
               Shield {isInProgressObj.shield && <Spinner />}
             </button>
-            <button className="btn btn-primary" onClick={handleFetchPendingShields}>
-              Fetch Pending Shields {isInProgressObj.pendingShields && <Spinner />}
+            <button
+              className="btn btn-primary"
+              onClick={handleFetchPendingShields}
+            >
+              Fetch Pending Shields{" "}
+              {isInProgressObj.pendingShields && <Spinner />}
             </button>
           </div>
 
@@ -537,7 +703,7 @@ export const WalletInteractions = ({ pxe }: { pxe: PXE }) => {
                 placeholder="Token ID"
                 value={tokenId}
                 onChange={(e) => {
-                  setTokenId(+e.target.value)
+                  setTokenId(+e.target.value);
                 }}
               />
             </label>
@@ -548,7 +714,7 @@ export const WalletInteractions = ({ pxe }: { pxe: PXE }) => {
                 placeholder="Receiver Address"
                 value={NFTMintAddress}
                 onChange={(e) => {
-                  setNFTMintAddress(e.target.value)
+                  setNFTMintAddress(e.target.value);
                 }}
               />
             </label>
@@ -570,7 +736,7 @@ export const WalletInteractions = ({ pxe }: { pxe: PXE }) => {
                 placeholder="Token ID"
                 value={tokenId}
                 onChange={(e) => {
-                  setTokenId(+e.target.value)
+                  setTokenId(+e.target.value);
                 }}
               />
             </label>
@@ -581,19 +747,20 @@ export const WalletInteractions = ({ pxe }: { pxe: PXE }) => {
                 placeholder="Receiver Address"
                 value={NFTMintAddress}
                 onChange={(e) => {
-                  setNFTMintAddress(e.target.value)
+                  setNFTMintAddress(e.target.value);
                 }}
               />
             </label>
-            <button className="btn btn-primary" onClick={handlePublicTransferNFT}>
-              Transfer {isInProgressObj.isPublicTransferNFTInProgress && <Spinner />}
+            <button
+              className="btn btn-primary"
+              onClick={handlePublicTransferNFT}
+            >
+              Transfer{" "}
+              {isInProgressObj.isPublicTransferNFTInProgress && <Spinner />}
             </button>
           </div>
           <hr />
           {/** Public Transfer NFT Flow  Ends*/}
-
-
-
 
           {/** Fetch NFT Owner Flow  Starts*/}
           <hr />
@@ -606,7 +773,7 @@ export const WalletInteractions = ({ pxe }: { pxe: PXE }) => {
                 placeholder="Token ID"
                 value={tokenId}
                 onChange={(e) => {
-                  setTokenId(+e.target.value)
+                  setTokenId(+e.target.value);
                 }}
               />
             </label>
@@ -632,7 +799,7 @@ export const WalletInteractions = ({ pxe }: { pxe: PXE }) => {
                 placeholder="Token ID"
                 value={tokenId}
                 onChange={(e) => {
-                  setTokenId(+e.target.value)
+                  setTokenId(+e.target.value);
                 }}
               />
             </label>
@@ -643,19 +810,41 @@ export const WalletInteractions = ({ pxe }: { pxe: PXE }) => {
                 placeholder="Receiver Address"
                 value={NFTMintAddress}
                 onChange={(e) => {
-                  setNFTMintAddress(e.target.value)
+                  setNFTMintAddress(e.target.value);
                 }}
               />
             </label>
-            <button className='btn btn-secondary' onClick={handlePreaparePrivateTransferNFT}>Prepare for Transfer {isInProgressObj.isPreparePrivateTransferNFTInProgress && <Spinner />}</button>
-            <button className="btn btn-primary" onClick={handleFinalizePrivateTransferNFT} disabled={storageSlotRandomness === null}>
-              Finalise Transfer {isInProgressObj.isFinalizePrivateTransferNFTInProgress && <Spinner />}
+            <button
+              className="btn btn-secondary"
+              onClick={handlePreaparePrivateTransferNFT}
+            >
+              Prepare for Transfer{" "}
+              {isInProgressObj.isPreparePrivateTransferNFTInProgress && (
+                <Spinner />
+              )}
+            </button>
+            <button
+              className="btn btn-primary"
+              onClick={handleFinalizePrivateTransferNFT}
+              disabled={storageSlotRandomness === null}
+            >
+              Finalise Transfer{" "}
+              {isInProgressObj.isFinalizePrivateTransferNFTInProgress && (
+                <Spinner />
+              )}
             </button>
           </div>
           <hr />
           {/** Private Transfer NFT Flow  Ends*/}
 
-          <button className='btn btn-secondary' onClick={handleFetchPrivateNFTTokenIds}> Fetch Private NFTS {isInProgressObj.isFetchPrivateNFTTokenIds && <Spinner />}</button>
+          <button
+            className="btn btn-secondary"
+            onClick={handleFetchPrivateNFTTokenIds}
+          >
+            {" "}
+            Fetch Private NFTS{" "}
+            {isInProgressObj.isFetchPrivateNFTTokenIds && <Spinner />}
+          </button>
         </div>
         <div className="output border border-primary/10 rounded-md flex flex-1 bg-primary/60 text-black flex-col gap-2 p-8">
           {currentWallet && (
@@ -684,6 +873,6 @@ export const WalletInteractions = ({ pxe }: { pxe: PXE }) => {
           )}
         </div>
       </div>
-    </main >
-  )
-}
+    </main>
+  );
+};
