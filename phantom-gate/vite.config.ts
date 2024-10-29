@@ -3,7 +3,7 @@ import { nodePolyfills } from 'vite-plugin-node-polyfills'
 import resolve from 'vite-plugin-resolve'
 import react from '@vitejs/plugin-react'
 
-const aztecVersion = '0.51.0'
+const aztecVersion = '0.60.0'
 
 export default defineConfig({
   plugins: [

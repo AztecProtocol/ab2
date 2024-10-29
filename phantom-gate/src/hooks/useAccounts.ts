@@ -60,9 +60,9 @@ export const useAccount = () => {// const pxe = useAtomValue(pxeAtom)
     }
     return 
   }
-  const deployNFtToken = async (owner: AccountWalletWithSecretKey) => {
+  const deployNFtToken = async (owner: AccountWalletWithSecretKey, name:string, symbol:string) => {
     const ownerAddress = owner.getAddress()
-    const deployedContract = await NFTContract.deploy(owner, ownerAddress, 'Phantom', 'PHG')
+    const deployedContract = await NFTContract.deploy(owner, ownerAddress, name, symbol)
       .send()
       .deployed()
   
