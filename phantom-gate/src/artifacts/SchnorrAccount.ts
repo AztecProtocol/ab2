@@ -57,7 +57,7 @@ import SchnorrAccountContractArtifactJson from '../../contracts/account/target/a
     public static deploy(wallet: Wallet, 
       // signing_pub_key_x: FieldLike, signing_pub_key_y: FieldLike
     ) {
-      return new DeployMethod<SchnorrAccountContract>(Fr.ZERO, wallet, SchnorrAccountContractArtifact, SchnorrAccountContract.at, Array.from(arguments).slice(1));
+      return new DeployMethod<SchnorrAccountContract>(Fr.ZERO as any, wallet, SchnorrAccountContractArtifact, SchnorrAccountContract.at, Array.from(arguments).slice(1));
     }
   
     /**
@@ -66,7 +66,7 @@ import SchnorrAccountContractArtifactJson from '../../contracts/account/target/a
     public static deployWithPublicKeysHash(publicKeysHash: Fr, wallet: Wallet, 
       // signing_pub_key_x: FieldLike, signing_pub_key_y: FieldLike
     ) {
-      return new DeployMethod<SchnorrAccountContract>(publicKeysHash, wallet, SchnorrAccountContractArtifact, SchnorrAccountContract.at, Array.from(arguments).slice(2));
+      return new DeployMethod<SchnorrAccountContract>(publicKeysHash as any, wallet, SchnorrAccountContractArtifact, SchnorrAccountContract.at, Array.from(arguments).slice(2));
     }
   
     /**
@@ -77,7 +77,7 @@ import SchnorrAccountContractArtifactJson from '../../contracts/account/target/a
       // ...args: Parameters<SchnorrAccountContract['methods'][M]>
     ) {
       return new DeployMethod<SchnorrAccountContract>(
-        opts.publicKeysHash ?? Fr.ZERO,
+        opts.publicKeysHash ?? Fr.ZERO as any,
         opts.wallet,
         SchnorrAccountContractArtifact,
         SchnorrAccountContract.at,

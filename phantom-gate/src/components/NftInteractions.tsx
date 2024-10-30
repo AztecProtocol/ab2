@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useAccount } from "../hooks/useAccounts.js";
-import { AccountWalletWithSecretKey, AztecAddress, Fr } from "@aztec/aztec.js";
+import { AccountWalletWithSecretKey, AztecAddress } from "@aztec/aztec.js";
 import { toast } from "react-hot-toast";
 import { Loader } from "lucide-react";
 import { NFTContract } from "@aztec/noir-contracts.js";

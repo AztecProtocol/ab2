@@ -100,7 +100,6 @@ export const WalletInteractions = () => {
   const [tab, setTab] = useState("Tokens");
   const [deployTokenAddress, setDeployTokenAddress] = useState("");
   const [nftContract, setNftContract] = useState<NFTContract | null >(null);
-  const [walletVerifier, setWalletVerifier] = useState("");
 
   useEffect(() => {
     // Simulated token data

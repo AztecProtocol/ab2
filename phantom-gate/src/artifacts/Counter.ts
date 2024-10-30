@@ -49,7 +49,7 @@ export class CounterContract extends ContractBase {
     // outgoing_viewer: AztecAddressLike
   ) {
     return new DeployMethod<CounterContract>(
-      Fr.ZERO,
+      Fr.ZERO as any,
       wallet,
       CounterContractArtifact,
       CounterContract.at,
@@ -68,7 +68,7 @@ export class CounterContract extends ContractBase {
     // outgoing_viewer: AztecAddressLike
   ) {
     return new DeployMethod<CounterContract>(
-      publicKeysHash,
+      publicKeysHash as any,
       wallet,
       CounterContractArtifact,
       CounterContract.at,
@@ -84,7 +84,7 @@ export class CounterContract extends ContractBase {
     // ...args: Parameters<CounterContract['methods'][M]>
   ) {
     return new DeployMethod<CounterContract>(
-      opts.publicKeysHash ?? Fr.ZERO,
+      opts.publicKeysHash ?? Fr.ZERO as any,
       opts.wallet,
       CounterContractArtifact,
       CounterContract.at,

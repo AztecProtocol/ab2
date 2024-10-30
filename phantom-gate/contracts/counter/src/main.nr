@@ -75,13 +75,13 @@ contract Counter {
         );
         // docs:end:txe_test_read_notes
         // Increment the counter
-        let increment_call_interface = Counter::at(contract_address).increment(owner, outgoing_viewer);
-        env.call_private_void(increment_call_interface);
+        Counter::at(contract_address).increment(owner, outgoing_viewer).call(&mut env.private());
         // get_counter is an unconstrained function, so we call it directly (we're in the same module)
         let current_value_for_owner = get_counter(owner);
         let expected_current_value = initial_value + 1;
         assert(
-            expected_current_value == current_value_for_owner, f"Expected {expected_current_value} but got {current_value_for_owner}"
+            expected_current_value == current_value_for_owner,
+            f"Expected {expected_current_value} but got {current_value_for_owner}",
         );
     }
     // docs:end:txe_test_increment

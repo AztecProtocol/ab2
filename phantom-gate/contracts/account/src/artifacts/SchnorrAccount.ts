@@ -3,20 +3,36 @@
 
 /* eslint-disable */
 import {
+  type AbiType,
   AztecAddress,
-  AztecAddressLike, Contract,
-  ContractArtifact,
+  type AztecAddressLike,
+  CompleteAddress,
+  Contract,
+  type ContractArtifact,
   ContractBase,
   ContractFunctionInteraction,
-  ContractInstanceWithAddress,
-  ContractMethod,
-  ContractStorageLayout,
-  ContractNotes,
-  DeployMethod, FieldLike,
+  type ContractInstanceWithAddress,
+  type ContractMethod,
+  type ContractStorageLayout,
+  type ContractNotes,
+  decodeFromAbi,
+  DeployMethod,
+  EthAddress,
+  type EthAddressLike,
+  EventSelector,
+  type FieldLike,
   Fr,
-  FunctionSelectorLike, loadContractArtifact,
-  NoirCompiledContract,
-  NoteSelector, Wallet
+  type FunctionSelectorLike,
+  L1EventPayload,
+  loadContractArtifact,
+  type NoirCompiledContract,
+  NoteSelector,
+  Point,
+  type PublicKey,
+  PublicKeys,
+  type UnencryptedL2Log,
+  type Wallet,
+  type WrappedFieldLike,
 } from '@aztec/aztec.js';
 import SchnorrAccountContractArtifactJson from '../../target/account-SchnorrAccount.json' assert { type: 'json' };
 export const SchnorrAccountContractArtifact = loadContractArtifact(SchnorrAccountContractArtifactJson as NoirCompiledContract);
@@ -54,30 +70,26 @@ export class SchnorrAccountContract extends ContractBase {
   /**
    * Creates a tx to deploy a new instance of this contract.
    */
-  public static deploy(wallet: Wallet, 
-    // signing_pub_key_x: FieldLike, signing_pub_key_y: FieldLike
-  ) {
-    return new DeployMethod<SchnorrAccountContract>(Fr.ZERO, wallet, SchnorrAccountContractArtifact, SchnorrAccountContract.at, Array.from(arguments).slice(1));
+  public static deploy(wallet: Wallet, signing_pub_key_x: FieldLike, signing_pub_key_y: FieldLike) {
+    return new DeployMethod<SchnorrAccountContract>(PublicKeys.default(), wallet, SchnorrAccountContractArtifact, SchnorrAccountContract.at, Array.from(arguments).slice(1));
   }
 
   /**
    * Creates a tx to deploy a new instance of this contract using the specified public keys hash to derive the address.
    */
-  public static deployWithPublicKeysHash(publicKeysHash: Fr, wallet: Wallet, 
-    // signing_pub_key_x: FieldLike, signing_pub_key_y: FieldLike
-  ) {
-    return new DeployMethod<SchnorrAccountContract>(publicKeysHash, wallet, SchnorrAccountContractArtifact, SchnorrAccountContract.at, Array.from(arguments).slice(2));
+  public static deployWithPublicKeys(publicKeys: PublicKeys, wallet: Wallet, signing_pub_key_x: FieldLike, signing_pub_key_y: FieldLike) {
+    return new DeployMethod<SchnorrAccountContract>(publicKeys, wallet, SchnorrAccountContractArtifact, SchnorrAccountContract.at, Array.from(arguments).slice(2));
   }
 
   /**
    * Creates a tx to deploy a new instance of this contract using the specified constructor method.
    */
   public static deployWithOpts<M extends keyof SchnorrAccountContract['methods']>(
-    opts: { publicKeysHash?: Fr; method?: M; wallet: Wallet },
-    // ...args: Parameters<SchnorrAccountContract['methods'][M]>
+    opts: { publicKeys?: PublicKeys; method?: M; wallet: Wallet },
+    ...args: Parameters<SchnorrAccountContract['methods'][M]>
   ) {
     return new DeployMethod<SchnorrAccountContract>(
-      opts.publicKeysHash ?? Fr.ZERO,
+      opts.publicKeys ?? PublicKeys.default(),
       opts.wallet,
       SchnorrAccountContractArtifact,
       SchnorrAccountContract.at,
@@ -108,29 +120,29 @@ export class SchnorrAccountContract extends ContractBase {
   public static get notes(): ContractNotes<'PublicKeyNote'> {
     return {
       PublicKeyNote: {
-          id: new NoteSelector(2866150763),
+          id: new NoteSelector(2806681024),
         }
     } as ContractNotes<'PublicKeyNote'>;
   }
   
 
   /** Type-safe wrappers for the public methods exposed by the contract. */
-  public override methods!: {
+  public declare methods: {
     
+    /** compute_note_hash_and_optionally_a_nullifier(contract_address: struct, nonce: field, storage_slot: field, note_type_id: field, compute_nullifier: boolean, serialized_note: array) */
+    compute_note_hash_and_optionally_a_nullifier: ((contract_address: AztecAddressLike, nonce: FieldLike, storage_slot: FieldLike, note_type_id: FieldLike, compute_nullifier: boolean, serialized_note: FieldLike[]) => ContractFunctionInteraction) & Pick<ContractMethod, 'selector'>;
+
     /** constructor(signing_pub_key_x: field, signing_pub_key_y: field) */
     constructor: ((signing_pub_key_x: FieldLike, signing_pub_key_y: FieldLike) => ContractFunctionInteraction) & Pick<ContractMethod, 'selector'>;
+
+    /** entrypoint(app_payload: struct, fee_payload: struct, cancellable: boolean) */
+    entrypoint: ((app_payload: { function_calls: { args_hash: FieldLike, function_selector: FunctionSelectorLike, target_address: AztecAddressLike, is_public: boolean, is_static: boolean }[], nonce: FieldLike }, fee_payload: { function_calls: { args_hash: FieldLike, function_selector: FunctionSelectorLike, target_address: AztecAddressLike, is_public: boolean, is_static: boolean }[], nonce: FieldLike, is_fee_payer: boolean }, cancellable: boolean) => ContractFunctionInteraction) & Pick<ContractMethod, 'selector'>;
 
     /** lookup_validity(consumer: struct, inner_hash: field) */
     lookup_validity: ((consumer: AztecAddressLike, inner_hash: FieldLike) => ContractFunctionInteraction) & Pick<ContractMethod, 'selector'>;
 
-    /** entrypoint(app_payload: struct, fee_payload: struct) */
-    entrypoint: ((app_payload: { function_calls: { args_hash: FieldLike, function_selector: FunctionSelectorLike, target_address: AztecAddressLike, is_public: boolean, is_static: boolean }[], nonce: FieldLike }, fee_payload: { function_calls: { args_hash: FieldLike, function_selector: FunctionSelectorLike, target_address: AztecAddressLike, is_public: boolean, is_static: boolean }[], nonce: FieldLike, is_fee_payer: boolean }) => ContractFunctionInteraction) & Pick<ContractMethod, 'selector'>;
-
     /** verify_private_authwit(inner_hash: field) */
     verify_private_authwit: ((inner_hash: FieldLike) => ContractFunctionInteraction) & Pick<ContractMethod, 'selector'>;
-
-    /** compute_note_hash_and_optionally_a_nullifier(contract_address: struct, nonce: field, storage_slot: field, note_type_id: field, compute_nullifier: boolean, serialized_note: array) */
-    compute_note_hash_and_optionally_a_nullifier: ((contract_address: AztecAddressLike, nonce: FieldLike, storage_slot: FieldLike, note_type_id: FieldLike, compute_nullifier: boolean, serialized_note: FieldLike[]) => ContractFunctionInteraction) & Pick<ContractMethod, 'selector'>;
   };
 
   
