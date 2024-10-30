@@ -5,7 +5,7 @@ Using a profile.io user's indentity verification KYC results to prove user's adu
 
 ## Challenge Selection
 
-- [ ] ZKEmail Guardian
+- [x] ZKEmail Guardian
 - [x] Social Cipher
 
 **Note**: You can change which challenges you've selected during the competition if you'd like. You are not bound by your choices or descriptions entered during the one week check-in.
@@ -16,6 +16,7 @@ Using a profile.io user's indentity verification KYC results to prove user's adu
 
 ## Technical Approach
 
+### Adult verification
 We'd like to use Aztec ZKP for proving adult verification (or any other user info) on our app.
 ~~We have already smart contract that mints NFTs on Polygon mainnet~~ 
 
@@ -29,6 +30,21 @@ Here is the user flow:
 1. The user doesn't want to reveal his exact age but can prove whether he is adult or not by using ZKP (or Note?)
 1. The FE has a "verify" button and when verifier clicks that button -> Calling Aztec contract to process target user's age verification -> FE shows whether the user is an adult or not on the UI.
 
+### Email verification
+We'd like to use ZKEmail to verify the email address, generate proof, and verify proof on our app.
+
+The plan is to use ZKEmaip when the user inputs his/her email, and then the user can use it when email verification is required without revealing details.
+
+Here is the user flow:
+1. In FE (frontend), a user inputs his email on FE (ex: alan@tabled.io).
+1. There will be sent a verification email to the user.
+1. The user needs to reply to that email.
+1. In BE (backend), the system will retrieve the raw email and then verify the email address from the DKIM-Siguature.
+1. The BE calls Aztec contract to mint an NFT with the Note which has the verified email address (this point should be the same mentioned in the Adult verification user flow). 
+1. Now the user owns the email-NFT
+1. Another user (verifier) wants to verify if the user is an adult or not.
+1. The user doesn't want to reveal the exact email but can prove whether the user has the email address.
+1. The FE has a "verify" button and when the verifier clicks that button -> Calling Aztec contract to process the target user's email verification -> FE shows whether the email address is verified on the UI.
 
 ## Some technical questions
 a. At above step 2, the created Note is an actual ZKP? I am confused the relation between Note and ZKP?
@@ -39,6 +55,7 @@ c. At above step 6, if Aztec contract can retrieve age-NFT data (birthdate), can
 
 ## Expected Outcomes
 Providing a quick age verification feature. 
+Providing a quick email verification feature.
 
 ## Lessons Learned (For Submission)
 
