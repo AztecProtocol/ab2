@@ -380,13 +380,6 @@ export const WalletInteractions = () => {
               <span className="text-4xl font-bold">$344.98</span>
               <span className="text-red-500">-$0.57 (-0.16%)</span>
             </div>
-            <div className="flex flex-wrap gap-2 mb-6">
-              {/* {['Buy', 'Swap', 'Bridge', 'Send', 'Sell', 'Stake'].map((action) => (
-                <button key={action} className="bg-gradient-to-r from-blue-500 to-purple-500 px-4 py-2 rounded-full text-sm hover:from-blue-600 hover:to-purple-600 transition-all">
-                  {action}
-                </button>
-              ))} */}
-            </div>
             <div className="space-y-2">
               {["Tokens", "NFTs", "DeFi", "Transactions", "Spending Caps"].map(
                 (tabAction) => (
