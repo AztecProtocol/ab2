@@ -1,5 +1,4 @@
 "use client";
-import Opinion from "./opinion/Opinion";
 import Navbar from "./navbar/Navbar";
 import {
   BackgroundSection,
@@ -48,7 +47,6 @@ export default function Home() {
         <Navbar />
       </NavbarOverlay>
       <BackgroundSection />
-      <Opinion />
       <MainContent>
         <CardContainer>
           <CardItem
