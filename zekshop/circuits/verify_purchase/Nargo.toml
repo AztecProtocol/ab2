@@ -1,7 +1,7 @@
 [package]
 name = "verify_purchase"
 type = "bin"
-authors = ["Nikolay Kostadinov"]
+authors = ["Nikolay Kostadinov <nikolaykostadinov21@gmail.com>"]
 compiler_version = ">=0.35.0"
 
 [dependencies]

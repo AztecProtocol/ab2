@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import logo from "./logo-color.svg";
 import { connect_wallet } from "./connect_wallet";
 import Image from "next/image";
 
@@ -46,7 +45,6 @@ const NavButton = styled.button`
 `;
 
 const Navbar: React.FC = () => {
-  console.log(logo);
   return (
     <NavbarContainer>
       <Logo src="/logo-color.svg" alt="al" />
