@@ -21,32 +21,32 @@ export default function Home() {
       <MainContent>
         <CardContainer>
           <CardItem
-            imageUrl="/1.jpg"
+            imageUrl="/22.png"
             onBuyClick={() => alert("Buying product 2")}
             onOpinionClick={() => alert("Give opinion on product 2")}
           />
           <CardItem
-            imageUrl="/2.jpg"
+            imageUrl="/11.png"
             onBuyClick={() => alert("Buying product 2")}
             onOpinionClick={() => alert("Give opinion on product 2")}
           />
           <CardItem
-            imageUrl="/3.jpg"
+            imageUrl="/21.png"
             onBuyClick={() => alert("Buying product 3")}
             onOpinionClick={() => alert("Give opinion on product 3")}
           />
           <CardItem
-            imageUrl="/4.jpg"
+            imageUrl="/25.png"
             onBuyClick={() => alert("Buying product 3")}
             onOpinionClick={() => alert("Give opinion on product 3")}
           />
           <CardItem
-            imageUrl="/5.jpg"
+            imageUrl="/12.png"
             onBuyClick={() => alert("Buying product 3")}
             onOpinionClick={() => alert("Give opinion on product 3")}
           />
           <CardItem
-            imageUrl="/6.jpg"
+            imageUrl="/24.png"
             onBuyClick={() => alert("Buying product 3")}
             onOpinionClick={() => alert("Give opinion on product 3")}
           />

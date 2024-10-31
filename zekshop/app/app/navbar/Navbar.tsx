@@ -7,14 +7,13 @@ export const NavbarContainer = styled.nav`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
-  background-color: #1a1a1a;
+  padding: 1rem 5rem;
+  background-color: transparent;
   color: #ffffff;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   position: sticky;
   top: 0;
   z-index: 1000;
-  border-radius: 56px;
 `;
 
 const Logo = styled.img`
@@ -29,14 +28,15 @@ const NavButtons = styled.div`
 `;
 
 const NavButton = styled.button`
-  background: none;
+  background: #1f1f1f;
   border: 2px solid #4a90e2;
   padding: 0.5rem 1.2rem;
-  font-size: 1rem;
-  color: #4a90e2;
+  font-size: 20px;
+  color: #914ab5;
   cursor: pointer;
   border-radius: 20px;
   transition: all 0.3s ease;
+  border-color: #914ab5;
 
   &:hover {
     background-color: #4a90e2;

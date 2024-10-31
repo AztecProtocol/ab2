@@ -13,7 +13,7 @@ export const GlobalStyle = createGlobalStyle`
 `;
 
 export const BackgroundSection = styled.section`
-  background-image: url('12400.jpg');
+  background-image: url('10.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
