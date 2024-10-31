@@ -1,4 +1,5 @@
 circuits/**/target/
+contracts/**/target/
 node_modules/
 .pnp.cjs
 .yarn/
