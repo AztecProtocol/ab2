@@ -32,7 +32,7 @@ After completing your work and at the end of the program, you'll commit your cha
 
 ## Issues
 
-As you run into technical challenges and blockers while working on your project, please file issues in this repository. We're trying this out as an additional channel to collect issues and provide support. We'll also be providing technical support via the dedicated Discord channel and answering general developer questions on the Aztec Discord server.
+As you run into technical challenges and blockers while working on your project, please file issues in this repository. We're trying this out as an additional channel to collect issues and provide support. We'll also be providing technical support via the dedicated [Discord](https://discord.com/invite/DgWG2DBMyB/) channel and answering general developer questions on the Aztec Discord server.
 
 ## Evaluation Criteria to Consider and Potential Prizes
 
