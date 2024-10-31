@@ -1,5 +1,4 @@
 "use client";
-import Opinion from "./opinion/Opinion";
 import Navbar from "./navbar/Navbar";
 import {
   BackgroundSection,
@@ -11,9 +10,8 @@ import { CardItem, CardContainer } from "./product_items/card_item";
 
 import SmoothScroll from "smooth-scroll";
 
-// Initialize smooth scroll with options
 const scroll = new SmoothScroll('a[href*="#"]', {
-  speed: 600, // Adjust speed to your preference
+  speed: 600,
   speedAsDuration: true,
 });
 
@@ -48,7 +46,6 @@ export default function Home() {
         <Navbar />
       </NavbarOverlay>
       <BackgroundSection />
-      <Opinion />
       <MainContent>
         <CardContainer>
           <CardItem

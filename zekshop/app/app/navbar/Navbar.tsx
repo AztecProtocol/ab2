@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { connect_wallet } from "./connect_wallet";
-import Image from "next/image";
+import { Toaster } from "sonner";
 
 export const NavbarContainer = styled.nav`
   display: flex;
@@ -50,7 +50,18 @@ const Navbar: React.FC = () => {
       <Logo src="/logo-color.svg" alt="al" />
       <NavButtons>
         <NavButton>Store</NavButton>
-        <NavButton onClick={connect_wallet}>Connect Wallet</NavButton>
+        <NavButton onClick={connect_wallet}>
+          Connect Wallet
+          <Toaster
+            toastOptions={{
+              style: {
+                height: "40px",
+              },
+            }}
+            richColors
+            position="bottom-center"
+          />
+        </NavButton>
         <NavButton>About</NavButton>
       </NavButtons>
     </NavbarContainer>

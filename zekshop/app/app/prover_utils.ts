@@ -2,6 +2,8 @@ import { generateEmailVerifierInputs } from "@mach-34/zkemail-nr";
 import { type Noir, type CompiledCircuit, InputMap } from "@noir-lang/noir_js";
 import { UltraHonkBackend } from "@noir-lang/backend_barretenberg";
 import { simpleParser } from 'mailparser';
+import { toast } from 'sonner';
+
 
 interface ParsedEmailInfo {
     fromEmail: string;
@@ -151,19 +153,20 @@ export async function verifyProof(emailContent: File) {
     const backend = new UltraHonkBackend(circuit as CompiledCircuit);
     const noir = new Noir(circuit as CompiledCircuit);
 
-    console.log('Starting to proove...')
     // Generate witness and prove
-    const startTime = performance.now();
     const { witness } = await noir.execute(correctInputParams as InputMap);
-    const { proof, publicInputs } = await backend.generateProof(witness);
-    const provingTime = performance.now() - startTime;
+    const proof_promise = backend.generateProof(witness);
+    toast.promise(proof_promise, {
+        loading: 'Generating proof...',
+        success: () => {
+            return `Proof generated, let's verify it!`;
+        },
+        error: 'Error',
+    });
+    const { proof, publicInputs } = await proof_promise;
 
-    console.log('proofResult:', proof);
-    console.log('Proof generation time:', provingTime);
-
-    console.log('Proof is successsful!');
-
-    console.log('Starting to verify...')
-    const x = await backend.verifyProof({ proof, publicInputs });
-    console.log('Verification result:', x);
+    const verification_result = await backend.verifyProof({ proof, publicInputs });
+    if (verification_result !== true) {
+        throw new Error('Proof verification failed');
+    }
 }
