@@ -10,9 +10,8 @@ import { CardItem, CardContainer } from "./product_items/card_item";
 
 import SmoothScroll from "smooth-scroll";
 
-// Initialize smooth scroll with options
 const scroll = new SmoothScroll('a[href*="#"]', {
-  speed: 600, // Adjust speed to your preference
+  speed: 600,
   speedAsDuration: true,
 });
 

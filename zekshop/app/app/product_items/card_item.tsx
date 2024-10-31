@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import DragAndDropFile from "../opinion/DragAndDropFile";
 import { verifyProof } from "../prover_utils";
+import { toast } from "sonner";
 
 const Card = styled.div`
   background-color: #ffffff;
@@ -88,8 +89,15 @@ export const CardItem: React.FC<CardItemProps> = ({
 
   // Handler for when a file is selected in the DragAndDropFile component
   const handleFileSelect = async (file: File) => {
-    await verifyProof(file);
     handleClose();
+    const proof_verification_promise = verifyProof(file);
+    toast.promise(proof_verification_promise, {
+      loading: "Verifying your email...",
+      success: () => {
+        return `Verification successful! 🎉`;
+      },
+      error: "Verification failed",
+    });
   };
 
   return (

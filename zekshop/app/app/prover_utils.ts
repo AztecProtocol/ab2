@@ -153,9 +153,7 @@ export async function verifyProof(emailContent: File) {
     const backend = new UltraHonkBackend(circuit as CompiledCircuit);
     const noir = new Noir(circuit as CompiledCircuit);
 
-    console.log('Starting to proove...')
     // Generate witness and prove
-    const startTime = performance.now();
     const { witness } = await noir.execute(correctInputParams as InputMap);
     const proof_promise = backend.generateProof(witness);
     toast.promise(proof_promise, {
@@ -166,22 +164,9 @@ export async function verifyProof(emailContent: File) {
         error: 'Error',
     });
     const { proof, publicInputs } = await proof_promise;
-    const provingTime = performance.now() - startTime;
 
-    console.log('proofResult:', proof);
-    console.log('Proof generation time:', provingTime);
-
-    console.log('Proof is successsful!');
-
-    console.log('Starting to verify...')
-    toast.info("Verifying proof...");
-    const verification_promise = backend.verifyProof({ proof, publicInputs });
-    toast.promise(verification_promise, {
-        loading: 'Verifying proof...',
-        success: () => {
-            return `Verification successful! 🎉`;
-        },
-        error: 'Error',
-    });
-    console.log('Verification result:', await verification_promise);
+    const verification_result = await backend.verifyProof({ proof, publicInputs });
+    if (verification_result !== true) {
+        throw new Error('Proof verification failed');
+    }
 }
