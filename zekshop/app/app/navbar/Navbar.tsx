@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { connect_wallet } from "./connect_wallet";
 import Image from "next/image";
 
-const NavbarContainer = styled.nav`
+export const NavbarContainer = styled.nav`
   display: flex;
   justify-content: space-between;
   align-items: center;

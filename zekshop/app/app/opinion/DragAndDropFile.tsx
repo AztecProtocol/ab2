@@ -55,6 +55,7 @@ const DragAndDropFile: React.FC<DragAndDropFileProps> = ({ onFileSelect }) => {
 
   return (
     <div
+      aria-hidden="true"
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
