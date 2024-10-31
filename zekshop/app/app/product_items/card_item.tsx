@@ -1,5 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+} from "@mui/material";
+import DragAndDropFile from "../opinion/DragAndDropFile";
+import { verifyProof } from "../prover_utils";
+import { toast } from "sonner";
 
 const Card = styled.div`
   background-color: #ffffff;
@@ -42,7 +52,7 @@ const CardActions = styled.div`
 `;
 
 const ActionButton = styled.button`
-  background-color: #4a90e2;
+  background-color: #1f1f1f;
   color: #ffffff;
   border: none;
   padding: 0.5rem 1rem;
@@ -50,7 +60,7 @@ const ActionButton = styled.button`
   font-weight: bold;
   cursor: pointer;
   transition:
-    background-color 0.3s ease,
+    background-color 0.25s ease,
     transform 0.2s ease;
 
   &:hover {
@@ -73,12 +83,41 @@ export const CardItem: React.FC<CardItemProps> = ({
   onBuyClick,
   onOpinionClick,
 }) => {
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  // Handler for when a file is selected in the DragAndDropFile component
+  const handleFileSelect = async (file: File) => {
+    handleClose();
+    const proof_verification_promise = verifyProof(file);
+    toast.promise(proof_verification_promise, {
+      loading: "Verifying your email...",
+      success: () => {
+        return `Verification successful! 🎉`;
+      },
+      error: "Verification failed",
+    });
+  };
+
   return (
     <Card>
       <CardImage src={imageUrl} alt="Product Image" />
       <CardActions>
         <ActionButton onClick={onBuyClick}>Buy</ActionButton>
-        <ActionButton onClick={onOpinionClick}>Opinion</ActionButton>
+        <ActionButton onClick={handleOpen}>Opinion</ActionButton>
+
+        <Dialog open={open} onClose={handleClose}>
+          <DialogTitle>Select a .eml File</DialogTitle>
+          <DialogContent>
+            <DragAndDropFile onFileSelect={handleFileSelect} />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose} color="primary">
+              Cancel
+            </Button>
+          </DialogActions>
+        </Dialog>
       </CardActions>
     </Card>
   );
