@@ -77,4 +77,4 @@ However, this can be useful source for interactions between the frontend and Azt
 
 ## Video Demo (For Submission)
 
-Please provide a link to a video demo of your project. The demo should be no longer than 5 minutes and should include a brief intro to your team and your project.
+[Demo link](https://www.youtube.com/watch?v=BBuhFJGYk50)
