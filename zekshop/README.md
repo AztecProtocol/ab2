@@ -11,3 +11,5 @@ ZeKshop addresses the severe privacy issues in purchasing erotic merchandise by 
 ## Diagram
 
 ![ZeKshop diagram](docs_imgs/ZeKshop_full_diagram.png)
+
+## [ZeKshop's X (formerly Twitter)](https://x.com/ZeKshopOfficial)
