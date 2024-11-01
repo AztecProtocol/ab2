@@ -1,5 +1,7 @@
 circuits/**/target/
 contracts/**/target/
+contracts/**/codegenCache.json
+contracts/**/src/artifacts/
 node_modules/
 .pnp.cjs
 .yarn/
