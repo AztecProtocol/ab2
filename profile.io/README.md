@@ -16,6 +16,7 @@ This repo demonstrates enabling a user to verify their current employment listed
 
 ## Team information
 
+Profile.io is built by the team at Tabled Technologies Limited.
 [Profile.io](https://www.profile.io/)
 
 ## Technical Approach
@@ -24,18 +25,18 @@ This repo demonstrates enabling a user to verify their current employment listed
 ### Email verification
 We'd like to use ZKEmail to verify the email address, generate proof, and verify proof on our app.
 
-The plan is to use ZKEmaip when the user inputs his/her email, and then the user can use it when email verification is required without revealing details.
+The plan is to use ZKEmail to verify a user's work experience in their profile. When the user inputs his/her email, the service requests an email response which then verifies the employment domain using the dkim.  Future updates will utilise Aztec to generate proofs of the dkim verification to enable an email search at profile.io/verify to provide a privacy preserving employment and email verification.
 
 Here is the user flow:
 1. In FE (frontend), a user inputs his email on FE (ex: alan@tabled.io).
 2. A verification email is sent by the system to the user.
 3. The user replies to the verification email.
 4. In BE (backend), the system will retrieve the raw email and then verify the email address from the DKIM-Signature.
-5. The BE calls Aztec contract to mint an NFT with the Note which has the verified email address (this point should be the same mentioned in the Adult verification user flow). 
-6. Now the user owns the email-NFT
-7. Another user (verifier) wants to verify if the user is an adult or not.
-8. The user doesn't want to reveal the exact email but can prove whether the user has the email address.
-9. The FE has a "verify" button and when the verifier clicks that button -> Calling Aztec contract to process the target user's email verification -> FE shows whether the email address is verified on the UI.
+
+Future planned features:
+6. The BE calls Aztec contract to create a zk proof with the Note which has the verified email address. 
+7. Another user (verifier) wants to verify if the email address is valid / or the person is actually an employee of the company.  They can do this via profile.io/verify - inputting the email address and receiving privacy preserving response.
+8. Also, on the user profile, the FE has a "verify" button and when the verifier clicks that button -> Calling Aztec contract to process the target user's email verification -> FE shows whether the email address is verified on the UI.
 
 ### How to start the application
 Prerequisite:
