@@ -52,12 +52,28 @@ Providing a quick age verification feature.
 ## Lessons Learned (For Submission)
 
 - What are the most important takeaways from your project?
+
+As a newbie in Aztec world, understanding its concept and implementation were such a challenge. 
+I'd say understanding how the "privacy" is protected is the key. Many logics are executed in PXE which is in user's device and the proof (ZKP) will be posted 
+to the on-chain via sequencer.
+
+The note is another important thing I have learnt. I believe it has lots of potentials since it can be open and close (private/public) by owner.
+
+I am still discovering Aztec wallet/account. Not sure how to manage wallet/account is the best way. Hopefully I will figure it out soon.
+
 - Are there any patterns or best practices that you've learned that would be useful for other projects?
+
+It's not any patterns or best practices but the 'aztec-packages' is very useful source to learn about real Aztec implementations.
+
 - Highlight reusable code patterns, key code snippets, and best practices - what are some of the ‘lego bricks’ you’ve built, and how could someone else best use them?
+
+This repo is aming for specific situation. Like minting a NFT with a note that contains user's personal information.
+However, this can be useful source for interactions between the frontend and Aztec contract.
 
 ## Project Links (For Submission)
 
-Please provide links to any relevant documentation, code, or other resources that you've used in your project.
+* The code is in this repo
+* We are looking for an opportunity to integrate Aztec contract with [Profile.io](https://www.profile.io)
 
 ## Video Demo (For Submission)
 
