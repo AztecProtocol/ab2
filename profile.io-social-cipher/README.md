@@ -1,5 +1,7 @@
 # Profile.io: privacy preserving identity, nationality and age verification 
 
+The Profile.io team are building an open platform and network for individuals and organisations to verify themselves and their online presence, to unlock trusted transactions, including privacy preserving stablecoin payments between users and organisations.
+
 Using a profile.io user's indentity verification KYC results to prove user's adult verification and/or nationality, gender, any other user's personal information without revealing personal data by using ~~Aztec Connect~~ Noir circuit ZKP. Scoping service for third parties to verify such information privately, either through profile.io/verify or their own user flows (eg. exploring potentially using Frames.js).
 
 
