@@ -4,6 +4,12 @@ This project is for proving you have received an invitation by email to an event
 
 Your identity is kept private by utilizing the ZK capabilities of zkEmail and Aztec.
 
+This can be used for either personal invitations, or even for larger organized events. Larger events could be from services like Luma. Proving an invitation for an event might be useful for requesting a POAP, airdrop or for getting an invite to another event.
+
+## Unfinished
+
+**NOTE**: this project is far from ready. Unfortunately, this project did not get much further than the drawing board - the idea was formed but not much was done about it.
+
 ## Challenge Selection
 The selected challenge is "zkEmail Guardian".
 
@@ -15,26 +21,20 @@ Lauri Peltonen, ZK developer.
 
 Utilize zkEmail to prove that the user has received an email from a certain email address and that the email includes a certain keyword.
 
-If time, create a minimal frontend.
-
 ## Expected Outcomes
 
 A way for anyone to prove that they are invited to an event, without exposing their email address. If time permits, a crude website to demonstrate - otherwise interaction through CLI.
 
-## Credits
-
-This project utilizes heavily code from https://github.com/saleel/gitclaim .
-
 ## Lessons Learned (For Submission)
 
-- What are the most important takeaways from your project?
-- Are there any patterns or best practices that you've learned that would be useful for other projects?
-- Highlight reusable code patterns, key code snippets, and best practices - what are some of the ‘lego bricks’ you’ve built, and how could someone else best use them?
+- Time should be reserved for this kind of projects, properly
+- This project's best takeaway (for me, at least) was getting to know the Aztec community a bit, learn how the system works and seeing what others are building.
+- A lot of various incompatibility issues were faced, and those were documented in the parent project. Luckily, getting over those did not require much time.
 
 ## Project Links (For Submission)
 
-Please provide links to any relevant documentation, code, or other resources that you've used in your project.
+This project utilizes heavily code from https://github.com/saleel/gitclaim  .
 
 ## Video Demo (For Submission)
 
-Please provide a link to a video demo of your project. The demo should be no longer than 5 minutes and should include a brief intro to your team and your project.
+Not available.

@@ -3,7 +3,7 @@
 import React, { useState, useCallback, useRef, useEffect } from "react";
 import Head from "next/head";
 import { useDropzone } from "react-dropzone";
-import { generateProof, parseEmail } from "../utils";
+import { parseEmail } from "../utils";
 
 export default function Home() {
   const [emailContent, setEmailContent] = useState("");
@@ -11,7 +11,7 @@ export default function Home() {
   const [proof, setProof] = useState<Uint8Array | null>(null);
   const [publicInputs, setPublicInputs] = useState<string[] | null>(null);
   const [isGeneratingProof, setIsGeneratingProof] = useState(false);
-  const [walletAddress, setWalletAddress] = useState("0xab");
+  //const [walletAddress, setWalletAddress] = useState("0xab");
   const [provingTime, setProvingTime] = useState(0);
   const [claimStatus, setClaimStatus] = useState<string | null>(null);
 
@@ -46,8 +46,8 @@ export default function Home() {
     },
   });
 
-  async function onGenerateProofClick() {
-    setIsGeneratingProof(true);
+   async function onGenerateProofClick() {
+    /* setIsGeneratingProof(true);
     try {
       const { proof, publicInputs, provingTime } = await generateProof(
         emailContent,
@@ -61,8 +61,8 @@ export default function Home() {
       console.error("Error generating proof:", error);
     } finally {
       setIsGeneratingProof(false);
-    }
-  }
+    } */
+  } 
 
   async function onClaimDiscount() {
     try {
@@ -105,14 +105,14 @@ export default function Home() {
 
   const renderEmailDropSection = () => (
     <section ref={emailSectionRef} className="section">
-      <h2 className="section-title">Welcome to GitClaim</h2>
+      <h2 className="section-title">Prove your invitation</h2>
       <p>
-        GitClaim is a tool for claiming airdrops by proving that you have
-        contributed to an eligible Github repository.
+        This tool allows you to prove that you received an invitation from a certain
+        email address and that the email contains a certain keyword.
       </p>
       <p>
-        It works by parsing notification emails that Github sends when a PR is
-        merged. We use{" "}
+        It works by parsing the email, looking for the right contents, verifying the 
+        email sender&apos;s signature and generating a Zero Knowledge proof for it. We use{" "}
         <a
           href="https://github.com/zkemail/"
           target="_blank"
@@ -120,21 +120,17 @@ export default function Home() {
         >
           ZK Email
         </a>{" "}
-        to prove you have a matching email without revealing the full contents
-        of the email. This way, your wallet address will not be linked to your
-        Github account.
+        to generate the proof
       </p>
       <p>
-        To get started, upload a PR merge notification email that Github sends
-        to you. You can download emails as .eml files from most email clients {" "}
-        <a
-          href="https://support.google.com/mail/answer/9261412"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          including Gmail
-        </a>
-        .
+        No details are leaked from the proof: the sender email and the keyword remain private.
+      </p>
+      <p>
+          NOTE: the proof generation is not implemented yet.
+        </p>
+      <p>
+        To get started, upload an invitation email you received. Export it first
+        as an EML file.
       </p>
       <div className="dropzone" {...getRootProps()}>
         <input {...getInputProps()} />
@@ -166,7 +162,7 @@ export default function Home() {
         <span className="value">{emailDetails?.from}</span>
       </p>
 
-      <div className="info-block">
+      {/* <div className="info-block">
         <label className="label" htmlFor="walletAddress">
           Wallet Address:
         </label>
@@ -180,12 +176,12 @@ export default function Home() {
           maxLength={42}
           placeholder="Enter your wallet address"
         />
-      </div>
+      </div> */}
 
       <button
         className={`section-button ${isGeneratingProof ? "generating" : ""}`}
         onClick={onGenerateProofClick}
-        disabled={isGeneratingProof ||  !walletAddress || !!(proof && publicInputs)}
+        disabled={isGeneratingProof || !!(proof && publicInputs) || true}
       >
         {isGeneratingProof ? (
           <>
@@ -193,7 +189,7 @@ export default function Home() {
             Generating...
           </>
         ) : (
-          "Generate Proof"
+          "TODO: Generate proof"
         )}
       </button>
       {isGeneratingProof && (

@@ -1,9 +1,10 @@
 [package]
 name = "gitclaim"
-type = "bin"
+type = "contract"
 authors = ["saleel"]
 compiler_version = ">=0.34.0"
 
 [dependencies]
-zkemail = { tag = "v0.3.0", git = "https://github.com/zkemail/zkemail.nr", directory = "lib" }
-string_search = { tag = "v0.2.0", git = "https://github.com/noir-lang/noir_string_search" }
+aztec = { git="https://github.com/AztecProtocol/aztec-packages/", tag="aztec-packages-v0.57.0", directory="noir-projects/aztec-nr/aztec" }
+value_note = { git="https://github.com/AztecProtocol/aztec-packages/", tag="aztec-packages-v0.57.0", directory="noir-projects/aztec-nr/value-note"}
+easy_private_state = { git="https://github.com/AztecProtocol/aztec-packages/", tag="aztec-packages-v0.57.0", directory="noir-projects/aztec-nr/easy-private-state"}

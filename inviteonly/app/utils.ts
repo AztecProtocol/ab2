@@ -48,19 +48,6 @@ export async function initVerifier(): Promise<VerifierModules> {
 }
 
 export function parseEmail(emlContent: string) : {from: string, keyword: string} {
-/*   // Extract PR URL - between `"target": "` and `#event-`
-  const targetUrlMatch = emlContent.match(/"target": "(.*?)event-/);
-  const targetUrl = targetUrlMatch ? targetUrlMatch[1] : "";
-
-  // Parse repo name from PR URL
-  const repoNameMatch = targetUrl.match(/https:\/\/github\.com\/(.*?)\/pull\//);
-  const repoName = repoNameMatch ? repoNameMatch[1] : "";
-
-  const prNumberMatch = targetUrl.match(/\/pull\/(.*?)#/);
-  const prNumber = prNumberMatch ? prNumberMatch[1] : "";
-
-  const ccEmailMatch = emlContent.match(/Cc: (.*),/);
-  const ccEmail = ccEmailMatch ? ccEmailMatch[1] : ""; */
 
   const fromMatch = emlContent.match(/X-Mail-from: (.*)/);
   const from = fromMatch ? fromMatch[1] : "";
