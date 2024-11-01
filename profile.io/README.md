@@ -1,6 +1,8 @@
 # Profile.io: privacy preserving identity, nationality and age verification 
 
-Using a profile.io user's identity verification KYC results to prove user's email verification and/or nationality without revealing personal data by using Noir circuit ZKP. Scoping service for third parties to verify such information privately, either through profile.io/verify or their own user flows (eg. exploring potentially using Frames.js).
+The Profile.io team are building an open platform and network for individuals and organisations to verify themselves and their online presence, to unlock trusted transactions, including privacy preserving stablecoin payments between users and organisations. Our vision is a universal blue checkmark, associating a verified person or organisation to authenticated social accounts, account abstracted accounts / EOAs and enabling privacy preservation through a choice of either using a pseudonym primary profile.io account, or a real name primary profile with pseudonymised alias/burner accounts. Sdks will enable applications across web2 and web3 to open access to trusted user interactions and ultimately to syndicate verification.
+
+This repo demonstrates enabling a user to verify their current employment listed on their profile, using zkemail. Scoping service for third parties to verify such information privately, either through profile.io/verify or their own user flows (eg. exploring potentially using Frames.js).
 
 
 ## Challenge Selection
