@@ -1,6 +1,6 @@
 # Profile.io: privacy preserving identity, nationality and age verification 
 
-Using a profile.io user's indentity verification KYC results to prove user's email verification and/or nationality without revealing personal data by using Noir circuit ZKP. Scoping service for third parties to verify such information privately, either through profile.io/verify or their own user flows (eg. exploring potentially using Frames.js).
+Using a profile.io user's identity verification KYC results to prove user's email verification and/or nationality without revealing personal data by using Noir circuit ZKP. Scoping service for third parties to verify such information privately, either through profile.io/verify or their own user flows (eg. exploring potentially using Frames.js).
 
 
 ## Challenge Selection
@@ -24,14 +24,14 @@ The plan is to use ZKEmaip when the user inputs his/her email, and then the user
 
 Here is the user flow:
 1. In FE (frontend), a user inputs his email on FE (ex: alan@tabled.io).
-1. There will be sent a verification email to the user.
-1. The user needs to reply to that email.
-1. In BE (backend), the system will retrieve the raw email and then verify the email address from the DKIM-Siguature.
-1. The BE calls Aztec contract to mint an NFT with the Note which has the verified email address (this point should be the same mentioned in the Adult verification user flow). 
-1. Now the user owns the email-NFT
-1. Another user (verifier) wants to verify if the user is an adult or not.
-1. The user doesn't want to reveal the exact email but can prove whether the user has the email address.
-1. The FE has a "verify" button and when the verifier clicks that button -> Calling Aztec contract to process the target user's email verification -> FE shows whether the email address is verified on the UI.
+2. A verification email is sent by the system to the user.
+3. The user replies to the verification email.
+4. In BE (backend), the system will retrieve the raw email and then verify the email address from the DKIM-Signature.
+5. The BE calls Aztec contract to mint an NFT with the Note which has the verified email address (this point should be the same mentioned in the Adult verification user flow). 
+6. Now the user owns the email-NFT
+7. Another user (verifier) wants to verify if the user is an adult or not.
+8. The user doesn't want to reveal the exact email but can prove whether the user has the email address.
+9. The FE has a "verify" button and when the verifier clicks that button -> Calling Aztec contract to process the target user's email verification -> FE shows whether the email address is verified on the UI.
 
 ### How to start the application
 Prerequisite:
