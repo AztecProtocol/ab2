@@ -30,7 +30,9 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "next.config.mjs"
+    "next.config.mjs",
+    "./page/api/sendEmail.js",
+    "env_mock.js"
   ],
   "exclude": ["node_modules"]
 }

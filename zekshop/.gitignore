@@ -5,3 +5,4 @@ contracts/**/src/artifacts/
 node_modules/
 .pnp.cjs
 .yarn/
+env_mock.js
