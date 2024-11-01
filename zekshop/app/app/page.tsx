@@ -9,6 +9,7 @@ import {
 import { CardItem, CardContainer } from "./product_items/card_item";
 
 import SmoothScroll from "smooth-scroll";
+import { toast, Toaster } from "sonner";
 
 const scroll = new SmoothScroll('a[href*="#"]', {
   speed: 600,
@@ -16,6 +17,21 @@ const scroll = new SmoothScroll('a[href*="#"]', {
 });
 
 export default function Home() {
+  const process_transaction = () => {
+    console.log("ad");
+    const promise = () =>
+      new Promise((resolve) =>
+        setTimeout(() => resolve({ name: "Sonner" }), 2000)
+      );
+
+    toast.promise(promise, {
+      loading: "Loading...",
+      success: (_) => {
+        return `toast has been added`;
+      },
+      error: "Error",
+    });
+  };
   const css = `
       html {
       scroll-behavior: smooth;
@@ -77,6 +93,15 @@ export default function Home() {
             imageUrl="/24.png"
             onBuyClick={() => alert("Buying product 3")}
             onOpinionClick={() => alert("Give opinion on product 3")}
+          />
+          <Toaster
+            toastOptions={{
+              style: {
+                height: "40px",
+              },
+            }}
+            richColors
+            position="bottom-center"
           />
         </CardContainer>
       </MainContent>

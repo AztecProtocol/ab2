@@ -80,12 +80,26 @@ interface CardItemProps {
 
 export const CardItem: React.FC<CardItemProps> = ({
   imageUrl,
-  onBuyClick,
   onOpinionClick,
 }) => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const onBuyClick = () => {
+    const promise = () =>
+      new Promise((resolve) =>
+        setTimeout(() => resolve({ name: "Sonner" }), 2000)
+      );
+
+    toast.promise(promise, {
+      loading: "Processing transaction...",
+      success: (_) => {
+        return `Transaction is successful`;
+      },
+      error: "Error",
+    });
+  };
 
   // Handler for when a file is selected in the DragAndDropFile component
   const handleFileSelect = async (file: File) => {
