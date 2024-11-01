@@ -58,13 +58,17 @@ Providing a quick email verification feature.
 ## Lessons Learned (For Submission)
 
 - What are the most important takeaways from your project?
+We have learned a amazing concept from Aztec and ZKEmail which can using the proof and verification to ensure the email address of the sender is sending from same domain. When the email address is verified with the DKIM-signature, the next step is generate the proof and verify the proof.
 - Are there any patterns or best practices that you've learned that would be useful for other projects?
+I have learned the DKIM-singature verification from this project. For further verification to the other people or company. We can use the generated proof to send it to the party who want to verify instead of send the sensitive content to verify with the proof. This move can protect the user's sensitive information and the verifier can ensure the proof information is valid and correct without tempered. After the proof verification. The verifier still can use the proved data for further process.
 - Highlight reusable code patterns, key code snippets, and best practices - what are some of the ‘lego bricks’ you’ve built, and how could someone else best use them?
+In our plan, our can be separated the reusable code pattern into 3 parts, they are DKIM-Signature verification, Email address verified proof, email address proof verification. In this repo, someone can use it to verify with the DKIM-Signature. The other 2 modules are still under development and will release on somedays.
 
 ## Project Links (For Submission)
 
-Please provide links to any relevant documentation, code, or other resources that you've used in your project.
+- The code is in this repo
+- We are looking for an opportunity to integrate Aztec contract with [Profile.io](https://www.profile.io/)
 
 ## Video Demo (For Submission)
 
-Please provide a link to a video demo of your project. The demo should be no longer than 5 minutes and should include a brief intro to your team and your project.
+[Profile.io ZKEmail for Work Experience Verification](https://youtu.be/7TmG2g2NBXc)
