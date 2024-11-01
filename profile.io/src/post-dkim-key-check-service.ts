@@ -1,5 +1,6 @@
 import { promises as dns } from 'dns';
 import { simpleParser } from 'mailparser';
+// @ts-ignore
 import { authenticate } from 'mailauth';
 import { createVerify, createPublicKey } from 'crypto';
 
@@ -12,17 +13,17 @@ export class PostDkimKeyCheckService {
     const {
       emailContent
     } = body;
-
+    
     // Parse the raw email content
     const parsedEmail = await simpleParser(emailContent);
 
     // Extract the "From" address
-    const fromEmailAddress = parsedEmail.from?.value[0].address;
+    const fromEmailAddress = parsedEmail.from?.value[0].address || '';
 
     const { dkim } = await authenticate(emailContent);
     let isFromEmailAddressValid = false;
-    const dkimPass = dkim.results.filter(result => {
-      if(result.status.result === 'pass'){
+    const dkimPass = dkim.results.filter((result: { status: { result: string; aligned: string; }; }) => {
+      if(result.status.result === 'pass' && fromEmailAddress!==''){
         // Split the email by the '@' symbol and return the part after it
         const parts = fromEmailAddress.split('@');
         const emailDomain = parts[1];
@@ -38,7 +39,7 @@ export class PostDkimKeyCheckService {
   }
 
   // Extract DKIM signature from the parsed email
-  private extractDkimSignature(parsedEmail) {
+  private extractDkimSignature(parsedEmail: { headers: { get: (arg0: string) => any; }; }) {
     let dkimSignature = parsedEmail.headers.get('dkim-signature');
     let isDkimSignatureValid = false;
 
@@ -150,7 +151,7 @@ export class PostDkimKeyCheckService {
     return match[1];
   }
 
-  private dkimObjectToString(dkimObject) {
+  private dkimObjectToString(dkimObject: { [x: string]: any; }) {
     // return Object.entries(dkimObject)
     //   .map(([key, value]) => `${key}=${value}`)
     //   .join('; ');

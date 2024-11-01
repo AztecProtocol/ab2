@@ -15,6 +15,7 @@ Using a profile.io user's indentity verification KYC results to prove user's ema
 [Profile.io](https://www.profile.io/)
 
 ## Technical Approach
+- Used the DKIM-Signature verification feature
 
 ### Email verification
 We'd like to use ZKEmail to verify the email address, generate proof, and verify proof on our app.
@@ -31,6 +32,18 @@ Here is the user flow:
 1. Another user (verifier) wants to verify if the user is an adult or not.
 1. The user doesn't want to reveal the exact email but can prove whether the user has the email address.
 1. The FE has a "verify" button and when the verifier clicks that button -> Calling Aztec contract to process the target user's email verification -> FE shows whether the email address is verified on the UI.
+
+### How to start the application
+Prerequisite:
+- nodejs version V20.10.0 or above
+
+Here is the program start flow:
+1. Run "npm install typescript --save-dev" to install TypeScript.
+1. Run "npm install ts-node --save-dev" to install the TypeScript Library.
+1. Run "npm install" to install the required libraries.
+1. Run "npm run start".
+1. Open the browser and type the URL "http://127.0.0.1:3000".
+1. The screen will show the value of "fromEmailAddress", "isFromEmailAddressValid", and "dkimPass" results.
 
 ## Some technical questions
 
