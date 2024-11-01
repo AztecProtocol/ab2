@@ -1,4 +1,4 @@
-# Profile.io: privacy preserving identity, nationality and age verification 
+# Profile.io: zkemail to verify employment.
 
 The Profile.io team are building an open platform and network for individuals and organisations to verify themselves and their online presence, to unlock trusted transactions, including privacy preserving stablecoin payments between users and organisations. Our vision is a universal blue checkmark, associating a verified person or organisation to authenticated social accounts, account abstracted accounts / EOAs and enabling privacy preservation through a choice of either using a pseudonym primary profile.io account, or a real name primary profile with pseudonymised alias/burner accounts. Sdks will enable applications across web2 and web3 to open access to trusted user interactions and ultimately to syndicate verification.
 
