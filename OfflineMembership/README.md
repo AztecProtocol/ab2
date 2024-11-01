@@ -27,6 +27,7 @@ Those who'd like to use it [were invited](https://github.com/skaunov/note_histor
 
 ## Lessons Learned (For Submission)
 
+TODO
 > - What are the most important takeaways from your project?
 - Are there any patterns or best practices that you've learned that would be useful for other projects?
 - Highlight reusable code patterns, key code snippets, and best practices - what are some of the ‘lego bricks’ you’ve built, and how could someone else best use them?
@@ -38,10 +39,7 @@ There's a blocker for making the circuit generic over a note type. `NullifiableN
 
 ## Project Links (For Submission)
 
-> Please provide links to any relevant documentation, code, or other resources that you've used in your project.
-
-TODO
-The [README](https://github.com/skaunov/note_historical_offline/blob/main/README.MD) there is live and useful to navigate, also dirs have their READMEs with the relevant details.
+Check out subdirs READMEs with the relevant details!
 
 <./artifacts>       contains compiled items. \
 The contract dir    contains the helper contract needed to get witnesses from PXE while proving. \
@@ -128,5 +126,4 @@ await getMembershipWitness.methods.low_nullifier(
 ```
 
 ## Video Demo (For Submission)
-
-Please provide a link to a video demo of your project. The demo should be no longer than 5 minutes and should include a brief intro to your team and your project.
+Not planned.
