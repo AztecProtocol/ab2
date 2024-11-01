@@ -1,92 +1,73 @@
 # UmbraHelix
 
-## Overview
 UmbraHelix is an Aztec NFT Ownership verifier for Discord. It also has other useful features like creating collection, minting nft, public and private transfer and to fetch nft owner.
 
 Developers can use UmbraHelix by installing the sdk from npm.
 
+## Challenge Selection
+- [x] Social Cipher 
+- [ ] ZKEmail Guardian
+
+## Team information
+- **Satyam Bansal** - Full stack developer and open source contributor, Kernel community fellow
+  - GitHub: https://github.com/satyambnsal
+  - Twitter: @satyambnsal
+  - Email: satyamsgsits1994@gmail.com
+
+- **Yash Mittal** - UI developer
+  - GitHub: https://github.com/yassmittal
 
 
-### A. For dApp Developers
+## Technical Approach
 
-```typescript
-import { UmbraHelixClient } from '@umbra-helix/client';
+### Main Components:
+1. **NFT Smart Contract**
+- Custom NFT contract written in Noir enabling both public and private transfers
+- Support for collection creation, minting, and ownership verification  
+- Located in `contracts/nft_contracts`
 
-// Initialize client
-const client = new UmbraHelixClient({
-  pxeUrl: 'your-pxe-url',
-});
+2. **Client SDK**
+- TypeScript SDK for easy integration
+- Support for wallet creation, collection management, and NFT operations
+- Privacy-preserving ownership verification functions
 
-// Create Wallet
-const wallet = client.createWallet()
+3. **Discord Integration** 
+- Bot interface for role management based on private NFT ownership verification
+- Private membership verification without exposing full ownership details
 
-// Create collection
-const collection = await client.createCollection({
-  name: 'My Collection',
-  symbol: 'MC',
-  maxSupply: 1000
-}, wallet);
+### Key Aztec Features Used:
+- Private state for NFT ownership records
+- Public/private transfer functions 
+- AuthWit for delegated operations
+- PXE integration for client-side proof generation
 
-// Mint NFT
-const nft = await client.mintNFT({
-  contractAddress: collection.address,
-  recipient: recipientAddress,
-  tokenId: tokenId
-}, wallet);
+## Expected Outcomes
+- Easy-to-use SDK for developers
+- Working Discord bot demonstrating private ownership verification
+- Documentation and examples for building privacy-preserving social applications
 
-// Public Transfer
-const nft = await client.publicTransfer({
-  contractAddress: collection.address,
-  tokenId: tokenId,
-  recipient: recipientAddress,
-}, wallet);
+## Lessons Learned (For Submission)
+- Implementing privacy-preserving ownership verification requires careful consideration of information leakage
+- Pattern for handling both public and private NFT transfers while maintaining privacy
+- Best practices for PXE integration and client-side proof generation
+- Reusable patterns for Discord bot integration with private state verification
 
-```
+## Project Links
+- GitHub Repository: https://github.com/umbra-privacy/umbra-helix
+- Documentation & Examples: [To be added]
 
+## Video Demo
+[Link to demo video will be added for final submission]
 
-
-### Local Installation
+### Installation & Usage
 ```bash
 # Clone the repository
-git clone https://github.com/satyambnsal/ab2
+git clone https://github.com/umbra-privacy/umbra-helix
 
 cd umbra-helix
 
 # Install dependencies
 bun install
 
-
 # Start development server
 bun run dev
-```
-
-### Contract Commands
-Custom NFT contract is written in `contracts/nft_contracts` folder
-
-**Note:** *Before running following commands, Please make sure your **aztec sandbox** is running locally with version `0.57.0`*
-
-
-```bash
-# Go to contract Directory
-cd contracts/nft_contracts
-
-# Compile contracts
-aztec-nargo compile
-
-# Generate Artifacts
-aztec codegen target --outdir ../../src/artifacts
-```
-
-
-## License
-MIT License
-
-## Contact
-- Discord Server: satyambnsal
-- Twitter: @satyambnsal
-- Email: satyamsgsits1994@gmail.com
-
-## Acknowledgments
-- Aztec Network Team
-- Discord API Documentation
-- Community Contributors
