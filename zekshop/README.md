@@ -12,6 +12,31 @@ ZeKshop addresses the severe privacy issues in purchasing erotic merchandise by 
 
 ![ZeKshop diagram](docs_imgs/ZeKshop_full_diagram.png)
 
+## Overview
+
+There are three main directories in the ZeKshop project.
+
+### circuits
+
+Contains the `verify_purchase` circuit. It's located at `zekshop/circuits/verify_purchase`. It get the purchase number, the sender and recipient email addresses from certain email's metadata and constraints that indeed the user(on the client-side) that inputs the email is the one that received the email better known as "spender of the funds for the purchase".
+
+> [!NOTE]
+>
+> There are implemented tests for proving and verifying an email. There is an email that's already used as a `test-data` in the `tests/test-data` folder
+
+The tests are located in `zekshop/circuits/client/tests`.
+Steps for running them:
+
+1. Go to `cd zekshop/circuits/client/tests`
+
+2. Run `yarn`
+
+3. Run `yarn test`
+
+### app
+
+### contracts
+
 ## Technical guidance
 
 ### Run ZeKshop locally
@@ -27,15 +52,24 @@ To run the ZeKshop client locally:
 > [!IMPORTANT]
 >
 > As the buying product functionality is still actively worked upon, you'll have to send an email manually
-> The steps are the following:
-> Go to `cd zekshop/app/page/api/sendEmail.js`
-> Change the `email` variable to your email address.
-> In the directory you are (`cd zekshop/app/page/api/sendEmail.js`) execute `node sendEmail.js`
-> Check your email, you have an email by ZeKshop!
-> Click on the vertical three dots for `more` options
-> Click `Show original` button
-> Click `Download Original` button on the bottom-left
-> You can now drag and drop it and prove that you bought product with a specific ID!
+
+#### The steps are the following:
+
+1. Go to `cd zekshop/app/page/api/sendEmail.js`
+
+2. Change the `email` variable to your email address.
+
+3. In the directory you are (`cd zekshop/app/page/api/sendEmail.js`) execute `node sendEmail.js`
+
+4. Check your email, you have an email by ZeKshop!
+
+5. Click on the vertical three dots for `more` options
+
+6. Click `Show original` button
+
+7. Click `Download Original` button on the bottom-left
+
+8. You can now drag and drop it and prove that you bought product with a specific ID!
 
 ### Giving an opinion on a product
 
