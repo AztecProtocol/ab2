@@ -30,6 +30,7 @@
     "jest": "^29.7.0",
     "mailparser": "^3.7.1",
     "next": "14.2.11",
+    "nodemailer": "^6.9.16",
     "react": "^18",
     "react-dom": "^18",
     "react-dropzone": "^14.2.9",
@@ -56,6 +57,7 @@
     "eslint": "^8",
     "eslint-config-next": "14.2.11",
     "ts-jest": "^29.2.5",
+    "typescript": "5.6.3",
     "webpack": "^5.95.0"
   },
   "eslintConfig": {
