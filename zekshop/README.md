@@ -33,9 +33,21 @@ Steps for running them:
 
 3. Run `yarn test`
 
+### contracts
+
+The contracts are located at `zekshop/contracts` where there are two directories, respectively the `blocksense_historical_data_feed_store` and the `schnorr_account_contract`.
+
+#### blocksense_historical_data_feed_store
+
+This is the data feed provider for the offchain-onchain data bridge. It acts as a simple key-value store where the key is the id of the respective data feed and the value is 24 bytes array with `Field` number(should be max: `u64`) for the block's timestamp. Learn more about [BlockSense](https://blocksense.network/)
+
+#### schnorr_account_contract
+
+ZeKshop provides users the ability to create Schnorr account with which they can connect to their Schnorr account wallet to sign transactions (buy products).
+
 ### app
 
-### contracts
+The client-side of ZeKshop. Contains utils for proving and veryfing an email and an interactive UI of ZeKshop. Steps for running it locally can be found below.
 
 ## Technical guidance
 
