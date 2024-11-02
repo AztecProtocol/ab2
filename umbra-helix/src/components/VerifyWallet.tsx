@@ -51,9 +51,9 @@ export const VerifyWallet = ({ pxe }: { pxe: PXE }) => {
       const [tokenIds = [], isMoreNfts] = await nftContract.methods
         .get_private_nfts(currentWallet.getAddress(), 0)
         .simulate();
-
+      console.log("Token IDS", tokenIds)
       const nonZeroTokenIds = tokenIds.filter(
-        (nftTokenId: number) => nftTokenId !== 0
+        (nftTokenId: bigint) => nftTokenId !== 0n
       );
       console.log("Token IDs", tokenIds)
 

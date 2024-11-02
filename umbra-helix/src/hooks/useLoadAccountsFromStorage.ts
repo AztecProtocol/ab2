@@ -14,7 +14,6 @@ export const useLoadAccountFromStorage = (pxeClient: PXE) => {
   const setWallets = useSetAtom(walletsAtom);
   const setCurrentWallet = useSetAtom(currentWalletAtom);
   const setNFTContract = useSetAtom(nftContractAtom)
-  console.log("Accounts in storage", accountInStorage)
 
   let localAccounts:any[] = []
   try {
@@ -28,7 +27,7 @@ export const useLoadAccountFromStorage = (pxeClient: PXE) => {
     try {
       const registeredAccounts = await pxeClient.getRegisteredAccounts();
       const registeredAddresses = registeredAccounts.map(({ address }) => address.toString());
-      console.log('Registered addresses', registeredAddresses);
+      // console.log('Registered addresses', registeredAddresses);
 
       const walletsPromises = localAccounts.map(async ({ secretKey, salt, address }) => {
         const account = getSchnorrAccount(
@@ -37,7 +36,7 @@ export const useLoadAccountFromStorage = (pxeClient: PXE) => {
           deriveSigningKey(Fr.fromString(secretKey)),
           Fr.fromString(salt),
         );
-        console.log('Storage account address', account.getAddress().toString(), address);
+        // console.log('Storage account address', account.getAddress().toString(), address);
 
         const accountAddress = account.getAddress().toString();
         let wallet: AccountWalletWithSecretKey | null = null;
