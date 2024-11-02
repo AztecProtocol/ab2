@@ -6,3 +6,4 @@ export const CREATE_ACCOUNT_DEFAULT_PARAMS = {
   rpcUrl: RPC_URL,
 }
 export const ACCOUNTS_STORAGE_KEY = "aztec_accounts_key"
+export const NFT_CONTRACT_KEY = "nft_contract_latest"

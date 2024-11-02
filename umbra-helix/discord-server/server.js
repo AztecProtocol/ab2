@@ -9,7 +9,7 @@ import {
 
 const app = express();
 app.use(express.json());
-app.use(cors()); 
+app.use(cors());
 
 app.post('/interactions', verifyKeyMiddleware(process.env.PUBLIC_KEY), async function (req, res) {
   const { type, data } = req.body;
@@ -23,7 +23,7 @@ app.post('/interactions', verifyKeyMiddleware(process.env.PUBLIC_KEY), async fun
 
     if (name === 'verify') {
       const userId = req.body.member?.user.id || req.body.user.id;
-      const verifyUrl = `${process.env.BASE_URL}?userId=${userId}`;
+      const verifyUrl = `${process.env.BASE_URL}/verify?userId=${userId}`;
 
       return res.send({
         type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
@@ -47,7 +47,7 @@ app.post('/interactions', verifyKeyMiddleware(process.env.PUBLIC_KEY), async fun
 
 app.post('/api/verify-role', async (req, res) => {
   const { userId } = req.body;
-  
+  console.log({ userId, guildId: process.env.GUILD_ID, NFT_OWNER_ROLE_ID: process.env.NFT_OWNER_ROLE_ID, discordToken: process.env.DISCORD_TOKEN })
   try {
     // Assign NFT Owner role
     const response = await fetch(
@@ -61,10 +61,11 @@ app.post('/api/verify-role', async (req, res) => {
       }
     );
 
+
     if (!response.ok) {
       throw new Error('Failed to assign role');
     }
-    
+
     res.json({ success: true });
   } catch (error) {
     console.error('Error:', error);

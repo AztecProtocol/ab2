@@ -1,6 +1,7 @@
 import { atom } from 'jotai';
 import { PXE, AccountWalletWithSecretKey } from '@aztec/aztec.js';
 import { type TokenContract, PayTransactionFull } from './types.js'
+import { NFTContract } from './artifacts/NFT.js';
 
 
 
@@ -22,3 +23,4 @@ export const payTransactionsAtom = atom<PayTransactionFull[]>([]);
 export const isPrivateAtom = atom<boolean>(false);
 export const rpcUrlAtom = atom<string>('');
 export const remountKeyAtom = atom<number>(0);
+export const nftContractAtom = atom<NFTContract | null>(null)

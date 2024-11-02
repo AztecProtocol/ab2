@@ -2,10 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useSetAtom } from "jotai";
 import { pxeAtom } from "./atoms.js";
 import { createPXEClient, PXE, waitForPXE } from "@aztec/aztec.js";
-import { WalletInteractions } from "./components/WalletInteractions.js";
 import { RPC_URL } from "./constants.js";
 import { Toaster } from "react-hot-toast";
-// import { Router } from "lucide-react";
 import { ThemeProvider } from "next-themes";
 import { Router } from "./router/router.js";
 
@@ -43,7 +41,7 @@ function App() {
     <>
       <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
         {errorMessage && <h2 className="text-red-600">{errorMessage}</h2>}
-        <Router isLoading={isLoading} pxe={pxeLocal} />
+        <Router isLoading={isLoading} pxe={pxeLocal} errorMessage={errorMessage} />
       </ThemeProvider>
       <Toaster />
     </>
