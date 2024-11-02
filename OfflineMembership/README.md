@@ -27,10 +27,11 @@ Those who'd like to use it [were invited](https://github.com/skaunov/note_histor
 
 ## Lessons Learned (For Submission)
 
-TODO
-> - What are the most important takeaways from your project?
-- Are there any patterns or best practices that you've learned that would be useful for other projects?
-- Highlight reusable code patterns, key code snippets, and best practices - what are some of the ‘lego bricks’ you’ve built, and how could someone else best use them?
+It's a great example of working with the archive tree and its nodes. An intresting blend of a standalone circuit and the blockchain data. 
+
+In a way this highlights DA and publication since getting the notes is on the one hand a subtle process easy to miss, on the other hand with enough industry it can be extracted from own PXE. And things gets even more interesting when user wants to hop between devices.
+
+Also I tend to stay on the safe side to publish the thing as early as possible and stick to just a lot of `[Field]` for arguments. I noticed that Noir now can intake structs and <Prover.toml> have been improved, but it's not obvious from current docs how to used. So this implementation went cumbersome but reliable way for this part.
 
 Next step would be a circuit to fold the proofs at different blocks into one proof and to verify it.
 
