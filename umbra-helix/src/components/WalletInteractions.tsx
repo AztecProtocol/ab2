@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { currentWalletAtom, walletsAtom } from "../atoms.js";
+import { currentWalletAtom, nftContractAtom, walletsAtom } from "../atoms.js";
 import { useAccount } from "../hooks/useAccounts.js";
 import { Spinner } from "./Spinnner.js";
 import {
@@ -22,7 +22,7 @@ export const WalletInteractions = ({ pxe }: { pxe: PXE }) => {
   const [isInProgressObj, setIsInProgressObj] = useState<{
     [key: string]: boolean;
   }>({});
-  const [nftContract, setNFTContract] = useState<NFTContract | null>(null);
+  const [nftContract, setNFTContract] = useAtom(nftContractAtom);
   const [receipentAddress, setReceipentAddress] = useState("");
   const [NFTMintAddress, setNFTMintAddress] = useState("");
 

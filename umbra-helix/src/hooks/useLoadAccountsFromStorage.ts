@@ -1,16 +1,19 @@
 import { getSchnorrAccount } from '@aztec/accounts/schnorr';
 import { AccountWalletWithSecretKey, PXE } from '@aztec/aztec.js';
-import { deriveSigningKey, Fr } from '@aztec/circuits.js';
-import { walletsAtom, currentWalletAtom, pxeAtom } from '../atoms.js';
+import { AztecAddress, deriveSigningKey, Fr } from '@aztec/circuits.js';
+import { walletsAtom, currentWalletAtom, pxeAtom, nftContractAtom } from '../atoms.js';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useEffect } from 'react';
 import { useLocalStorage } from 'react-use';
-import { ACCOUNTS_STORAGE_KEY } from '../constants.js';
+import { ACCOUNTS_STORAGE_KEY, NFT_CONTRACT_KEY } from '../constants.js';
+import { NFTContract } from '@aztec/noir-contracts.js';
 
 export const useLoadAccountFromStorage = (pxeClient: PXE) => {
   const [accountInStorage] = useLocalStorage(ACCOUNTS_STORAGE_KEY, "")
+  const [nftContractAddress] = useLocalStorage(NFT_CONTRACT_KEY,"")
   const setWallets = useSetAtom(walletsAtom);
   const setCurrentWallet = useSetAtom(currentWalletAtom);
+  const setNFTContract = useSetAtom(nftContractAtom)
   console.log("Accounts in storage", accountInStorage)
 
   let localAccounts:any[] = []
@@ -54,7 +57,15 @@ export const useLoadAccountFromStorage = (pxeClient: PXE) => {
       setWallets(wallets);
       if (wallets.length > 0) {
         setCurrentWallet(wallets[0]);
+        if(nftContractAddress) {
+          try {
+            const nft = await NFTContract.at(AztecAddress.fromString(nftContractAddress), wallets[0])
+            setNFTContract(nft)
+          } catch(error) {
+          }
+        }
       }
+
     } catch (err) {
       console.log('Failed to load aaccounts from storage', err);
     }

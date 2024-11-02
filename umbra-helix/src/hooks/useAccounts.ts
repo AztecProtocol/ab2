@@ -6,7 +6,7 @@ import {
 } from '@aztec/aztec.js'
 import { useAtom} from 'jotai'
 import { walletsAtom, currentWalletAtom } from '../atoms.js'
-import { ACCOUNTS_STORAGE_KEY} from '../constants.js'
+import { ACCOUNTS_STORAGE_KEY,NFT_CONTRACT_KEY} from '../constants.js'
 import { NFTContract } from '../artifacts/NFT.js'
 import { deriveSigningKey } from '@aztec/circuits.js'
 import {toast} from 'react-hot-toast'
@@ -15,6 +15,7 @@ import { useState } from 'react'
 
 export const useAccount = (pxeClient:PXE) => {
   const [accountInStorage, setAccountsInStorage ] = useLocalStorage(ACCOUNTS_STORAGE_KEY, "")
+  const [_, setNFTContractInLocalStorage] = useLocalStorage(NFT_CONTRACT_KEY,"")
   const [isCreating, setIsCreating] = useState(false)
   const [wallets, setWallets] = useAtom(walletsAtom)
   const [currentWallet, setCurrentWallet] = useAtom(currentWalletAtom)
@@ -90,6 +91,7 @@ export const useAccount = (pxeClient:PXE) => {
       .send()
       .deployed()
 
+    setNFTContractInLocalStorage(deployedContract.address.toString());
     const nft = await NFTContract.at(deployedContract.address, admin)
     return nft
   }
