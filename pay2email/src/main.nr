@@ -1,12 +1,16 @@
 // let's assume a reasonable username and a domain are both a `FieldCompressedString` (31 ASCII)
+//      actually this can be detailed with delving into the standards and some materials on emails...
 
 use dep::aztec::macros::aztec;
 #[aztec]
 contract EmailBalances {
-    use dep::aztec::prelude::{AztecAddress, Map, PublicImmutable};
+    use dep::aztec::prelude::{AztecAddress, Map, PublicImmutable, PublicMutable};
     use zkemail::{KEY_LIMBS_1024, dkim::RSAPubkey};
 
     use dep::aztec::macros::{storage::storage, functions::{private, public, initializer, internal}};
+
+    use dep::token_contract::Token;
+    use dep::aztec::protocol_types::traits::ToField;
     
     global ZERO_INDEX: u8 = 48; // https://github.com/madztheo/noir-string-utils/blob/main/src/lib.nr#L232
     // TODO find a good value for this, it's just a guess now.
@@ -24,20 +28,74 @@ contract EmailBalances {
     //     selector: CompressedString<SN, SM>,
     // }
 
+    pub struct EmailAddress {
+        user: Field,
+        domain: Field,
+    }
+    /* I had no chance to think through a nice way to map balance on an email address so let's just 
+    have a fix here just to have the simple mapping working */
+    impl ToField for EmailAddress {
+        fn to_field(self) -> Field {
+            [self.user, self.domain].hash()
+        }
+    }
+
     #[storage]
     struct Storage<Context> {
         /* 
         * admin controlled
         * let's forget for a moment how that could change and endulge simplicity of the prototype */
+        // also selector isn't taken into account here, while prototyping only domain part have been taken into account
         pubkeys: Map<Field, PublicImmutable<Field, Context>, Context>,
-        // let's be simple yet
-        signatures_hashed: Map<Field, PublicImmutable<bool, Context>, Context>
+        /* This is a simple approach, each signature used for an action in the contract is hashed and the hash is added into this `Map`. Feels like it could be optimized. */
+        signatures_hashed: Map<Field, PublicImmutable<bool, Context>, Context>,
+
+        balances: Map<EmailAddress, PublicMutable<U128, Context>, Context>,
+        addresses_linked: Map<EmailAddress, PublicMutable<AztecAddress, Context>, Context>,
+
+        // I wanted to research if there's a nice way to track unknown number of token kinds in one contract, but let's stick to the `Token` pattern with a single ticker for a contract as there's no time left.
+        token: PublicImmutable<AztecAddress, Context>
     }
     #[public]
     #[initializer]
     fn constructor_test(
-        // admin: AztecAddress
-    ) {}
+        // admin: AztecAddress, // TODO
+        token: AztecAddress
+    ) {
+        storage.token.initialize(token);
+    }
+
+    #[public]
+    fn transfer(user: Field, domain: Field, amount: U128, nonce: Field) {
+        Token::at(
+            storage.token.read()).transfer_public(context.msg_sender(), context.this_address(), amount.to_field(), nonce
+        );
+        let dest = EmailAddress{user, domain};
+        storage.balances.at(dest).write(
+            storage.balances.at(dest).read().add(amount)
+        );
+    }
+    #[public]
+    fn redeem_amount(user: Field, domain: Field, amount: U128) {
+        let address_email = EmailAddress{user, domain};
+        let address_aztec = context.msg_sender();
+
+        assert(amount <= storage.balances.at(address_email).read());
+        
+        // TODO add authwit
+        assert(storage.addresses_linked.at(address_email).read() == address_aztec);
+        
+        Token::at(storage.token.read()).transfer_public(context.this_address(), address_aztec, amount.to_field(), 0);
+        storage.balances.at(address_email).write(
+            storage.balances.at(address_email).read() - amount
+        );
+    }
+    #[public]
+    fn redeem_all(user: Field, domain: Field) {
+        EmailBalances::at(context.this_address()).redeem_amount(
+            user, domain, storage.balances.at(EmailAddress{user, domain}).read()
+        );
+    }
 
     /* an example of an `AztecAddress`
     0x11f14cd0aa0bbf9210a5aaef237be9b672f5d0e8b21daed01882c2ab618f99cb
@@ -55,7 +113,6 @@ contract EmailBalances {
     //         ()
     //     }
     // }
-
     
     /// this one is more precise as it's aimed to those who chose to have an own `AztecAddress`, so they're ready to produce a precise email
     #[public]
@@ -118,7 +175,9 @@ contract EmailBalances {
         //     "`from` doesn't match the one indexed in the `header`"
         // );
 
-        // linking date is a factor! but the date isn't reliable in emails, so it's best to include and `assert` data of current linking that is replaced now
+        /* Someone could solicitate an email message from the victim to use it later for linking and draining when the account will be filled, so for at least some protection it would be nice
+        to restrict linking only with newer messages. But date isn't reliable in emails, so here it should include and `assert` data of current linking that is replaced now. But initial 
+        linking is done with something like `None` option anyway. */
         
         // subject_required
 
