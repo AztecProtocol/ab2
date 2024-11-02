@@ -17,6 +17,8 @@ Developers can use UmbraHelix by installing the sdk from npm.
 - **Yash Mittal** - UI developer
   - GitHub: https://github.com/yassmittal
 
+## Video Demo
+https://www.loom.com/share/22de26bc290a4326bac074992e3338c9?sid=064cd65f-12c3-4270-a2ff-3e3eaf99496a
 
 ## Technical Approach
 
@@ -56,8 +58,7 @@ Developers can use UmbraHelix by installing the sdk from npm.
 - GitHub Repository: https://github.com/umbra-privacy/umbra-helix
 - Documentation & Examples: [To be added]
 
-## Video Demo
-[Link to demo video will be added for final submission]
+
 
 ### Installation & Usage
 ```bash
