@@ -5,3 +5,4 @@ export const CREATE_ACCOUNT_DEFAULT_PARAMS = {
   wait: true,
   rpcUrl: RPC_URL,
 }
+export const ACCOUNTS_STORAGE_KEY = "aztec_accounts_key"

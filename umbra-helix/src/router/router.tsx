@@ -4,10 +4,9 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import React from "react";
 import { WalletInteractions } from "../components/WalletInteractions.js";
 import { ErrorView } from "../error-renderer/views/error.js";
-import { CreateWallet } from "../components/create-wallet.js";
 import { PXE } from "@aztec/aztec.js";
+import { useLoadAccountFromStorage } from "../hooks/useLoadAccountsFromStorage.js";
 
-const Loading = () => <h1>Hello</h1>;
 
 export const Router = ({
   isLoading,
@@ -16,6 +15,7 @@ export const Router = ({
   isLoading: boolean;
   pxe: PXE;
 }) => {
+
   return (
     <ErrorBoundary FallbackComponent={ErrorView}>
       <div className="flex flex-1 pointer">

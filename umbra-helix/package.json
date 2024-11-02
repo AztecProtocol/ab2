@@ -58,6 +58,7 @@
     "react-dom": "^18.3.1",
     "react-hot-toast": "^2.4.1",
     "react-router-dom": "6.25.1",
+    "react-use": "^17.5.1",
     "sonner": "1.5.0",
     "vite-plugin-node-polyfills": "^0.22.0",
     "vite-plugin-resolve": "^2.5.2"
