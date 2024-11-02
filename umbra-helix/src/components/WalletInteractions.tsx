@@ -10,12 +10,8 @@ import {
 } from "@aztec/aztec.js";
 import chalk from "chalk";
 import { toast } from "react-hot-toast";
-import { NFTContract } from "@aztec/noir-contracts.js/NFT";
-import { pedersenHash } from "@aztec/foundation/crypto";
 import { useSearchParams } from "react-router-dom";
 import { useLoadAccountFromStorage } from "../hooks/useLoadAccountsFromStorage.js";
-
-const TRANSIENT_STORAGE_SLOT_PEDERSEN_INDEX = 3;
 
 export const WalletInteractions = ({ pxe }: { pxe: PXE }) => {
   const pxeClient = pxe;
@@ -23,12 +19,7 @@ export const WalletInteractions = ({ pxe }: { pxe: PXE }) => {
     [key: string]: boolean;
   }>({});
   const [nftContract, setNFTContract] = useAtom(nftContractAtom);
-  const [receipentAddress, setReceipentAddress] = useState("");
   const [NFTMintAddress, setNFTMintAddress] = useState("");
-
-  const [storageSlotRandomness, setStorageSlotRandomness] = useState<Fr | null>(
-    null
-  );
   const [currentWallet, setCurrentWallet] = useAtom(currentWalletAtom)
 
   const { createAccount, isCreating, deployNFTContract } = useAccount(pxeClient)
@@ -144,7 +135,6 @@ export const WalletInteractions = ({ pxe }: { pxe: PXE }) => {
         ...isInProgressObj,
         isPreparePrivateTransferNFTInProgress: true,
       });
-      setStorageSlotRandomness(null);
       const slotRandomness = Fr.random();
       // const tx = await nftContract.methods.prepare_transfer_to_private(currentWallet.getAddress(), AztecAddress.fromString(NFTMintAddress), slotRandomness).send()
       const tx = await nftContract.methods
@@ -160,7 +150,6 @@ export const WalletInteractions = ({ pxe }: { pxe: PXE }) => {
           )}`
         )
       );
-      setStorageSlotRandomness(slotRandomness);
       toast.success("Private Transfer  done");
     } catch (error: any) {
       toast.error(error.toString());
@@ -169,49 +158,6 @@ export const WalletInteractions = ({ pxe }: { pxe: PXE }) => {
         ...isInProgressObj,
         isPreparePrivateTransferNFTInProgress: false,
       });
-    }
-  };
-
-  const handleFinalizePrivateTransferNFT = async () => {
-    if (!nftContract || !currentWallet) {
-      console.error("no contract or addrees");
-      return;
-    }
-    if (storageSlotRandomness === null) {
-      return toast.error(`Storage slot randomness shouldn't be null`);
-    }
-
-    const commitment = pedersenHash(
-      [currentWallet.getAddress().toField(), storageSlotRandomness],
-      TRANSIENT_STORAGE_SLOT_PEDERSEN_INDEX
-    );
-    try {
-      setIsInProgressObj({
-        ...isInProgressObj,
-        isFinalizePrivateTransferNFTInProgress: true,
-      });
-      const tx = await nftContract.methods
-        .finalize_transfer_to_private(tokenId, commitment)
-        .send();
-      console.log(`Private transfer transaction ${await tx.getTxHash()}`);
-      console.log(chalk.blackBright("Awaiting transaction to be mined"));
-      const receipt = await tx.wait();
-      console.log(
-        chalk.green(
-          `Transaction has been mined on block ${chalk.bold(
-            receipt.blockNumber
-          )}`
-        )
-      );
-      return toast.success("Private Transfer finalize step done");
-    } catch (error: any) {
-      return toast.error(error.toString());
-    } finally {
-      setIsInProgressObj({
-        ...isInProgressObj,
-        isFinalizePrivateTransferNFTInProgress: false,
-      });
-      return;
     }
   };
 
@@ -462,16 +408,7 @@ export const WalletInteractions = ({ pxe }: { pxe: PXE }) => {
                 <Spinner />
               )}
             </button>
-            <button
-              className="btn btn-primary"
-              onClick={handleFinalizePrivateTransferNFT}
-              disabled={storageSlotRandomness === null}
-            >
-              Finalise Transfer{" "}
-              {isInProgressObj.isFinalizePrivateTransferNFTInProgress && (
-                <Spinner />
-              )}
-            </button>
+
           </div>
           <hr />
           {/** Private Transfer NFT Flow  Ends*/}
