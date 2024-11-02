@@ -1,36 +1,37 @@
 import { ErrorBoundary } from "react-error-boundary";
 import { Toaster } from "sonner";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import React from "react";
-import { WalletInteractions } from "../components/WalletInteractions.js";
+import { AdminPanel } from "../components/AdminPanel.js";
 import { ErrorView } from "../error-renderer/views/error.js";
 import { PXE } from "@aztec/aztec.js";
-import { useLoadAccountFromStorage } from "../hooks/useLoadAccountsFromStorage.js";
+import { VerifyWallet } from "../components/VerifyWallet.js";
+import AppLayout from "../components/AppLayout.js";
+
 
 
 export const Router = ({
   isLoading,
   pxe,
+  errorMessage
 }: {
   isLoading: boolean;
-  pxe: PXE;
+  pxe: PXE | undefined;
+  errorMessage: string
 }) => {
 
   return (
     <ErrorBoundary FallbackComponent={ErrorView}>
-      <div className="flex flex-1 pointer">
-        <div>{isLoading && "loading"}</div>
-        <Toaster theme="dark" />
-        <BrowserRouter>
-          {" "}
-          {/* Change this to BrowserRouter */}
+      <BrowserRouter>
+        <AppLayout pxe={pxe} isLoading={isLoading} errorMessage={errorMessage}>
           <Routes>
-            {!isLoading && (
-              <Route path="/" element={<WalletInteractions pxe={pxe} />} />
-            )}
+            <Route path="/verify" element={<VerifyWallet pxe={pxe!} />} />
+            <Route path="/admin" element={<AdminPanel pxe={pxe!} />} />
+            <Route path="/" element={<Navigate to="/admin" replace />} />
           </Routes>
-        </BrowserRouter>
-      </div>
-    </ErrorBoundary>
+        </AppLayout>
+        <Toaster position="top-right" theme="dark" />
+      </BrowserRouter>
+    </ErrorBoundary >
   );
 };

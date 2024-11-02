@@ -7,27 +7,31 @@ import {
   AztecAddress,
   Fr,
   PXE,
+  readFieldCompressedString
 } from "@aztec/aztec.js";
 import chalk from "chalk";
 import { toast } from "react-hot-toast";
 import { useSearchParams } from "react-router-dom";
 import { useLoadAccountFromStorage } from "../hooks/useLoadAccountsFromStorage.js";
 
-export const WalletInteractions = ({ pxe }: { pxe: PXE }) => {
+export const AdminPanel = ({ pxe }: { pxe: PXE }) => {
   const pxeClient = pxe;
   const [isInProgressObj, setIsInProgressObj] = useState<{
     [key: string]: boolean;
   }>({});
   const [nftContract, setNFTContract] = useAtom(nftContractAtom);
   const [NFTMintAddress, setNFTMintAddress] = useState("");
-  const [currentWallet, setCurrentWallet] = useAtom(currentWalletAtom)
+  const [currentWallet] = useAtom(currentWalletAtom)
 
-  const { createAccount, isCreating, deployNFTContract } = useAccount(pxeClient)
+  const { deployNFTContract } = useAccount(pxeClient)
   const [tokenId, setTokenId] = useState(0)
 
   const [searchParams] = useSearchParams();
   const userId = searchParams.get("userId");
-  const wallets = useAtomValue(walletsAtom)
+  const [formData, setFormData] = useState({
+    name: '',
+    symbol: ''
+  });
   useLoadAccountFromStorage(pxe)
 
 
@@ -40,8 +44,8 @@ export const WalletInteractions = ({ pxe }: { pxe: PXE }) => {
     console.log("Deploying token");
     const nftContract = await deployNFTContract(
       currentWallet,
-      "Umbra OG",
-      "UMOG"
+      formData.name,
+      formData.symbol
     );
     setNFTContract(nftContract);
 
@@ -247,28 +251,28 @@ export const WalletInteractions = ({ pxe }: { pxe: PXE }) => {
 
   return (
     <main className="h-screen w-full p-4 md:p-8">
-      <h1 className="mb-4"> Wallet Interactions</h1>
+      <h1 className="mb-4"> ADMIN PANEL</h1>
       <div className="grid md:grid-cols-2 gap-4 md:gap-8">
         <div className="flex-1">
-          <hr />
-          {wallets.map((wallet, idx) => (
-            <button
-              key={wallet.getAddress().toShortString()}
-              onClick={() => {
-                setCurrentWallet(wallet);
-              }}
-              className={`btn ${currentWallet === wallet ? "btn-primary" : "btn-secondary"
-                } `}
-            >
-              Wallet{idx + 1}
-            </button>
-          ))}
-          <hr />
           <div className="actions mt-4 flex flex-col border px-8 gap-6 py-4 rounded-md bg-primary/10 border-primary/10">
-            {/* <button onClick={() => interactWithCounter(pxeClient!)}> Wallet Interaction</button> */}
-            <button onClick={createAccount} className="btn btn-primary">
-              Create New Wallet {isCreating && <Spinner />}
-            </button>
+            <label className="input flex items-center gap-2 py-7 w-full">
+              <input
+                type="text"
+                className="grow"
+                placeholder="Token Name"
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              />
+            </label>
+            <label className="input flex items-center gap-2 py-7 w-full">
+              <input
+                type="text"
+                className="grow"
+                placeholder="Token Symbol"
+                value={formData.symbol}
+                onChange={(e) => setFormData({ ...formData, symbol: e.target.value })}
+              />
+            </label>
             <button
               onClick={handleDeployNFTContract}
               className="flex items-center btn btn-primary"
@@ -403,7 +407,7 @@ export const WalletInteractions = ({ pxe }: { pxe: PXE }) => {
               className="btn btn-secondary"
               onClick={handlePreaparePrivateTransferNFT}
             >
-              Prepare for Transfer{" "}
+              Private Transfer
               {isInProgressObj.isPreparePrivateTransferNFTInProgress && (
                 <Spinner />
               )}
