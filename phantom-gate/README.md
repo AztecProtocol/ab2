@@ -6,6 +6,15 @@
 
 ## System Architecture
 
+## Challenge Selection
+
+- [ ] ZKEmail Guardian
+- [x] Social Cipher
+
+## Video Demo
+
+https://drive.google.com/file/d/13nFoF6wLdBG9dmjEhVkuu7vEoUdDLtLY/view?usp=sharing
+
 ### Components
 
 #### 1. Client-Side (PXE)
