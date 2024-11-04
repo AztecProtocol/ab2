@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useAccount } from "../hooks/useAccounts.js";
 import { AccountWalletWithSecretKey, AztecAddress } from "@aztec/aztec.js";
 import { toast } from "react-hot-toast";
 import { Loader } from "lucide-react";
@@ -7,16 +6,37 @@ import { NFTContract } from "@aztec/noir-contracts.js";
 
 interface NftInteractionsProps {
   currentWallet: AccountWalletWithSecretKey | null;
-  setNftContract: (contract: NFTContract) => void;
+  // setNftContract: (contract: NFTContract) => void;
   nftContract: NFTContract | null;
 }
 
+export const handleFetchPrivateNFTTokenId = async (nftContract:NFTContract,address: any) => {
+  let nftToken: [number[], boolean] = [[], false];
+
+  try {
+    // const privateAddress =address || currentWallet.getAddress();
+    // setIsLoading({ ...isLoading, isFetchPrivateToken: true });
+    nftToken = await nftContract.methods
+      .get_private_nfts(address, 0)
+      .simulate();
+    // toast.success("Private token fetched successfully" + nftToken);
+    console.log(`Private token id is ${nftToken}`);
+  } catch (error) {
+    console.error(error);
+    toast.error("Error in fetching private token");
+  } finally {
+    // setIsLoading({ ...isLoading, isFetchPrivateToken: false });
+    return nftToken;
+  }
+};
+
+
 export const NftInteractions = ({
   currentWallet,
-  setNftContract,
+  // setNftContract,
   nftContract,
 }: NftInteractionsProps) => {
-  const { deployNFtToken } = useAccount();
+  // const { deployNFtToken } = useAccount();
   const [isLoading, setIsLoading] = useState<{
     deployNFTToken?: boolean;
     isMintingNFT?: boolean;
@@ -35,27 +55,27 @@ export const NftInteractions = ({
   const [tokenId, setTokenId] = useState<number>(0);
   const [nftMintAddress, setNFTMintAddress] = useState<string>("");
   const [verifyAddress, setNFTVerifyAddress] = useState<string>("");
-  const handleDeplyNftToken = async () => {
-    if (!currentWallet) {
-      toast.error("Please select a wallet first");
-      return;
-    }
-    setIsLoading({ ...isLoading, deployNFTToken: true });
-    try {
-      const nftContract = await deployNFtToken(
-        currentWallet,
-        "phantom og",
-        "PHOG"
-      );
+  // const handleDeplyNftToken = async () => {
+  //   if (!currentWallet) {
+  //     toast.error("Please select a wallet first");
+  //     return;
+  //   }
+  //   setIsLoading({ ...isLoading, deployNFTToken: true });
+  //   try {
+  //     const nftContract = await deployNFtToken(
+  //       currentWallet,
+  //       "phantom og",
+  //       "PHOG"
+  //     );
 
-      setNftContract(nftContract as NFTContract);
-      toast.success("NFT Token deployed successfully!");
-    } catch (error) {
-      toast.error("Failed to deploy token: " + (error as Error).message);
-    } finally {
-      setIsLoading({ ...isLoading, deployNFTToken: false });
-    }
-  };
+  //     setNftContract(nftContract as NFTContract);
+  //     toast.success("NFT Token deployed successfully!");
+  //   } catch (error) {
+  //     toast.error("Failed to deploy token: " + (error as Error).message);
+  //   } finally {
+  //     setIsLoading({ ...isLoading, deployNFTToken: false });
+  //   }
+  // };
 
   const handleMintNFT = async () => {
     if (!nftContract || !currentWallet || tokenId === 0) {
@@ -153,31 +173,9 @@ export const NftInteractions = ({
     }
   };
 
-  const handleFetchPrivateNFTTokenId = async (address: any) => {
-    let nftToken: [number[], boolean] = [[], false];
-    if (!nftContract || !currentWallet) {
-      console.error("no contract or addrees");
-      return;
-    }
-    try {
-      // const privateAddress =address || currentWallet.getAddress();
-      setIsLoading({ ...isLoading, isFetchPrivateToken: true });
-      nftToken = await nftContract.methods
-        .get_private_nfts(address, 0)
-        .simulate();
-      toast.success("Private token fetched successfully" + nftToken);
-      console.log(`Private token id is ${nftToken}`);
-    } catch (error) {
-      console.error(error);
-      toast.error("Error in fetching private token");
-    } finally {
-      setIsLoading({ ...isLoading, isFetchPrivateToken: false });
-      return nftToken;
-    }
-  };
-
   const handleVerify = async () => {
     let privateNFTResponse = await handleFetchPrivateNFTTokenId(
+      nftContract as NFTContract,
       AztecAddress.fromString(verifyAddress)
     );
     const [tokenIds = []] = privateNFTResponse || [[], false];
@@ -193,16 +191,6 @@ export const NftInteractions = ({
   return (
     <div className="bg-black bg-opacity-50 rounded-lg p-6 backdrop-blur-sm">
       <h2 className="text-2xl font-bold mb-4">NFT Actions</h2>
-      <button
-        onClick={handleDeplyNftToken}
-        className=" mb-4 mt-4 w-full bg-gradient-to-r from-indigo-500 to-purple-500 text-white px-4 py-3 rounded-md flex items-center justify-center hover:from-indigo-600 hover:to-purple-600 transition-all"
-        disabled={isLoading.deployNFTToken}
-      >
-        {isLoading.deployNFTToken ? (
-          <Loader className="animate-spin mr-2" />
-        ) : null}
-        Deploy NFT Contract
-      </button>
 
       {/* mint nft contract flow  */}
 
@@ -301,7 +289,7 @@ export const NftInteractions = ({
         </button>
         <button
           onClick={() =>
-            handleFetchPrivateNFTTokenId(currentWallet?.getAddress())
+            handleFetchPrivateNFTTokenId(nftContract as NFTContract,currentWallet?.getAddress())
           }
           className="bg-gradient-to-r from-indigo-500 to-purple-500 text-white px-4 py-3 rounded-md flex items-center justify-center hover:from-indigo-600 hover:to-purple-600 transition-all"
           disabled={isLoading.isFetchPrivateToken}
@@ -313,7 +301,7 @@ export const NftInteractions = ({
         </button>
       </div>
 
-      <div className="flex gap gap-4 ">
+      {/* <div className="flex gap gap-4 ">
         <input
           type="text"
           className="bg-gray-800 text-white px-4 py-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-purple-500"
@@ -329,7 +317,7 @@ export const NftInteractions = ({
         >
           Verify Wallet
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };

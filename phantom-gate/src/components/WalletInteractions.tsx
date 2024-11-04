@@ -14,6 +14,8 @@ import { Bell, Search, Loader } from "lucide-react";
 import { toast } from "react-hot-toast";
 import WalletSection from "./walletSelection.js";
 import { NftInteractions } from "./NftInteractions.js";
+import { Admin } from "./Admin.js";
+import { EventInteraction } from "./EventInteractions.js";
 
 const TokenRow = ({ token, onSelect }: { token: any; onSelect: any }) => (
   <tr
@@ -380,7 +382,7 @@ export const WalletInteractions = () => {
               <span className="text-red-500">-$0.57 (-0.16%)</span>
             </div>
             <div className="space-y-2">
-              {["Tokens", "NFTs", "DeFi", "Transactions", "Spending Caps"].map(
+              {["Tokens", "NFTs", "DeFi", "Transactions", "Events", "Admin"].map(
                 (tabAction) => (
                   <button
                     key={tabAction}
@@ -389,13 +391,7 @@ export const WalletInteractions = () => {
                         ? "bg-purple-700 shadow-lg"
                         : "hover:bg-gray-800"
                     }`}
-                    disabled={
-                      !(
-                        tabAction === "Transactions" ||
-                        tabAction === "Tokens" ||
-                        tabAction === "NFTs"
-                      )
-                    }
+              
                     onClick={() => onSelecTab(tabAction)}
                   >
                     {tabAction}
@@ -542,8 +538,16 @@ export const WalletInteractions = () => {
           {tab === "NFTs" && (
             <NftInteractions
               currentWallet={currentWallet as AccountWalletWithSecretKey}
-              setNftContract={setNftContract}
+              
               nftContract={nftContract}
+            />
+          )}
+          {tab === "Events" && (<EventInteraction currentWallet={currentWallet as AccountWalletWithSecretKey} eventContract={nftContract as NFTContract} />)}
+          {tab === "Admin" &&  (
+            <Admin
+              currentWallet={currentWallet as AccountWalletWithSecretKey}
+              setNftContract={setNftContract}
+              eventContract={nftContract as NFTContract}
             />
           )}
         </div>
