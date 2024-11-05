@@ -74,10 +74,6 @@ export const EventInteraction = ({
     // Add more sample events as needed
   ]);
 
-  //   const showNotification = (type: string, message: string) => {
-  //     setNotification({ type, message });
-  //     setTimeout(() => setNotification(null), 3000);
-  //   };
 
   const handleJoinEvent = async () => {
     setIsLoading(true);
@@ -86,7 +82,6 @@ export const EventInteraction = ({
         toast.error("Please connect your wallet and select an event");
         return;
       }
-      //   const handleVerify = async () => {
       let privateNFTResponse = await handleFetchPrivateNFTTokenId(
         eventContract,
         currentWallet.getAddress()
@@ -102,10 +97,8 @@ export const EventInteraction = ({
       }
       toast.success("You are an NFT holder");
       return;
-      //   };
     } catch (error) {
       toast.error("Failed to join event");
-      //   showNotification('error', 'Failed to join event');
     } finally {
       setIsLoading(false);
       return;

@@ -6,7 +6,6 @@ import { NFTContract } from "@aztec/noir-contracts.js";
 
 interface NftInteractionsProps {
   currentWallet: AccountWalletWithSecretKey | null;
-  // setNftContract: (contract: NFTContract) => void;
   nftContract: NFTContract | null;
 }
 
@@ -14,8 +13,6 @@ export const handleFetchPrivateNFTTokenId = async (nftContract:NFTContract,addre
   let nftToken: [number[], boolean] = [[], false];
 
   try {
-    // const privateAddress =address || currentWallet.getAddress();
-    // setIsLoading({ ...isLoading, isFetchPrivateToken: true });
     nftToken = await nftContract.methods
       .get_private_nfts(address, 0)
       .simulate();
@@ -55,27 +52,6 @@ export const NftInteractions = ({
   const [tokenId, setTokenId] = useState<number>(0);
   const [nftMintAddress, setNFTMintAddress] = useState<string>("");
   const [verifyAddress, setNFTVerifyAddress] = useState<string>("");
-  // const handleDeplyNftToken = async () => {
-  //   if (!currentWallet) {
-  //     toast.error("Please select a wallet first");
-  //     return;
-  //   }
-  //   setIsLoading({ ...isLoading, deployNFTToken: true });
-  //   try {
-  //     const nftContract = await deployNFtToken(
-  //       currentWallet,
-  //       "phantom og",
-  //       "PHOG"
-  //     );
-
-  //     setNftContract(nftContract as NFTContract);
-  //     toast.success("NFT Token deployed successfully!");
-  //   } catch (error) {
-  //     toast.error("Failed to deploy token: " + (error as Error).message);
-  //   } finally {
-  //     setIsLoading({ ...isLoading, deployNFTToken: false });
-  //   }
-  // };
 
   const handleMintNFT = async () => {
     if (!nftContract || !currentWallet || tokenId === 0) {

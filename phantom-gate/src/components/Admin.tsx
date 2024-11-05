@@ -65,23 +65,6 @@ export const Admin = ({
     setIsLoading({ ...isLoading, isCreatingEvent: true });
     try {
       // Format the date and time for blockchain storage
-
-    //   const tx = await eventContract.methods
-    //     .createEvent(
-    //       formData.title,
-    //       formData.description,
-    //       formData.location,
-    //       formData.maxAttendees,
-    //       AztecAddress.fromString(formData.requiredNftAddress),
-    //       BigInt(parseFloat(formData.eventPrice) * 1e18) // Convert ETH to Wei
-    //     )
-    //     .send();
-
-    //   console.log(`Sent create event transaction ${await tx.getTxHash()}`);
-    //   toast.success("Event created successfully!");
-      
-    //   const receipt = await tx.wait();
-    //   console.log(`Transaction mined on block ${receipt.blockNumber}`);
       
       // Reset form after successful creation
       const nftContract = await deployNFtToken(
