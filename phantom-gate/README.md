@@ -25,9 +25,9 @@ https://drive.google.com/file/d/18d6teeO3AaEkc0og0u-o10yNMIXbd_-V/view?usp=shari
 
 
 #### 2. Smart Contracts
-- Event management contract (public state)
+- Event management contract (public state)- (WIP)
 - NFT verification contract (private state)
-- Portal contract for Ethereum NFT communication
+- Portal contract for Ethereum NFT communication - (WIP)
 
 #### 3. Public VM
 - Processes rollups of private check-ins
