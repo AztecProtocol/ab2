@@ -96,7 +96,9 @@ While not directly within scope of AB2, the wallet is being built only because
 - ( there are other features relevant for web2 users in wallet but that are not directly within scope of AB2)
 
 ## Scope for future research, improvements and problems to solve
-- emails and aliases need to be studied. The goal is one email ID one aztec account (users have multiple aliases for one email ID, how does that work and how to handle that? Users can own domain name and have emails sent from and to all email ids using that domain name (a@joshcrites.com, b@joshcrites.com) be operated from the same inbox (??). there is lot of scope to better understand the email protocol)
+- an email can be used for multiple accounts currently by using different passwords. I want to explore Aztec's note/ nullifier features to allow one email ID to be used for single account only
+- is user's privacy compromoised here what are privacy best practices? Is sha256 hashing sufficient privacy for user's email and password?
 - current implementation has users sending emails to an inbox controlled by the developer. It defeats the purpose of user privacy. It needs a better solution (user sending verification email to themselves for the verification step???)
 - zkemail seems to support a limited number of domains currently. The app itself only supports emails sent from  icloud.com and that too emails of a small size. 
 - Replace password with touch/face ID for better UX and security
+- emails and aliases need to be studied. The goal is one email ID one aztec account (users have multiple aliases for one email ID, how does that work and how to handle that? Users can own domain name and have emails sent from and to all email ids using that domain name (a@joshcrites.com, b@joshcrites.com) be operated from the same inbox (??). there is lot of scope to better understand the email protocol)
