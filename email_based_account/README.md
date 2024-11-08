@@ -1,6 +1,6 @@
 # Email Based Account
 
-Create an email based aztec account. That one can sign into using an email address (gmail) and a password. The user can sign transactions using the password.  
+Create an email based aztec account. That one can sign into using an email address and a password. The user can sign transactions using the password.  
 
 This project uses zkemail.nr library for email verification on the user's device. The email ID and the password are kept private and do not leave the user's browser. 
 
@@ -50,9 +50,10 @@ Read [this article](https://aztec.network/blog/unlocking-the-future-of-privacy-e
     - verify header is valid using dkim signature verification
     - check sender is 'abc@xyz.com'
     - (additional check) check if subject contains a specific random string shown in UI
-- hash email+password into sha256 hash, and use it as encryption key in getSchnorrAccount(..) function, hash the password and use it as signing key. Show the account wallet in UI (user can sign tx from this wallet using their password)
+- hash email+password into sha256 hash, and use it as encryption key in getSchnorrAccount(..) function, hash the password and use it as signing key (replace this with a custom schnorr account that directly takes email and password as inputs). Show the account wallet in UI (user can sign tx from this wallet using their password)
 Inspirations: 
 https://zkemail.shieldswap.org/
+https://github.com/joaolago1113/aztec_wallet/blob/main/src/contracts/src/main.nr
 https://docs.aztec.network/guides/developer_guides/smart_contracts/writing_contracts/authwit#usage
 Inspiration codebases: Loads account based on Face ID of user: loads account based on password: https://github.com/skaunov/aabch1_23
 
@@ -96,9 +97,9 @@ While not directly within scope of AB2, the wallet is being built only because
 - ( there are other features relevant for web2 users in wallet but that are not directly within scope of AB2)
 
 ## Scope for future research, improvements and problems to solve
-- an email can be used for multiple accounts currently by using different passwords. I want to explore Aztec's note/ nullifier features to allow one email ID to be used for single account only
+- create a custom account contract that privately takes email ID and password as inputs and creates a schnorr account in turn. Currently, the webapp only calls aztecjs's getSchnorrAccount(..) function. 
+-an email can be used for multiple accounts currently by using different passwords. I want to explore Aztec's note/ nullifier features to allow one email ID to be used for single account only
 - is user's privacy compromoised here what are privacy best practices? Is sha256 hashing sufficient privacy for user's email and password?
-- current implementation has users sending emails to an inbox controlled by the developer. It defeats the purpose of user privacy. It needs a better solution (user sending verification email to themselves for the verification step???)
 - zkemail seems to support a limited number of domains currently. The app itself only supports emails sent from  icloud.com and that too emails of a small size. 
 - Replace password with touch/face ID for better UX and security
 - emails and aliases need to be studied. The goal is one email ID one aztec account (users have multiple aliases for one email ID, how does that work and how to handle that? Users can own domain name and have emails sent from and to all email ids using that domain name (a@joshcrites.com, b@joshcrites.com) be operated from the same inbox (??). there is lot of scope to better understand the email protocol)
