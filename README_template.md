@@ -8,10 +8,9 @@ Consider including:
 - What is the potential real-world impact of your project?
 
 ## Challenge Selection
-
 Read [this article](https://aztec.network/blog/unlocking-the-future-of-privacy-exploring-identity-and-social-use-cases-in-alpha-build-2-with-100k-in-prizes) that announces Alpha Build 2 to learn more about the challenges and get ideas on what to build!
 
-- [x] ZKEmail Guardian
+- [ ] ZKEmail Guardian
 - [ ] Social Cipher
 
 **Note**: You can change which challenges you've selected during the competition if you'd like. You are not bound by your choices or descriptions entered during the one week check-in.
@@ -26,7 +25,6 @@ Who are the authors of your project?
 - Any specific Aztec tools or features you used
 
 ## Expected Outcomes
-
 What do you hope to achieve by the end of the challenge(s)?
 
 ## Lessons Learned (For Submission)
