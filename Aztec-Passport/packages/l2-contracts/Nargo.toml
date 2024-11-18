@@ -1,0 +1,13 @@
+[workspace]
+members = [
+    "crates/passport",
+    "crates/modules/x_module",
+    "crates/modules/google_module",
+    "crates/modules/linkedin_module",
+    "crates/modules/github_module",
+    "crates/modules/vc_module",
+    "crates/modules/ens_module",
+    "crates/modules/balance_module",
+    "crates/modules/biometric_module",
+]
+default-member = "crates/passport"

@@ -1,0 +1,22 @@
+{
+  "extends": "config/typescript/nextjs.json",
+  "compilerOptions": {
+    "incremental": true,
+    "skipLibCheck": true,
+
+    /* Path Aliases */
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["./src/*"]
+    }
+  },
+  "include": [
+    "svgr.d.ts",
+    ".eslintrc.cjs",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.cjs",
+    "**/*.js"
+  ],
+  "exclude": ["node_modules", "dist"]
+}

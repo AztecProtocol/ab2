@@ -1,0 +1,21 @@
+{
+  "name": "crates",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@noir-lang/backend_barretenberg": "0.35.0",
+    "@noir-lang/noir_js": "0.35.0",
+    "@noir-lang/noirc_abi": "0.35.0",
+    "@types/node": "^22.7.9",
+    "json2toml": "^6.1.1",
+    "json2yaml": "^1.1.0",
+    "viem": "^2.21.34"
+  }
+}
