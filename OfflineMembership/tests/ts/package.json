@@ -1,0 +1,21 @@
+{
+  "name": "ts_part",
+  "module": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@aztec/merkle-tree": "^0.57.0"
+  },
+  "peerDependencies": {
+    "@aztec/accounts": "^0.57.0",
+    "typescript": "^5.0.0",
+    "tslib": "*",
+    "pako": "^2.1.0"
+  },
+  "dependencies": {
+    "@aztec/accounts": "^0.57.0",
+    "@aztec/aztec.js": "^0.57.0",
+    "@aztec/noir-contracts.js": "^0.57.0",
+    "@aztec/foundation": "^0.57.0"
+  }
+}

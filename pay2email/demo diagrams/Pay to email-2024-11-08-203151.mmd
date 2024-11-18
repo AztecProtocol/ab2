@@ -1,0 +1,75 @@
+---
+config:
+  layout: elk
+---
+flowchart TD
+ subgraph s1["contract classes"]
+        n3["token"]
+        n6["email balance"]
+  end
+ subgraph s2["contract instances"]
+        n4["token"]
+        n7["email balance"]
+        n8["another email balance"]
+  end
+ subgraph s5["authority"]
+        n9["domain"]
+        n10["selector"]
+        n11["public key"]
+  end
+ subgraph s6["email"]
+        n14["user"]
+        n18["domain"]
+  end
+ subgraph s3["Storage"]
+        s5
+        s6
+        n16["admin"]
+        n15["Aztec address"]
+        n20["balance"]
+        s8["s8"]
+        n17["pattern: interim hash"]
+        n25["token address"]
+  end
+ subgraph s7["functions: all public"]
+        n22["link"]
+        n21["redeem"]
+        n23["add pubkey"]
+        n24["top-up"]
+  end
+ subgraph s8["ZK-email"]
+        n13["replacing link data<br>"]
+        n12["nullifier - hashed signature"]
+  end
+    s1 --> s2
+    n4 --> n7 & n8 & n24 
+    n7 x--x n8
+    n17 --> s6 & s5
+    n16 --> n11 & n23
+    s6 --> n20 & n24 & s8
+    s6 -- link --> n15
+    n20 --> n21
+    n15 --> n21 & s8
+    s5 --> n23 & s8
+    s8 --> n22
+    n21 --> n4
+    n10 --> n11
+    n9 --> n11
+    n3@{ shape: text}
+    n6@{ shape: text}
+    n4@{ shape: text}
+    n7@{ shape: text}
+    n8@{ shape: text}
+    n9@{ shape: text}
+    n10@{ shape: text}
+    n11@{ shape: text}
+    n14@{ shape: text}
+    n18@{ shape: text}
+    n16@{ shape: text}
+    n15@{ shape: text}
+    n17@{ shape: text}
+    n21@{ shape: rect}
+    n23@{ shape: rect}
+    n13@{ shape: text}
+    n12@{ shape: text}
+    n25@{ shape: text}

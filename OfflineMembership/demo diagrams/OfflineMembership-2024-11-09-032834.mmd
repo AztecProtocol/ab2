@@ -1,0 +1,46 @@
+---
+config:
+  layout: elk
+---
+flowchart LR
+ subgraph s1["publicly available"]
+        n6["block of interest"]
+        n12["NFT collection address"]
+  end
+ subgraph s2["privately schielded -- wallet storage"]
+        n9["secret key"]
+        n10["note representation of NFT"]
+  end
+ subgraph s3["Aztec network"]
+        n7["NFT are transferred privately"]
+        n3["L2"]
+        n11["NFT contract"]
+        n4["archive tree"]
+  end
+ subgraph s4["mixed privacy: complex structures with both parts"]
+        n13["membership witness"]
+        n14["low nullifier<br>"]
+  end
+    n3 --> n4 & s4
+    n4 --> n6
+    n4 -.-> s4
+    n6 --> n8["proofs folding"]
+    n10 --> n5["Noir circuit"]
+    n7 --> n3 & n10
+    n5 --> n8
+    n9 -- master nullifying secret --> n5
+    n11 --> n3 & n12
+    s4 --> n5
+    s1 --> n5
+    n6@{ icon: "azure:blockchain-applications", pos: "b"}
+    n12@{ shape: text}
+    n9@{ icon: "gcp:key-management-service", pos: "b"}
+    n10@{ icon: "fa:note-sticky", pos: "b"}
+    n7@{ icon: "gcp:transfer", pos: "b"}
+    n3@{ icon: "azure:azure-blockchain-service", pos: "b"}
+    n11@{ icon: "azure:content-safety", pos: "b"}
+    n4@{ icon: "aws:res-amazon-elastic-block-store-multiple-volumes", pos: "b"}
+    n13@{ shape: rect}
+    n14@{ shape: rect}
+    n8@{ icon: "fa:folder-closed", pos: "b"}
+    n5@{ icon: "azure:defender-programable-board", pos: "b"}
