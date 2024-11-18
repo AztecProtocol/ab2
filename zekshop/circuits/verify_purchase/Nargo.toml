@@ -1,0 +1,9 @@
+[package]
+name = "verify_purchase"
+type = "bin"
+authors = ["Nikolay Kostadinov <nikolaykostadinov21@gmail.com>"]
+compiler_version = ">=0.35.0"
+
+[dependencies]
+string_search = { tag = "v0.2.0", git = "https://github.com/noir-lang/noir_string_search" }
+zkemail = { tag = "v0.3.2", git = "https://github.com/zkemail/zkemail.nr", directory = "lib" }
