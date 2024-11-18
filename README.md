@@ -1,6 +1,6 @@
 # Alpha Build 2 - Winning Projects
 
-**Alpha Build 2** was a developer sprint conducted by Aztec from October 15th to November 1st, 2024.
+**Alpha Build 2** was a developer sprint conducted by Aztec from October 8th to November 1st, 2024.
 
 The theme and challenges of this Alpha Build are explained in this [blog post](https://aztec.network/blog/unlocking-the-future-of-privacy-exploring-identity-and-social-use-cases-in-alpha-build-2-with-100k-in-prizes).
 
