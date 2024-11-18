@@ -1,0 +1,111 @@
+Overall code structure and explanation:
+Project Structure:
+Your project is structured as a monorepo with the main application in the frontend directory. The root directory contains configuration files for the entire project, while the frontend directory has its own configuration and source files.
+Frontend Application:
+Built with React and TypeScript
+Uses Vite as the build tool
+Implements a basic wallet functionality for the Aztec Protocol
+Main Components:
+Home (frontend/src/pages/Home.tsx): The landing page with options to create an account or sign in
+CreateAccount (frontend/src/pages/CreateAccount.tsx): Handles the account creation process
+Wallet (frontend/src/pages/Wallet.tsx): Displays wallet information and balance
+State Management:
+Uses React Context (WalletContext) for managing wallet state across the application
+Routing:
+Utilizes React Router for navigation between different pages
+6. Styling:
+Uses CSS modules (styles/Common.module.css) for component-specific styles
+Has a global App.css file for general styling
+Testing:
+Jest is set up for unit testing
+SimpleTest.test.tsx contains tests for various components and functionalities
+Build and Configuration:
+Vite is used as the build tool (vite.config.ts)
+TypeScript configurations for both the app (tsconfig.json) and Node environment (tsconfig.node.json)
+ESLint for code linting (eslint.config.js)
+Dependencies:
+React and React DOM
+@aztec/aztec.js for Aztec Protocol integration
+Various development tools (TypeScript, Jest, ESLint, etc.)
+Key Features:
+Create a new Aztec account
+View account details (address, private key, transaction signing key)
+Basic wallet functionality
+11. Planned Features:
+Improved UI
+Token transfers
+Account abstraction features
+Fee management improvements
+Your project is a React-based frontend for an Aztec Protocol wallet. It's set up with modern tooling and practices, including TypeScript for type safety, Jest for testing, and Vite for fast builds. The application currently provides basic wallet functionality with plans for more advanced features in the future.
+The codebase is well-structured and follows React best practices, using functional components and hooks. It's set up to be easily expandable as you add more features to your wallet application.
+
+
+
+Frontend Code Structure and Explanation:
+An overview of my frontend code structure and explain the main components:
+Entry Point (frontend/src/main.tsx):
+This file is the entry point of your React application. It renders the main App component into the DOM.
+App Component (frontend/src/App.tsx):
+This is your main application component. It sets up the routing using React Router and wraps the entire application with the WalletProvider for state management.
+Home Page (frontend/src/pages/Home.tsx):
+This is the landing page of your application. It provides options to create an account or sign in.
+Create Account Page (frontend/src/pages/CreateAccount.tsx):
+This page handles the account creation process. It simulates creating a new wallet and redirects to the wallet page upon completion.
+Wallet Page (frontend/src/pages/Wallet.tsx):
+This page displays the wallet information, including the address, private key, and transaction signing key.
+Wallet Context (frontend/src/context/WalletContext.tsx):
+This file sets up the React Context for managing wallet state across your application.
+Key Features:
+The application uses React Router for navigation between different pages.
+State management is handled through React Context (WalletContext).
+The app simulates wallet creation and management without actual blockchain integration yet.
+There's a basic UI with buttons for creating an account and signing in.
+The wallet view shows sensitive information (private key, transaction signing key) with a warning.
+Styling:
+The app uses CSS modules for styling (styles/Common.module.css).
+There's also a global App.css file for some general styling.
+Testing:
+There's a test file (SimpleTest.test.tsx) that includes tests for various components and functionalities.
+Build and Configuration:
+The project uses Vite as the build tool, configured in vite.config.ts.
+There are separate TypeScript configurations for the app (tsconfig.json) and Node environment (tsconfig.node.json).
+Dependencies:
+The project uses React, React Router, and various development tools like TypeScript, Jest for testing, and ESLint for linting.
+Overall, this frontend provides a basic structure for a wallet application, with placeholders for future functionality like actual account creation and transaction management. The code is organized in a typical React application structure, with separate files for components, context, and pages.
+
+Logical flow for create account to put new account details display from wallet component to create-account component
+The main wallet functionality (display of address, private key, transaction signing key followed by the done button) that is now part of Wallet component,is logically a part of the create-account component. The user goes through this stage (if they dont yet have an account only. if they do then from the Home screen they click on 'Already have an account? Sign in' and go into a different flow which we dont need to consider here) when they click on 'Create Account' from the Home screen. The create-account component simulates this action and then displays the address, private key, and transaction signing key in the Wallet component. so can we just add the functionality of displaying the address, private key, and transaction signing key in the create-account component and then redirect to the wallet component? If yes, tell me how you will do it. If not, tell me what other changes need to be made. dont make any changes to the code yet till i ask you to.
+
+
+'Sign in if you have an account' story:
+on the home screen, on clicking 'Already have an account? Sign in', the user is redirected to the 'enter private key' screen. this screen has a form with 1 field 'Enter your private key'. once the user enters their private key which is essentially the encryptionSecretKey and another key, transaction signing key and clicks on 'Sign in', we fetch the account and wallet, when successfully done, user are redirected to the wallet component. if the credentials are not correct, show error and redirect to landing page/ component. salt=0
+
+
+implement createschnorr account functionality in the frontend. for real:
+As shown in @aztec.tsx there is a way to use @getSchnorrAccount.
+  @createSchnorrAccount has the details. we start in the create-account component. we want to create the schnorr account. first create the pxe client and return it as an object. once @pxe object is available in the function to create schnorr account,  then generate at random an @encryptionSecretKey   and @signingSecretKey . 
+now create new account by calling @getSchnorrAccount with the parameters we already have. get @Wallet  object for the account. return an object with 3 properties: the wallet @address (User Address) , @encryptionSecretKey (Private Key) and @signingSecretKey (Transaction Signing Key) . use salt=0
+
+separate creating pxe client and creating schnorr account in aztec.tsx. because pxe is used much more widely in in the lifetime of a user. user will use it to hold their private data including tokens, transactions, etc. the create schnorr account once at the beginning of their use.
+
+changes to make in getting real schnorr account:
+1. currently address, encryptionSecretKey, signingSecretKey are returned as strings, Fr, Fq to create-account component. we need to change this to the actual object for address. account object?
+2. we need to make changes in create-account component to handle the new objects.
+3. we need to make changes in the aztec.tsx file to handle the new objects.
+4. we need to make changes in the wallet component to handle the new objects.
+what is stored in context, where walletinfo is defined. walletinfo has address as string, encryptionSecretKey as string, signingSecretKey as string, balance, transactions as its properties. does this make sense. is it what we want? why dont we retain it as the wallet object as defined by aztec.
+Wallet component does not need to show EncryptionSecretKey and SigningSecretKey. it only needs to show the address and balance. the transaction signing key is only needed for signing transactions, which we currently do not support. the private key is only needed for creating public key and we do not need to show that. so we can remove all these from context. we are only left with address and balance.
+
+add initialization or waiting logic for pxe client in aztec.tsx.
+
+deploy a token contract name, symbol, total supply. transfer some tokens to address from terminal.
+
+add token feature to frontend. show token balance for hardcoded token contract. show token amount. put dummy value as 0 always for now. first log the balance quantity of tokens for token address for signed in user address. 
+
+email id as input in ui. hash it and use it as input in getSchnorrAccount method
+
+this error - fs/promises related in github codespaces. how to fix. 
+
+if an account with an email is already registered, then if user uses different signing key next time, it should not create a totally new and different account. it should throw up error saying wrong signing key! else if a new account for created everytime a different signing key is used for same email, that results in terrible user experience.
+
+version update of aztec to 0.57.0 is breaking smart contract tests. compiles well. but tests break. reference repo, aztec-starter on github works. 

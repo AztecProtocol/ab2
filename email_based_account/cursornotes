@@ -1,0 +1,271 @@
+run the rsa algorithm. generate proof that signature from same authority as rsa public key. verify it. 
+
+given rsa public key of a email service provider, generate proof that email ID is from service provider
+
+is there a (what is the) rsa signature for a given email ID? if yes, then prove that I am owner of email ID. 
+
+Explaining this blogpost Oleh. https://medium.com/@oleh.blockchain/zkemail-account-in-noir-aztec-part-1-26076dd1f3b8
+emails have a mechanism for ensuring that receiver can authenticate the email from the sender.
+using encryption. below ways
+1) email comes from service provider of sender. the service provider has a public key that is well known and can only be signed by service provider's private key. It uses RSA algorithm
+2) every email has a header. and that header is signed by service provider confirming the authenticity of email. That signature can only be carried out by a party whose public key is known- this can be verified. thus verifying authenticity of email.
+The zkemail library provides a method. 
+
+
+bug: brillig function one. 
+how noir_rsa example uses the verify_sha256_pkcs1v15 function. 
+fn main(bn: [[Field; 18]; 2], hash: [u8; 32], signature: BN2048) {
+    let rsa: RSA2048 = RSA {};
+
+    let BNInstance: BNInst2048 = BigNumInstance::new(bn[0], bn[1]);
+
+    assert(rsa.verify_sha256_pkcs1v15(BNInstance, hash, signature, 65537));
+}
+
+how olehblog test uses it
+`
+fn assert_verify_email_signature<let HeadersLen: u32, let BodyLen: u32>(
+    headers: [u8; HeadersLen],
+    body: [u8; BodyLen],
+    pubkey_limbs: [Field; PUBKEY_LIMBS_LEN],
+    pubkey_redc_limbs: [Field; PUBKEY_LIMBS_LEN],
+    signature_limbs: [Field; SIGNATURE_LIMBS_LEN]
+) {
+    let signature: BN2048 = BigNum::from_array(signature_limbs);
+    let pubkey: BigNumInstance<18, Params2048> = BigNumInstance::new(pubkey_limbs, pubkey_redc_limbs);
+
+    {
+        // verify that body hash from header matches body
+        let body_hash = std::hash::sha256(body);
+        assert(body_hash == crate::body_hash::body_hash_from_header(headers), "body hash does not match");
+    }
+
+    {
+        // verify header signature
+        let headers_hash = std::hash::sha256(headers);
+        assert(rsa.verify_sha256_pkcs1v15(pubkey, headers_hash, signature, 3), "invalid email signature");
+    }
+}
+
+zkemail.nr library
+verify dkim signature (1024 bit rsa algo or 2048 bit rsa algo)
+takes public key (big num 9 limbs for 1024 bit rsa), email header (again bignum?), header len (u32?) and signature (a bignum)
+returns if header hash (sha256 hash of header) is equal to hash deconstructed from signature using public key and 65537 (or 3)
+
+zkemail.nr why cant i use it???? compile breaks in one folder. works in another folder! aztec-starter compile fails in local
+but works on codespaces.
+
+dkim signature verification.
+why does the RSAPubkey import from zkemail.nr fail?
+
+big picture. email based private account. dkim signature verification needs to work? yes? frontend flow in wallet.
+touch ID for transactions. email id stays private. pedersen hash of email ID idenfies user.
+proof that owner owns account that produced pedersen2 hash is used for account authentication.
+user can see and privately own a stablecoin or eth. they can privately transfer for free
+(wallet service provider pays l1 gas fees). transfer to another email address based private aztec account.
+account recovery and security is a whole another thing. 
+can a different account provider create a different account for you with same email? will they interoperate with yours?
+
+generateverifiedemailinputs
+call method. generateEmailVerifierInputs. it returns inputs. 
+const inputs = await generateEmailVerifierInputs(emails.small, {
+    extractFrom: true,
+    extractTo: true,
+    ...inputParams,
+  });
+  takes email as string as input. Usage here: https://github.com/saleel/gitclaim/blob/d757c18aad63ddc881ead4efc5ad15b6ed18cf44/app/utils.ts#L2
+  input file here. /js/tests/test-data/email-good.eml
+  create a yarn project in email_based_account folder. install dependencies.
+  I want to use the email-good.eml as input in a typescript file. 
+  generate inputs like here (from gitclaim url shared above). 
+  const zkEmailInputs = await generateEmailVerifierInputs(emailContent, {
+    maxBodyLength: 1280, // Same as MAX_PARTIAL_EMAIL_BODY_LENGTH in circuit
+    maxHeadersLength: 1408, // Same as MAX_EMAIL_HEADER_LENGTH in circuit
+    shaPrecomputeSelector: "you authored the thread.<img", // <img to pick the one in html part
+  });
+
+  // Generate common inputs using ZK Email SDK
+  const inputs = await generateEmailVerifierInputs(email, {
+    extractFrom: true,
+    extractTo: true,
+    ...inputParams,
+  });
+and used in the test file here. /js/tests/circuits.test.ts shown below:
+// default header/ body lengths to use for input gen
+const inputParams = {
+    maxHeadersLength: 512,
+    maxBodyLength: 1024,
+  };
+  const inputs = await generateEmailVerifierInputs(
+    emails.small,
+    inputParams
+  );
+  that test reads from the file here 
+  const emails = {
+    small: fs.readFileSync(path.join(__dirname, "./test-data/email-good.eml")),
+    large: fs.readFileSync(
+      path.join(__dirname, "./test-data/email-good-large.eml")
+    ),
+  };
+  console log inptus.
+
+  once inputs are generated and are good, i want to use the inputs to 2048 dkim verify using pubkey,signature and header
+  like already done in the main.nr file of my email_based_account project. i have already
+  converted inputs to data types and form that works for pubkey.dkimverify2048 method in noir file.
+  and verifies if the header is authentic using the email provider's public key. dkim signature
+  and the actual header of email. using rsa algorithm.
+
+  frontend run on local port. takes email as string input. 
+  What are the imports that enable it? 
+  import { generateEmailVerifierInputs } from "@zkemail/sdk";
+  import { dkimVerify2048 } from "./noir/main";
+  import { BigNumInstance } from "ffjavascript";
+  import { Params2048 } from "ffjavascript/src/ec/curves";
+
+
+
+  App. for email processing. creating inputs to circuit.
+  first take email string as input. submittedContent is the string.
+  using email as emailContent, generate inputs. console log inputs
+  use generateEmailVerifierInputs method.
+  imports/ yarn add:
+  yarn add @zk-email/zkemail-nr
+  how to use:
+  // example of generating inputs for a partial hash
+import { generateEmailVerifierInputs } from "@zk-email/zkemail-nr";
+
+const inputs = await generateEmailVerifierInputs(
+    emails.small,
+    inputParams
+  );
+where inputParams is like this:
+const inputParams = {
+    maxHeadersLength: 512,
+    maxBodyLength: 1024,
+  };
+
+Get getemailverifierinputs method to work correctly. namely prepare the inputs correctly. 
+how it works now:
+If you input this email:
+From: alice@example.com
+To: bob@example.com
+
+Hello World!
+
+It would process it like this:
+Split into:
+Header: "From: alice@example.com\nTo: bob@example.com"
+Body: "Hello World!"
+Convert to ASCII arrays:
+Header becomes: ["70", "114", "111", "109", ...] (ASCII codes for "From...")
+Body becomes: ["72", "101", "108", "108", ...] (ASCII codes for "Hello...")
+Package with lengths and return as structured data that the ZK circuit can use to verify the email.
+This is a simplified version - the full implementation in zk-email would also:
+Parse and verify DKIM signatures
+Calculate cryptographic hashes
+Handle email headers properly
+Process email body according to MIME standards
+Generate proofs that can be verified on-chain
+
+How do i fucking want to run this?
+Given public key. What email preprocessing do i need.
+1. Public key is in base 64. convert it to an array of big int. How??
+Pubkey= 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1ZEfbkf4TbO2TDZI67WhJ6G8Dwk3SJyAbBlE/QKdyXFZB4HfEU7AcuZBzcXSJFE03DlmyOkUAmaaR8yFlwooHyaKRLIaT3epGlL5YGowyfItLly2k0Jj0IOICRxWrB378b7qMeimE8KlH1UNaVpRTTi0XIYjIKAOpTlBmkM9a/3Rl4NWy8pLYApXD+WCkYxPcxoAAgaN8osqGTCJ5r+VHFU7Wm9xqq3MZmnfo0bzInF4UajCKjJAQa+HNuh95DWIYP/wV77/PxkEakOtzkbJMlFJiK/hMJ+HQUvTbtKW2s+t4uDK8DI16Rotsn6e0hS8xuXPmVte9ZzplD0fQgm2qwIDAQAB'
+
+2. Header. which part of the email is the header? convert it to an array of big int.
+
+this is the header:
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com; s=1a1hai; t=1693038337; bh=7xQMDuoVVU4m0W0WRVSrVXMeGSIASsnucK9dJsrc+vU=; h=from:Content-Type:Mime-Version:Subject:Message-Id:Date:to; b=EhLyVPpKD7d2/+h1nrnu+iEEBDfh6UWiAf9Y5UK+aPNLt3fAyEKw6Ic46v32NOcZD
+	 M/zhXWucN0FXNiS0pz/QVIEy8Bcdy7eBZA0QA1fp8x5x5SugDELSRobQNbkOjBg7Mx
+	 VXy7h4pKZMm/hKyhvMZXK4AX9fSoXZt4VGlAFymFNavfdAeKgg/SHXLds4lOPJV1wR
+	 2E21g853iz5m/INq3uK6SQKzTnz/wDkdyiq90gC0tHQe8HpDRhPIqgL5KSEpuvUYmJ
+	 wjEOwwHqP6L3JfEeROOt6wyuB1ah7wgRvoABOJ81+qLYRn3bxF+y1BC+PwFd5yFWH5
+	 Ry43lwp1/3+sA==
+from: runnier.leagues.0j@icloud.com
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.500.231\))
+Subject: Hello
+Message-Id: <8F819D32-B6AC-489D-977F-438BBC4CAB27@me.com>
+Date: Sat, 26 Aug 2023 12:25:22 +0400
+to: zkewtest@gmail.com
+
+3. signature. as big int array. 
+original signature: 'EhLyVPpKD7d2/+h1nrnu+iEEBDfh6UWiAf9Y5UK+aPNLt3fAyEKw6Ic46v32NOcZD
+	 M/zhXWucN0FXNiS0pz/QVIEy8Bcdy7eBZA0QA1fp8x5x5SugDELSRobQNbkOjBg7Mx
+	 VXy7h4pKZMm/hKyhvMZXK4AX9fSoXZt4VGlAFymFNavfdAeKgg/SHXLds4lOPJV1wR
+	 2E21g853iz5m/INq3uK6SQKzTnz/wDkdyiq90gC0tHQe8HpDRhPIqgL5KSEpuvUYmJ
+	 wjEOwwHqP6L3JfEeROOt6wyuB1ah7wgRvoABOJ81+qLYRn3bxF+y1BC+PwFd5yFWH5
+	 Ry43lwp1/3+sA=='
+
+lets look at the inputs for noir dkimverify2048 method.
+let header_array = [
+        102, 114, 111, 109, 58, 114, 117, 110, 110, 105, 101, 114, 46, 108, 101, 97, 103, 117, 101, 115, 46, 48, 106, 64, 105, 99, 108, 111, 117, 100, 46, 99, 111, 109, 13, 10, 99, 111, 110, 116, 101, 110, 116, 45, 116, 121, 112, 101, 58, 116, 101, 120, 116, 47, 112, 108, 97, 105, 110, 59, 32, 99, 104, 97, 114, 115, 101, 116, 61, 117, 115, 45, 97, 115, 99, 105, 105, 13, 10, 109, 105, 109, 101, 45, 118, 101, 114, 115, 105, 111, 110, 58, 49, 46, 48, 32, 40, 77, 97, 99, 32, 79, 83, 32, 88, 32, 77, 97, 105, 108, 32, 49, 54, 46, 48, 32, 92, 40, 51, 55, 51, 49, 46, 53, 48, 48, 46, 50, 51, 49, 92, 41, 41, 13, 10, 115, 117, 98, 106, 101, 99, 116, 58, 72, 101, 108, 108, 111, 13, 10, 109, 101, 115, 115, 97, 103, 101, 45, 105, 100, 58, 60, 56, 70, 56, 49, 57, 68, 51, 50, 45, 66, 54, 65, 67, 45, 52, 56, 57, 68, 45, 57, 55, 55, 70, 45, 52, 51, 56, 66, 66, 67, 52, 67, 65, 66, 50, 55, 64, 109, 101, 46, 99, 111, 109, 62, 13, 10, 100, 97, 116, 101, 58, 83, 97, 116, 44, 32, 50, 54, 32, 65, 117, 103, 32, 50, 48, 50, 51, 32, 49, 50, 58, 50, 53, 58, 50, 50, 32, 43, 48, 52, 48, 48, 13, 10, 116, 111, 58, 122, 107, 101, 119, 116, 101, 115, 116, 64, 103, 109, 97, 105, 108, 46, 99, 111, 109, 13, 10, 100, 107, 105, 109, 45, 115, 105, 103, 110, 97, 116, 117, 114, 101, 58, 118, 61, 49, 59, 32, 97, 61, 114, 115, 97, 45, 115, 104, 97, 50, 53, 54, 59, 32, 99, 61, 114, 101, 108, 97, 120, 101, 100, 47, 114, 101, 108, 97, 120, 101, 100, 59, 32, 100, 61, 105, 99, 108, 111, 117, 100, 46, 99, 111, 109, 59, 32, 115, 61, 49, 97, 49, 104, 97, 105, 59, 32, 116, 61, 49, 54, 57, 51, 48, 51, 56, 51, 51, 55, 59, 32, 98, 104, 61, 55, 120, 81, 77, 68, 117, 111, 86, 86, 85, 52, 109, 48, 87, 48, 87, 82, 86, 83, 114, 86, 88, 77, 101, 71, 83, 73, 65, 83, 115, 110, 117, 99, 75, 57, 100, 74, 115, 114, 99, 43, 118, 85, 61, 59, 32, 104, 61, 102, 114, 111, 109, 58, 67, 111, 110, 116, 101, 110, 116, 45, 84, 121, 112, 101, 58, 77, 105, 109, 101, 45, 86, 101, 114, 115, 105, 111, 110, 58, 83, 117, 98, 106, 101, 99, 116, 58, 77, 101, 115, 115, 97, 103, 101, 45, 73, 100, 58, 68, 97, 116, 101, 58, 116, 111, 59, 32, 98, 61
+    ];
+    let header = BoundedVec::from_array(header_array);
+
+    let pubkey_limbs = [
+        0xe5cf995b5ef59ce9943d1f4209b6ab, 0xe0caf03235e91a2db27e9ed214bcc6, 0xafe1309f87414bd36ed296dacfade2,
+        0xbeff3f19046a43adce46c932514988, 0x324041af8736e87de4358860fff057, 0xadcc6669dfa346f322717851a8c22a,
+        0x8b2a193089e6bf951c553b5a6f71aa, 0x0a570fe582918c4f731a0002068df2, 0x39419a433d6bfdd1978356cbca4b60,
+        0x550d695a514d38b45c862320a00ea5, 0x1c56ac1dfbf1beea31e8a613c2a51f, 0x6a30c9f22d2e5cb6934263d0838809,
+        0x0a281f268a44b21a4f77a91a52f960, 0x5134dc3966c8e91402669a47cc8597, 0x71590781df114ec072e641cdc5d224,
+        0xa1bc0f0937489c806c1944fd029dc9, 0x911f6e47f84db3b64c3648ebb5a127, 0xd5
+    ];
+    
+    let pubkey_redc_limbs = [
+        0xa48a824e4ebc7e0f1059f3ecfa57c4, 0x05c1db23f3c7d47ad7e7d7cfda5189, 0x79bb6bbbd8facf011f022fa9051aec,
+        0x24faa4cef474bed639362ea71f7a21, 0x1503aa50b77e24b030841a7d061581, 0x5bbf4e62805e1860a904c0f66a5fad,
+        0x5cbd24b72442d2ce647dd7d0a44368, 0x074a8839a4460c169dce7138efdaef, 0x0f06e09e3191b995b08e5b45182f65,
+        0x51fad4a89f8369fe10e5d4b6e149a1, 0xdc778b15982d11ebf7fe23b4e15f10, 0xa09ff3a4567077510c474e4ac0a21a,
+        0xb37e69e5dbb77167b73065e4c5ad6a, 0xecf4774e22e7fe3a38642186f7ae74, 0x16e72b5eb4c813a3b37998083aab81,
+        0xa48e7050aa8abedce5a45c16985376, 0xdd3285e53b322b221f7bcf4f8f8ad8, 0x0132
+    ];
+
+    let pubkey = RSAPubkey {
+        modulus: pubkey_limbs,
+        redc: pubkey_redc_limbs,
+    };
+    let signature = [
+        0x5779c85587e51cb8de5c29d7fdfeb0, 0xcd7ea8b6119f76f117ecb5042f8fc0, 0xeb7ac32b81d5a87bc2046fa0004e27, 0x62708c43b0c07a8fe8bdc97c479138, 0xc1e90d184f22a80be4a484a6ebd462, 0x39f3ff00e47728aaf74802d2d1d07b, 0x0f39de2cf99bf20dab7b8ae9240acd, 0xf4875cb76ce2538f255d70476136d6, 0xde151a5005ca614d6af7dd01e2a083, 0x6fe12b286f3195cae005fd7d2a1766, 0xd6e43a3060eccc555f2ee1e2929932, 0x0d5fa7cc79c794ae80310b491a1b40, 0x9cff415204cbc05c772ede05903440, 0xe7190ccff38575ae70dd055cd892d2, 0xf34bb777c0c842b0e88738eafdf634, 0x21040437e1e945a201ff58e542be68, 0x12f254fa4a0fb776ffe8759eb9eefa, 0x12
+    ];
+
+    how it is later used in my main method:
+    main(header, pubkey, signature);
+
+Frontend responses of email verifier inputs:
+header:
+Header Array: 102,114,111,109,58,114,117,110,110,105,101,114,46,108,101,97,103,117,101,115,46,48,106,64,105,99,108,111,117,100,46,99,111,109,13,10,99,111,110,116,101,110,116,45,116,121,112,101,58,116,101,120,116,47,112,108,97,105,110,59,32,99,104,97,114,115,101,116,61,117,115,45,97,115,99,105,105,13,10,109,105,109,101,45,118,101,114,115,105,111,110,58,49,46,48,32,40,77,97,99,32,79,83,32,88,32,77,97,105,108,32,49,54,46,48,32,92,40,51,55,51,49,46,53,48,48,46,50,51,49,92,41,41,13,10,115,117,98,106,101,99,116,58,72,101,108,108,111,13,10,109,101,115,115,97,103,101,45,105,100,58,60,56,70,56,49,57,68,51,50,45,66,54,65,67,45,52,56,57,68,45,57,55,55,70,45,52,51,56,66,66,67,52,67,65,66,50,55,64,109,101,46,99,111,109,62,13,10,100,97,116,101,58,83,97,116,44,32,50,54,32,65,117,103,32,50,48,50,51,32,49,50,58,50,53,58,50,50,32,43,48,52,48,48,13,10,116,111,58,122,107,101,119,116,101,115,116,64,103,109,97,105,108,46,99,111,109,13,10,100,107,105,109,45,115,105,103,110,97,116,117,114,101,58,118,61,49,59,32,97,61,114,115,97,45,115,104,97,50,53,54,59,32,99,61,114,101,108,97,120,101,100,47,114,101,108,97,120,101,100,59,32,100,61,105,99,108,111,117,100,46,99,111,109,59,32,115,61,49,97,49,104,97,105,59,32,116,61,49,54,57,51,48,51,56,51,51,55,59,32,98,104,61,55,120,81,77,68,117,111,86,86,85,52,109,48,87,48,87,82,86,83,114,86,88,77,101,71,83,73,65,83,115,110,117,99,75,57,100,74,115,114,99,43,118,85,61,59,32,104,61,102,114,111,109,58,67,111,110,116,101,110,116,45,84,121,112,101,58,77,105,109,101,45,86,101,114,115,105,111,110,58,83,117,98,106,101,99,116,58,77,101,115,115,97,103,101,45,73,100,58,68,97,116,101,58,116,111,59,32,98,61,128,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,14,192,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+
+Public Key (hex): (17) ['0x1193246589579230900252592422628472491', '0x1912823282459999274635310959025610339', '0x228304836181961761332702133760551800', '0x1287038673397707587809245808290310449', '0x847074879946527390340198003742080773', '0x1772812153284093774405261558543107601', '0x2378977728746033746331898306280144326', '0x997340440570508925167107712120786203', '0x857890276578197729951598293684046411', '0x745957132893515948993812065378390023', '0x11826361521340558402809758375801001', '0x1557958282669079306798259837263810673', '0x464398925464156428943676686705206575', '0x753583552319818198558893360085614180', '0x618649414253799015348495001053509399', '0x1673527244268347429413713439917472261', '0x4331651056499387160391393057762229']
+
+Signature (hex): (17) ['0x454199870357587480887872582246596272', '0x2527336896821663183109874261190756320', '0x305669919670959025780473692262765449', '0x396197978309222674377234633495999015', '0x2305999751176063928824162179301162310', '0x549402302972866181705237186901085827', '0x1787385402973427706080900445160902699', '0x1370301041815322743450239257262604909', '0x1863346642222243427409360606128628384', '0x795556012935482925844757803421308171', '0x1081087375996457005248580316311364774', '0x706186279002171422749364117846958915', '0x1563729408982255657241502858528971011', '0x2251656200947406010169813942246500036', '0x1296204206818418929335952479462075383', '0x2481679741009209007932436093105982085', '0x366584477895090251126754992561849']
+
+how to pass these inputs into the zk circuit in the format and version that the zk circuit expects?
+this is what to do to the inputs in frontend.
+// Format circuit inputs
+const circuitInputs = {
+  header: {
+    storage: headerArray,  // Your ASCII array padded to 512 bytes
+    len: headerArray.filter(x => x !== 0).length  // Actual length without padding
+  },
+  pubkey: {
+    // Convert hex strings to field elements, ensure 18 elements
+    modulus: [
+      '1193246589579230900252592422628472491',
+      '1912823282459999274635310959025610339',
+      // ... rest of your pubkey array
+      '0'  // 18th element (padding)
+    ],
+    redc: [
+      // REDC parameters - would need to be calculated
+      // 18 elements required
+    ]
+  },
+  signature: [
+    '454199870357587480887872582246596272',
+    '2527336896821663183109874261190756320',
+    // ... rest of your signature array
+    '0'  // 18th element (padding)
+  ]
+};

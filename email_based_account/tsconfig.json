@@ -1,0 +1,36 @@
+{
+  "compilerOptions": {
+    "rootDir": ".",
+    "outDir": "dest",
+    "tsBuildInfoFile": ".tsbuildinfo",
+    "target": "es2020",
+    "lib": ["esnext", "dom", "es2017.object"],
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "strict": true,
+    "declaration": true,
+    "allowSyntheticDefaultImports": true,
+    "allowJs": true,
+    "esModuleInterop": true,
+    "downlevelIteration": true,
+    "inlineSourceMap": true,
+    "declarationMap": true,
+    "importHelpers": true,
+    "resolveJsonModule": true,
+    "composite": true,
+    "skipLibCheck": true,
+    "jsx": "react-jsx",
+    "baseUrl": ".",
+    "paths": {
+      "@aztec/noir-contracts.js/*": ["node_modules/@aztec/noir-contracts.js/*"]
+    }
+  },
+  "include": [
+    "index.ts",
+    "interactWithToken.ts",
+    "src/**/*.ts",
+    "src/**/*.json",
+    "src/artifacts/*",
+    "target/**/*.json"
+  ]
+}
