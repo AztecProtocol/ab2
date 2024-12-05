@@ -15,7 +15,7 @@ features: the logic of private NFT (for public the solution is trivial with just
 ## Technical Approach
 (The thing [was published](https://github.com/skaunov/note_historical_offline) as early as possible to enable other AB builders to use it; so there was no format to follow at that point, now the code is copied from that repo to be aligned to the submission format.)
 
-Here's Noir circuit to prove and verify ownership of a NFT from a paricular collection (i.e. address) on Aztec. \
+Here's Noir circuit to prove and verify ownership of a NFT from a particular collection (i.e. address) on Aztec. \
 The circuit takes block number as a point for which assertions are made and bunch of data required for proving. The proof asserts that the address has a note from the contract and it's not nullified. \
 For proving user needs access to a PXE with their data and the preimage of a note they'd like to use for proving. For verification it's only the exported data of the block is needed, so it could be done *completely without access to the chain* (or even Internet if user can handover the proof).
 
@@ -27,7 +27,7 @@ Those who'd like to use it [were invited](https://github.com/skaunov/note_histor
 
 ## Lessons Learned (For Submission)
 
-It's a great example of working with the archive tree and its nodes. An intresting blend of a standalone circuit and the blockchain data. 
+It's a great example of working with the archive tree and its nodes. An interesting blend of a standalone circuit and the blockchain data. 
 
 In a way this highlights DA and publication since getting the notes is on the one hand a subtle process easy to miss, on the other hand with enough industry it can be extracted from own PXE. And things gets even more interesting when user wants to hop between devices.
 
@@ -36,7 +36,7 @@ Also I tend to stay on the safe side to publish the thing as early as possible a
 Next step would be a circuit to fold the proofs at different blocks into one proof and to verify it.
 
 ### generalization
-There's a blocker for making the circuit generic over a note type. `NullifiableNote` leaves with only two choice: `PrivateContext` or `unconstrained`. Current implementation just copy a trait method code in the contrained environment; it seems to me that the root cause is the same reason making the trait to be a boilerplate. (And making up a whole `PrivateContext` in this ciruit is just unreasonable.)
+There's a blocker for making the circuit generic over a note type. `NullifiableNote` leaves with only two choice: `PrivateContext` or `unconstrained`. Current implementation just copy a trait method code in the contrained environment; it seems to me that the root cause is the same reason making the trait to be a boilerplate. (And making up a whole `PrivateContext` in this circuit is just unreasonable.)
 
 ## Project Links (For Submission)
 
