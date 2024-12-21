@@ -2,7 +2,7 @@
 
 ## Context
 
-zkEmail is a powerful primitive for breaking down the data silos of web2. Combined with the composability of the Aztec network, zkemail proofs can be used as attesationst unlock new use cases in social applications, payments and gaming. Alpha build 2 is designed to start exploring the design space around these primitives and share knowledge about what can be accomplished with this new technology.
+zkEmail is a powerful primitive for breaking down the data silos of web2. Combined with the composability of the Aztec network, zkemail proofs can be used as attestations unlock new use cases in social applications, payments and gaming. Alpha build 2 is designed to start exploring the design space around these primitives and share knowledge about what can be accomplished with this new technology.
 
 ## Challenge 1: ZKEmail Guardian
 
