@@ -41,7 +41,7 @@ zkEmail is a powerful primitive for breaking down the data silos of web2. Combin
 - Private-side account contracts don't require deployment, even for transactions
 - Public-side account contracts need deployment to receive funds
 - Deployment costs are minimized through Aztec's contract classes and instances system
-- For more details on contract deployment, see: https://docs.aztec.network/protocol-specs/contract-deployment
+- For more details on contract deployment, see: https://docs.aztec.network/aztec/smart_contracts/contract_creation
 
 Consider exploring ways to optimize the deployment process or implement batched transaction calls to enhance usability and reduce upfront costs.
 
