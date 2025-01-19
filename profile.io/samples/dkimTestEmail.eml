@@ -1,0 +1,113 @@
+Delivered-To: alanngaialangor@gmail.com
+Received: by 2002:a05:7108:5795:b0:3c5:f782:abe9 with SMTP id cd21csp318658gdb;
+        Fri, 1 Nov 2024 02:48:43 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCXEHJKkx5yR5N2+fYOa5X4a2ULwJak1wdeg8m2DvSaldnQrI04LVygDIpPs0uX9J7wOUK5Q2hUX8ZhPbY293vE=@gmail.com
+X-Google-Smtp-Source: AGHT+IErqoJ+DF/X7fz9csO7UL/Hs++Hq+7xqdTWJHwZNCn/Hh9xgrCuRDp+3k5HmkYxNNKZGBrg
+X-Received: by 2002:a05:620a:4453:b0:7b1:1223:5a02 with SMTP id af79cd13be357-7b2f24c603bmr746926185a.8.1730454523498;
+        Fri, 01 Nov 2024 02:48:43 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1730454523; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Bb5scg2eysdW8/UX5M2UrpzljNsXzvGRO2ilwGL8WV7QbhC00CBXwl3qT+0SVMtE5F
+         ZkdIFrR4uqiRd6sQ7bD6MBGzBYSJGY3x/Y0fuisQO4GZvtKGzP532vI0TWi8qCW9IzEh
+         NWT8awCmVzWv85St4qNBx/o616gRqKN2IBfpxXvA1avPU1DkTakjiJT4XoTtnep3EF/0
+         9lph4RtDHrY1QQxJbyJ8qRroDEW3CW5l8Cfqn4/wBHUTu/K1ZovgdtzbySe5Hdvn12zb
+         TjUeuRV/Uq9e0vdic4Qk2uY2IoBVjRHWXhVpFhi1poEZ3Yje822kA9E2FtH/iC1N8nGZ
+         dcIg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=MoUzGmu6ygMC9CqbqRMnDR1lDh9nInVIdJ9C8k7rOn0=;
+        fh=PsmVfMj+sbYghoLtK+RiyApls+hngyXGLIOXngn3V2I=;
+        b=GLROYoORDoBcYq8GeiVSeSuFoZf1vBz7Juy8n01xGmfZW59PGo453GR4OLskYPy1ZB
+         FeTX3TnKx8/8TZanAWvJr2qf0P2FDS8H2l33AyNnjIvlXy5aUpemqN0zQdnR3/HCjfQ6
+         Kt7BV7pskPs/XBmJ6hs39KaAiqsLjTKlc0HIRtEgRz/YIXTae1RaKSaPVkm1GMT70Pxl
+         vQj/4KDk26YaDBYFf6fVF4ivsdSkQpsOcD90Zbt8LLaXg+WRCmcsVJ1eOcBjCF5UDlln
+         7/A4DGgJp8pF5VqRHoCx7rVog+lWx1T1TXfHb06v2/PGoc42Yg0jhDH6GEdqqFsgMIqZ
+         ga0g==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@tabled.io header.s=google header.b=CLjHkq7z;
+       spf=pass (google.com: domain of srs0=ummo=r4=tabled.io=alan@bounce.secureserver.net designates 188.121.53.212 as permitted sender) smtp.mailfrom="srs0=ummo=r4=tabled.io=alan@bounce.secureserver.net";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=tabled.io;
+       dara=neutral header.i=@gmail.com
+Return-Path: <srs0=ummo=r4=tabled.io=alan@bounce.secureserver.net>
+Received: from sxb1plwbeout04.prod.sxb1.secureserver.net (sxb1plwbeout04.prod.sxb1.secureserver.net. [188.121.53.212])
+        by mx.google.com with ESMTPS id af79cd13be357-7b2f3a818a3si379200185a.271.2024.11.01.02.48.43
+        for <alanngaialangor@gmail.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 01 Nov 2024 02:48:43 -0700 (PDT)
+Received-SPF: pass (google.com: domain of srs0=ummo=r4=tabled.io=alan@bounce.secureserver.net designates 188.121.53.212 as permitted sender) client-ip=188.121.53.212;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@tabled.io header.s=google header.b=CLjHkq7z;
+       spf=pass (google.com: domain of srs0=ummo=r4=tabled.io=alan@bounce.secureserver.net designates 188.121.53.212 as permitted sender) smtp.mailfrom="srs0=ummo=r4=tabled.io=alan@bounce.secureserver.net";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=tabled.io;
+       dara=neutral header.i=@gmail.com
+Received: from sxb1plibsmtp01-16.prod.sxb1.secureserver.net ([92.204.81.15])
+	by :WBEOUT: with ESMTPS
+	id 6oGLtL3so0R5f6oGmt2KeB; Fri, 01 Nov 2024 02:48:40 -0700
+X-CMAE-Analysis: v=2.4 cv=U/NZDvru c=1 sm=1 tr=0 ts=6724a3fa
+ a=Frdd2w/6Iq7D+qSy6znxdQ==:117 a=VlfZXiiP6vEA:10 a=o7vl2V7eQUAA:10
+ a=-YYpU9gJY97Kfbq09icA:9 a=QEXdDO2ut3YA:10
+X-SECURESERVER-ACCT: alan@alangor.com
+X-SID: 6oGLtL3so0R5f
+Received: from mail-wr1-f45.google.com ([209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 256/256 bits)
+	(Client did not present a certificate)
+	by CMGW with ESMTPS
+	id 6oGjtG4BcBKUJ6oGktHh14; Fri, 01 Nov 2024 02:48:40 -0700
+X-CM-Forward: alan@alangor.com
+X-CMAE-Analysis: v=2.4 cv=D6uMKeRj c=1 sm=1 tr=0 ts=6724a3f8 cx=a_idp_e
+ a=j6hfRdO0MpZnpprz4qG2JA==:117 a=VlfZXiiP6vEA:10 a=o7vl2V7eQUAA:10
+ a=-YYpU9gJY97Kfbq09icA:9 a=QEXdDO2ut3YA:10
+Authentication-Results: sxb1plibsmtp01-16.prod.sxb1.secureserver.net;
+	dkim=pass header.d=tabled.io header.b=CLjHkq7z;
+	dmarc=pass header.from=tabled.io
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-37d533b5412so1070518f8f.2
+        for <alan@alangor.com>; Fri, 01 Nov 2024 02:48:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tabled.io; s=google; t=1730454516; x=1731059316; darn=alangor.com;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=MoUzGmu6ygMC9CqbqRMnDR1lDh9nInVIdJ9C8k7rOn0=;
+        b=CLjHkq7zaApbiAWKGDlfJx2MQ6A0A/5KWrjwx7hPPuHYvwQ9AY7YVYeTXVy+wjxOJB
+         TlR/SxPOvgwgYXNgYzQqOIdQABBsK3k01Ap+8zKj2h3XUYdQsJ38Mh21/jRkKVZKUBuA
+         zLJrR5ncKaaTzUBs17be6RS/4IYj1q74AbaQa+0amKSn/1bn3959HKe6Po/X1Ft1U2o6
+         Ajb5JW26P2Om+so4yCQf2qBqZzI+BNZruZuZSYv/n///StS+us2rnu+JL9EZkg9gcClV
+         ioAEEZ755bDTKxNCtSLjcnnqNYnf3GQCu++imdomsHc5wPTMs/B2CUQaDBZSzhTf1vMy
+         fb7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730454516; x=1731059316;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=MoUzGmu6ygMC9CqbqRMnDR1lDh9nInVIdJ9C8k7rOn0=;
+        b=V2ynn2aNH/XKqO6YRhBQO2We/urz9LtGrZvlZ6GkcN8Vm7TH9B8zda0ZZSwEUaP765
+         fCN6aRrDZHvWxdEqkjuWH8iHgul9JKxnkvGxWER+S0trI6fJc4w7BMo0WYiKbUEYqiOg
+         O7ca//4CYERySZkAMkYRU/hbGvmqr/7H2hzwmXtXrUcg4LFl/ngK68fZUyomlCOSKDZl
+         3eElu0zqEg6QKR25kA2jtgcLNA++ZhLJUETVVSBrd80XRnfozQ28vsosN/YVzsUJosxF
+         BuS9VYxnd76Y1Xwc9CQRixI2p5D1iGyFvP1MN6OKEiPbydEdSankLLF+1z1BA+jKE/1P
+         odVQ==
+X-Gm-Message-State: AOJu0Yy5KsxttqXM+C4/Gkfr379VXaIyUSlOlhNz/l0JIq7SKRzDUQKs
+	MM1CKa15Gbveybm4DFkEK7hoFAaIdITHJyaNLoX1M0AAj5eINYfKzHDuwEXozpoFTQCZkiBOT1u
+	i3JsD+iyhbWFJyIHMhc+BollR+vpWZJox8PMtJZ8JRmrJXeAZQWM=
+X-Received: by 2002:a5d:5552:0:b0:37d:238:983 with SMTP id ffacd0b85a97d-3806113d43amr15559734f8f.22.1730454516300;
+ Fri, 01 Nov 2024 02:48:36 -0700 (PDT)
+MIME-Version: 1.0
+From: Alan Ngai <alan@tabled.io>
+Date: Fri, 1 Nov 2024 09:48:25 +0000
+Message-ID: <CAHC7BJa_19cvoUMEeB_KDtGCNp_Jz6-xcUswVvk+6bFjRhDJFQ@mail.gmail.com>
+Subject: This is a test
+To: Alan Ngai <alan@alangor.com>
+Content-Type: multipart/alternative; boundary="000000000000be99830625d6d679"
+X-CMAE-Envelope: MS4xfEBURDAok8f2tafRxubEcfidOmnlgHZXj7M3qfLyVOe3XsQ3B7DNiuRi/WkvGD1922Au2zs9M7LEHy8lrP79XxYkiNhoBp+XL2ZUp+asOn/Y6P7rYiEc
+ rIVTjVpgLSiP/DY7dQj3ZhRK0NOJS+PbG+/9u6NYFbVcokwkj1yMNewqyAWPAXX2igaPFLpGiiaQzk2T0TDabotShX1VSHz0IXWOMxu7H38i8uJNuJKl4GqO
+
+--000000000000be99830625d6d679
+Content-Type: text/plain; charset="UTF-8"
+
+This is test email content
+
+--000000000000be99830625d6d679
+Content-Type: text/html; charset="UTF-8"
+
+<div dir="ltr">This is test email content</div>
+
+--000000000000be99830625d6d679--
