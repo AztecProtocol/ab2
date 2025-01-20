@@ -1,0 +1,10 @@
+{
+  "nft_contract-Counter.json": {
+    "contractName": "Counter",
+    "hash": "774eb477ea6f8b020b11b48c759143a7745f73073628c94f9ded1dfd2f6a24cf"
+  },
+  "nft_contract-NFT.json": {
+    "contractName": "NFT",
+    "hash": "267d2623b816deec6174ceb2f5330d9f4ba7353074e8fa03be478616f5730d5c"
+  }
+}
