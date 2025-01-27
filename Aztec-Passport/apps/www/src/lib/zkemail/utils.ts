@@ -108,7 +108,7 @@ export function makeEmailAddressCharTable(): string {
   for (let i = 0; i < precedingChars.length; i++) {
     table[precedingChars.charCodeAt(i)] = 2;
   }
-  // set valid proceding chars
+  // set valid proceeding chars
   for (let i = 0; i < procedingChars.length; i++) {
     table[procedingChars.charCodeAt(i)] = 3;
   }
