@@ -1,0 +1,200 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap');
+
+
+html,
+body {
+  font-family: 'Fira Code', monospace;
+  font-size: 16px;
+  background-color: #f0f0f0;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  min-height: calc(100vh - 50px);
+  padding: 1rem;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1rem;
+  height: 50px;
+
+  .logo {
+    font-size: 1.1rem;
+    color: #000;
+    opacity: 0.8;
+    font-weight: 500;
+  }
+}
+
+.sections {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+}
+
+.section {
+  background-color: white;
+  border-radius: 3px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  max-width: 700px;
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+.section-title {
+  color: #333;
+  font-weight: 500;
+  margin-bottom: 2rem;
+  margin-top: 0;
+}
+
+.section-input {
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+p {
+  color: #110d2d;
+  line-height: 1.5;
+}
+
+.dropzone {
+  border: 1px dashed #aaa;
+  padding: 1rem;
+  margin-top: 2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #f7f7f7;
+  }
+}
+
+.section-button {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 0.8rem 1.5rem;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1rem;
+  margin-top: 2rem;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #45a049;
+  }
+
+  &:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+
+  &.generating {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.info-message {
+  margin-top: 1rem;
+}
+
+.error-message {
+  margin-top: 1rem;
+  color: #dc2626;
+}
+
+.info-block {
+  height: 25px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  .label {
+    color: #666;
+    min-width: 220px;
+  }
+
+  .value {
+    color: #000;
+  }
+
+  &.error {
+    .value {
+      color: #dc2626;
+    }
+  }
+}
+
+.proof-block {
+  width: 48%;
+
+  p {
+    color: #666;
+    margin-bottom: 0.5rem;
+  }
+
+  textarea, code, pre {
+    font-family: 'Fira Code', monospace;
+    font-size: 12px;
+    overflow-y: auto;
+    height: 10rem;
+  }
+}
+
+
+// Animations
+
+.spinner {
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top: 3px solid #ffffff;
+  width: 1rem;
+  height: 1rem;
+  animation: spin 1s linear infinite;
+  margin-right: 10px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.claim-status {
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 4px;
+  font-weight: bold;
+
+  &.success {
+    background-color: #d4edda;
+    color: #155724;
+  }
+
+  &.error {
+    background-color: #f8d7da;
+    color: #721c24;
+  }
+}
