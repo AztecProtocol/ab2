@@ -1,0 +1,41 @@
+{
+  "name": "phantom-gate",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "clean": "rm -rf node_modules/.vite dist",
+    "postinstall": "patch-package"
+  },
+  "devDependencies": {
+    "@types/node": "^22.3.0",
+    "@types/react": "^18.3.4",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "autoprefixer": "^10.4.20",
+    "patch-package": "^8.0.0",
+    "postcss": "^8.4.41",
+    "postinstall-postinstall": "^2.1.0",
+    "tailwindcss": "^3.4.10",
+    "typescript": "^5.5.3",
+    "vite": "^5.4.0"
+  },
+  "dependencies": {
+    "@aztec/accounts": "^0.60.0",
+    "@aztec/aztec.js": "^0.60.0",
+    "@aztec/circuits.js": "^0.60.0",
+    "@aztec/foundation": "^0.60.0",
+    "@aztec/noir-contracts.js": "^0.60.0",
+    "buffer": "^6.0.3",
+    "lucide-react": "^0.439.0",
+    "node-stdlib-browser": "^1.2.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-hot-toast": "^2.4.1",
+    "vite-plugin-node-polyfills": "^0.22.0",
+    "vite-plugin-resolve": "^2.5.2"
+  }
+}
