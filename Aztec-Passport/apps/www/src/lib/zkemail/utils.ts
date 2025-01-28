@@ -99,7 +99,7 @@ export function makeEmailAddressCharTable(): string {
   const emailChars =
     'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.-@';
   const precedingChars = '<: ';
-  const procedingChars = '>\r\n';
+  const proceedingChars = '>\r\n';
   // set valid email chars
   for (let i = 0; i < emailChars.length; i++) {
     table[emailChars.charCodeAt(i)] = 1;
@@ -109,8 +109,8 @@ export function makeEmailAddressCharTable(): string {
     table[precedingChars.charCodeAt(i)] = 2;
   }
   // set valid proceding chars
-  for (let i = 0; i < procedingChars.length; i++) {
-    table[procedingChars.charCodeAt(i)] = 3;
+  for (let i = 0; i < proceedingChars.length; i++) {
+    table[proceedingChars.charCodeAt(i)] = 3;
   }
   let tableStr = `global EMAIL_ADDRESS_CHAR_TABLE: [u8; ${tableLength}] = [\n`;
   console.log();
