@@ -27,7 +27,7 @@ Those who'd like to use it [were invited](https://github.com/skaunov/note_histor
 
 ## Lessons Learned (For Submission)
 
-It's a great example of working with the archive tree and its nodes. An intresting blend of a standalone circuit and the blockchain data. 
+It's a great example of working with the archive tree and its nodes. An interesting blend of a standalone circuit and the blockchain data. 
 
 In a way this highlights DA and publication since getting the notes is on the one hand a subtle process easy to miss, on the other hand with enough industry it can be extracted from own PXE. And things gets even more interesting when user wants to hop between devices.
 
