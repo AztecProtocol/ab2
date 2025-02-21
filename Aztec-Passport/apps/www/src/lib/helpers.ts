@@ -166,7 +166,7 @@ export const getEmail = async (accessToken: string, service: Service) => {
 };
 
 export const extractXUsername = (email: string): string => {
-  // email contains the follwing
+  // email contains the following
   // If you requested a password reset for @dummy_testing_, use the confirmation code below to complete the process. If you didn't make this request, ignore this email.
   // extract username which is after If you requested a password reset for and till ,
 

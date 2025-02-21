@@ -52,7 +52,7 @@ describe("E2E Tests", () => {
         afterAll(async () => {
             prover.destroy();
         });
-        it("Standart email from ZeKshop", async () => {
+        it("Standard email from ZeKshop", async () => {
             const inputs = await generateEmailVerifierInputs(
                 email.data,
                 correctInputParams

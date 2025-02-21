@@ -47,7 +47,7 @@ ZeKshop provides users the ability to create Schnorr account with which they can
 
 ### app
 
-The client-side of ZeKshop. Contains utils for proving and veryfing an email and an interactive UI of ZeKshop. Steps for running it locally can be found below.
+The client-side of ZeKshop. Contains utils for proving and verifying an email and an interactive UI of ZeKshop. Steps for running it locally can be found below.
 
 ## Technical guidance
 
