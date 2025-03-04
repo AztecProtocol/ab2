@@ -81,7 +81,7 @@ Consider exploring ways to optimize the deployment process or implement batched 
 ## Resources
 
 - [Official zkemail in Noir repo](https://github.com/zkemail/zkemail.nr)
-- [Getting started with Aztec Sandbox](https://docs.aztec.network/guides/developer_guides/getting_started)
+- [Getting started with Aztec Sandbox](https://docs.aztec.network/guides/getting_started)
 - [Aztec Tutorials](https://docs.aztec.network/tutorials)
 - [Writing an Account Contract](https://docs.aztec.network/tutorials/codealong/contract_tutorials/write_accounts_contract)
 - [Example Aztec NFT Contract](https://github.com/AztecProtocol/aztec-packages/tree/master/noir-projects/noir-contracts/contracts/nft_contract)
