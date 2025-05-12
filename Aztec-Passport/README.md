@@ -73,7 +73,7 @@ All of them can be found here
 
 https://github.com/Envoy-VC/noir_hmac
 https://github.com/Envoy-VC/noir_base64_lib
-https://github.com/Envoy-VC/noir_jwt
+https://github.com/zkpersona/noir-jwt
 https://github.com/Envoy-VC/noir_social_verify
 
 ## Video Demo (For Submission)
